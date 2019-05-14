@@ -1,0 +1,8 @@
+image: java:12
+
+stages:
+  - build
+
+build:
+  stage: build
+  script: ./mvnw verify
