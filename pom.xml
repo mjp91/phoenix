@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mpearsall</groupId>
-    <artifactId>holiday</artifactId>
+    <artifactId>hr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>holiday</name>
-    <description>Holiday Booking Application</description>
+    <name>hr</name>
+    <description>Human Resources Application</description>
 
     <properties>
         <java.version>12</java.version>
