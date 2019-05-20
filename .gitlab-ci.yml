@@ -2,10 +2,15 @@ image: openjdk:12
 
 stages:
   - build
+  - test
 
 build:
   stage: build
-  script: ./mvnw verify
+  script: ./mvnw compile
+
+test:
+  stage: test
+  script: ./mvnw test
   artifacts:
     reports:
       junit:
