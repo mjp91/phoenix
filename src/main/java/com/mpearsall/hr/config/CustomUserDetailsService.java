@@ -2,6 +2,7 @@ package com.mpearsall.hr.config;
 
 import com.mpearsall.hr.entity.User;
 import com.mpearsall.hr.repository.UserRepository;
+import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,5 +25,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     return user;
+  }
+
+  public UserDetails createLocalUser(DirContextOperations ctx, String username) {
+    final User user = new User(username, ctx.getStringAttribute("cn"));
+    return userRepository.save(user);
   }
 }
