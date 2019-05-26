@@ -1,5 +1,6 @@
-package com.mpearsall.hr.entity;
+package com.mpearsall.hr.entity.holiday;
 
+import com.mpearsall.hr.entity.Employee;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,8 @@ public class HolidayEntitlement {
   private Employee employee;
 
   @NotNull
-  private Integer year;
+  @OneToOne
+  private HolidayYear holidayYear;
 
   @NotNull
   @Min(0)

@@ -1,12 +1,13 @@
 package com.mpearsall.hr.entity;
 
+import com.mpearsall.hr.entity.holiday.Holiday;
+import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.Map;
 
 @Entity
 @Data
@@ -27,8 +28,10 @@ public class Employee {
   private Employee manager;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-  @MapKey(name = "year")
-  private Map<Integer, HolidayEntitlement> holidayEntitlement;
+  private Collection<HolidayEntitlement> holidayEntitlements;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+  private Collection<Holiday> holidays;
 
   public void setManages(Collection<Employee> manages) {
     for (Employee employee : manages) {
@@ -38,11 +41,11 @@ public class Employee {
     this.manages = manages;
   }
 
-  public void setHolidayEntitlement(Map<Integer, HolidayEntitlement> holidayEntitlement) {
-    for (HolidayEntitlement entitlement : holidayEntitlement.values()) {
+  public void setHolidayEntitlements(Collection<HolidayEntitlement> holidayEntitlements) {
+    for (HolidayEntitlement entitlement : holidayEntitlements) {
       entitlement.setEmployee(this);
     }
 
-    this.holidayEntitlement = holidayEntitlement;
+    this.holidayEntitlements = holidayEntitlements;
   }
 }
