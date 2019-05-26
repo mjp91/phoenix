@@ -3,7 +3,9 @@ package com.mpearsall.hr.entity;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,12 +13,9 @@ import java.util.Collection;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Employee {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-
+public class Employee extends AbstractAuditable<User, Long> {
   @NotNull
   @OneToOne
   private User user;
