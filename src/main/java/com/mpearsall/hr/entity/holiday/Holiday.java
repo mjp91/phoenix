@@ -8,14 +8,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.util.Collection;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Holiday extends AbstractAuditable<User, Long> {
+  private String name;
+
   @NotNull
   @ManyToOne
   private Employee employee;
@@ -24,12 +27,9 @@ public class Holiday extends AbstractAuditable<User, Long> {
   @OneToOne
   private HolidayYear holidayYear;
 
-  @NotNull
-  private LocalDate date;
-
-  @NotNull
-  @Enumerated(EnumType.STRING)
-  private HolidayPeriod holidayPeriod;
+  @NotEmpty
+  @OneToMany(cascade = CascadeType.ALL)
+  private Collection<HolidayDate> holidayDates;
 
   @Basic
   private boolean approved = false;
