@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -27,7 +27,7 @@ public class HolidayEntitlement extends AbstractAuditable<User, Long> {
   private HolidayYear holidayYear;
 
   @NotNull
-  @Min(0)
-  @Max(8784) // max hours in a year
-  private Integer holidayEntitlementHours = 0;
+  @DecimalMin("0.0")
+  @DecimalMax("8784") // max hours in a year
+  private Double holidayEntitlementHours = 0.0;
 }

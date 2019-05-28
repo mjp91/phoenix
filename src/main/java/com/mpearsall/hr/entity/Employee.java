@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Data
@@ -21,16 +22,16 @@ public class Employee extends AbstractAuditable<User, Long> {
   private User user;
 
   @OneToMany(mappedBy = "manager")
-  private Collection<Employee> manages;
+  private Collection<Employee> manages = new HashSet<>();
 
   @ManyToOne
   private Employee manager;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-  private Collection<HolidayEntitlement> holidayEntitlements;
+  private Collection<HolidayEntitlement> holidayEntitlements = new HashSet<>();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-  private Collection<Holiday> holidays;
+  private Collection<Holiday> holidays = new HashSet<>();
 
   public void setManages(Collection<Employee> manages) {
     for (Employee employee : manages) {

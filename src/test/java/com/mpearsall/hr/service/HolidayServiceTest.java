@@ -6,12 +6,12 @@ import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
+import com.mpearsall.hr.factory.HolidayYearFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -21,16 +21,13 @@ public class HolidayServiceTest extends HrApplicationTests {
 
   @Test
   public void calculateHolidayUsed() {
-    final LocalDate now = LocalDate.now();
-
-    final HolidayYear holidayYear = new HolidayYear();
-    holidayYear.setYearStart(now.with(TemporalAdjusters.firstDayOfYear()));
-    holidayYear.setYearEnd(now.with(TemporalAdjusters.lastDayOfYear()));
+    final HolidayYear holidayYear = HolidayYearFactory.generateForCurrentYear();
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
     holidayEntitlement.setHolidayYear(holidayYear);
-    holidayEntitlement.setHolidayEntitlementHours(Math.toIntExact(Math.round(7.5 * 25)));
+    holidayEntitlement.setHolidayEntitlementHours(7.5 * 25);
 
+    final LocalDate now = LocalDate.now();
     final HolidayDate holidayDateToday = new HolidayDate();
     holidayDateToday.setDate(now);
 
