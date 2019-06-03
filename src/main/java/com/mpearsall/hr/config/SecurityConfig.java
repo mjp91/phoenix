@@ -9,6 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -43,11 +48,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic()
         .and()
+        .cors()
+        .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+    corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+    corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
+    corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", corsConfiguration);
+
+    return source;
   }
 }
