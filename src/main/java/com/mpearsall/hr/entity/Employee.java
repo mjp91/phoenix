@@ -27,6 +27,9 @@ public class Employee extends AbstractAuditable<User, Long> {
   @ManyToOne
   private Employee manager;
 
+  @NotNull
+  private double averageDayLength;
+
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
   private Collection<HolidayEntitlement> holidayEntitlements = new HashSet<>();
 

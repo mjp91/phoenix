@@ -14,8 +14,7 @@ public class HolidayEntitlementService {
 
     double entitlement = 0.0;
     if (holidayEntitlement != null) {
-      // todo - make day length variable
-      entitlement = holidayEntitlement.getHolidayEntitlementHours() / 7.5;
+      entitlement = holidayEntitlement.getHolidayEntitlementHours() / employee.getAverageDayLength();
     }
 
     return entitlement;
