@@ -16,6 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HolidayYear extends AbstractAuditable<User, Long> {
   @NotNull
+  private String name;
+
+  @NotNull
   private LocalDate yearStart;
 
   @NotNull

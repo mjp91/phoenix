@@ -1,5 +1,6 @@
 package com.mpearsall.hr.entity.holiday;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Collection;
 public class Holiday extends AbstractAuditable<User, Long> {
   private String name;
 
+  @JsonBackReference
   @NotNull
   @ManyToOne
   private Employee employee;
@@ -31,6 +33,5 @@ public class Holiday extends AbstractAuditable<User, Long> {
   @OneToMany(cascade = CascadeType.ALL)
   private Collection<HolidayDate> holidayDates;
 
-  @Basic
-  private boolean approved = false;
+  private Boolean approved = false;
 }

@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
+        .antMatchers("/h2-console/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .httpBasic()
@@ -51,6 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .cors()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+    // disable in production
+    http.csrf().disable();
+    http.headers().frameOptions().disable();
   }
 
   @Bean

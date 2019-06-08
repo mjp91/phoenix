@@ -1,5 +1,6 @@
 package com.mpearsall.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Employee extends AbstractAuditable<User, Long> {
   @OneToMany(mappedBy = "manager")
   private Collection<Employee> manages = new HashSet<>();
 
+  @JsonBackReference
   @ManyToOne
   private Employee manager;
 

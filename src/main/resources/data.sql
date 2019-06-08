@@ -4,8 +4,8 @@ VALUES (1, 'buzz', 'Buzz Lightyear');
 INSERT INTO employee (id, user_id, average_day_length)
 VALUES (1, 1, 7.5);
 
-INSERT INTO holiday_year (id, year_start, year_end)
-VALUES (1, '2019-01-01', '2019-12-31');
+INSERT INTO holiday_year (id, name, year_start, year_end)
+VALUES (1, '2019', '2019-01-01', '2019-12-31');
 
 INSERT INTO holiday_entitlement (id, employee_id, holiday_year_id, holiday_entitlement_hours)
 VALUES (1, 1, 1, 187.5);

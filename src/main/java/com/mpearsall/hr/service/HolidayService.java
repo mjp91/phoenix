@@ -16,7 +16,7 @@ public class HolidayService {
   public Double calculateHolidayUsed(Employee employee, HolidayYear holidayYear) {
     final List<HolidayDate> holidayDates = employee.getHolidays().stream()
         .filter(holiday -> holiday.getHolidayYear().equals(holidayYear))
-        .filter(Holiday::isApproved)
+        .filter(holiday -> holiday.getApproved() != null && holiday.getApproved())
         .map(Holiday::getHolidayDates)
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
