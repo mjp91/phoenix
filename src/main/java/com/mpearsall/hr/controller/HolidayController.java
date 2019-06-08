@@ -4,6 +4,7 @@ import com.mpearsall.hr.dto.CurrentUserHoliday;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
+import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.service.EmployeeService;
 import com.mpearsall.hr.service.HolidayEntitlementService;
 import com.mpearsall.hr.service.HolidayService;
@@ -22,14 +23,16 @@ public class HolidayController {
   private final HolidayService holidayService;
   private final EmployeeService employeeService;
   private final HolidayYearService holidayYearService;
+  private final HolidayRepository holidayRepository;
 
   public HolidayController(HolidayEntitlementService holidayEntitlementService,
                            HolidayService holidayService, EmployeeService employeeService,
-                           HolidayYearService holidayYearService) {
+                           HolidayYearService holidayYearService, HolidayRepository holidayRepository) {
     this.holidayEntitlementService = holidayEntitlementService;
     this.holidayService = holidayService;
     this.employeeService = employeeService;
     this.holidayYearService = holidayYearService;
+    this.holidayRepository = holidayRepository;
   }
 
   @GetMapping(path = "/current", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -51,5 +54,13 @@ public class HolidayController {
     final Employee employee = employeeService.getCurrentUserEmployee();
 
     return employee.getHolidays();
+  }
+
+  @GetMapping(path = "/requests", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Collection<Holiday> getRequests() {
+    // get user's employee record
+    final Employee employee = employeeService.getCurrentUserEmployee();
+
+    return holidayRepository.findAllPendingHolidays(employee);
   }
 }

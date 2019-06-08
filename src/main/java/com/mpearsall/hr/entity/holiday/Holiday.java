@@ -1,6 +1,6 @@
 package com.mpearsall.hr.entity.holiday;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
@@ -20,7 +20,7 @@ import java.util.Collection;
 public class Holiday extends AbstractAuditable<User, Long> {
   private String name;
 
-  @JsonBackReference
+  @JsonManagedReference
   @NotNull
   @ManyToOne
   private Employee employee;
