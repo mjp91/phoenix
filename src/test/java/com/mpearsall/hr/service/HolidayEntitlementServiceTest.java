@@ -20,14 +20,16 @@ public class HolidayEntitlementServiceTest extends HrApplicationTests {
   public void calculateHolidayEntitlementInDays() {
     final HolidayYear holidayYear = HolidayYearFactory.generateForCurrentYear();
 
-    final double dayLength = 7.5; // todo - make day length variable
     final double entitlement = 25.0;
+    final double dayLength = 7.5;
+
+    final Employee employee = new Employee();
+    employee.setAverageDayLength(dayLength);
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
     holidayEntitlement.setHolidayYear(holidayYear);
     holidayEntitlement.setHolidayEntitlementHours(dayLength * entitlement);
 
-    final Employee employee = new Employee();
     employee.setHolidayEntitlements(Collections.singletonList(holidayEntitlement));
 
     final Double entitlementInDays = holidayEntitlementService.calculateHolidayEntitlementInDays(employee, holidayYear);
