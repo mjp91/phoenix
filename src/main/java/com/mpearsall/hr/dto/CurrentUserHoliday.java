@@ -12,4 +12,8 @@ import java.io.Serializable;
 public class CurrentUserHoliday implements Serializable {
   private final double used;
   private final double total;
+
+  public double getRemaining() {
+    return total - used;
+  }
 }

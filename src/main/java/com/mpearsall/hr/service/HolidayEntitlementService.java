@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HolidayEntitlementService {
-  public Double calculateHolidayEntitlementInDays(Employee employee, HolidayYear holidayYear) {
+  public static Double calculateHolidayEntitlementInDays(Employee employee, HolidayYear holidayYear) {
     final HolidayEntitlement holidayEntitlement = employee.getHolidayEntitlements().stream()
         .filter(he -> he.getHolidayYear().equals(holidayYear))
         .findFirst().orElse(null);
 
     double entitlement = 0.0;
     if (holidayEntitlement != null) {
-      entitlement = holidayEntitlement.getHolidayEntitlementHours() / employee.getAverageDayLength();
+      entitlement = holidayEntitlement.getHolidayEntitlementHours() / EmployeeService.getAverageDayLength(employee);
     }
 
     return entitlement;

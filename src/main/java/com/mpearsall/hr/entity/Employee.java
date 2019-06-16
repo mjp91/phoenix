@@ -7,9 +7,11 @@ import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,10 +31,12 @@ public class Employee extends AbstractAuditable<User, Long> {
 
   @JsonManagedReference
   @ManyToOne
+  @ToString.Exclude
   private Employee manager;
 
-  @NotNull
-  private double averageDayLength;
+  @Valid
+  @Embedded
+  private EmployeeWeek employeeWeek;
 
   @JsonBackReference
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")

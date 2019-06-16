@@ -43,7 +43,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     employee.setHolidayEntitlements(Collections.singletonList(holidayEntitlement));
     employee.setHolidays(Collections.singletonList(holiday));
 
-    final Double holidayUsed = holidayService.calculateHolidayUsed(employee, holidayYear);
+    final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, holidayYear);
     Assert.assertEquals(Double.valueOf(2.0), holidayUsed);
   }
 }

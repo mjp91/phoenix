@@ -6,6 +6,7 @@ import com.mpearsall.hr.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Holiday extends AbstractAuditable<User, Long> {
   @JsonManagedReference
   @NotNull
   @ManyToOne
+  @ToString.Exclude
   private Employee employee;
 
   @NotNull

@@ -2,9 +2,9 @@ INSERT INTO user (id, username, full_name)
 VALUES (1, 'buzz', 'Buzz Lightyear'),
        (2, 'matt', 'Matthew Pearsall');
 
-INSERT INTO employee (id, user_id, average_day_length, manager_id)
-VALUES (1, 1, 7.5, NULL),
-       (2, 2, 7.5, 1);
+INSERT INTO employee (id, user_id, manager_id)
+VALUES (1, 1, NULL),
+       (2, 2, 1);
 
 INSERT INTO holiday_year (id, name, year_start, year_end)
 VALUES (1, '2019', '2019-01-01', '2019-12-31');
@@ -26,3 +26,5 @@ INSERT INTO holiday_holiday_dates
 VALUES (1, 1),
        (1, 2),
        (2, 3);
+
+ALTER SEQUENCE hibernate_sequence RESTART WITH 3;
