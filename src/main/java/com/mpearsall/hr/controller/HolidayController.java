@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -45,7 +46,7 @@ public class HolidayController {
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public Holiday createHoliday(@RequestBody HolidayRequest holidayRequest) {
+  public Holiday createHoliday(@RequestBody @Valid HolidayRequest holidayRequest) {
     return holidayService.requestToHoliday(holidayRequest);
   }
 

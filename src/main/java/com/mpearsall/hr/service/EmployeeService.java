@@ -36,22 +36,24 @@ public class EmployeeService {
     int daysWorked = 0;
     double totalHours = 0.0;
 
-    final EmployeeDay[] employeeDays = new EmployeeDay[]{
-        employeeWeek.getMonday(),
-        employeeWeek.getTuesday(),
-        employeeWeek.getWednesday(),
-        employeeWeek.getThursday(),
-        employeeWeek.getFriday(),
-        employeeWeek.getSaturday(),
-        employeeWeek.getSunday()
-    };
+    if (employee.getEmployeeWeek() != null) {
+      final EmployeeDay[] employeeDays = new EmployeeDay[]{
+          employeeWeek.getMonday(),
+          employeeWeek.getTuesday(),
+          employeeWeek.getWednesday(),
+          employeeWeek.getThursday(),
+          employeeWeek.getFriday(),
+          employeeWeek.getSaturday(),
+          employeeWeek.getSunday()
+      };
 
-    for (EmployeeDay employeeDay : employeeDays) {
-      if (employeeDay != null) {
-        daysWorked++;
+      for (EmployeeDay employeeDay : employeeDays) {
+        if (employeeDay != null) {
+          daysWorked++;
 
-        final long minutesBetween = ChronoUnit.MINUTES.between(employeeDay.getStart(), employeeDay.getEnd());
-        totalHours += minutesBetween / 60.0;
+          final long minutesBetween = ChronoUnit.MINUTES.between(employeeDay.getStart(), employeeDay.getEnd());
+          totalHours += minutesBetween / 60.0;
+        }
       }
     }
 

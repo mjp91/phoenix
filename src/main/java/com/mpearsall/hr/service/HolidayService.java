@@ -9,6 +9,7 @@ import com.mpearsall.hr.entity.holiday.HolidayPeriod;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.HolidayRepository;
+import com.mpearsall.hr.repository.HolidayYearRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,14 +22,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class HolidayService {
-  private final HolidayYearService holidayYearService;
+  private final HolidayYearRepository holidayYearRepository;
   private final EmployeeService employeeService;
   private final CurrentUserHolidayService currentUserHolidayService;
   private final HolidayRepository holidayRepository;
 
-  public HolidayService(HolidayYearService holidayYearService, EmployeeService employeeService,
+  public HolidayService(HolidayYearRepository holidayYearRepository, EmployeeService employeeService,
                         CurrentUserHolidayService currentUserHolidayService, HolidayRepository holidayRepository) {
-    this.holidayYearService = holidayYearService;
+    this.holidayYearRepository = holidayYearRepository;
     this.employeeService = employeeService;
     this.currentUserHolidayService = currentUserHolidayService;
     this.holidayRepository = holidayRepository;
@@ -57,17 +58,24 @@ public class HolidayService {
   @Transactional
   public Holiday requestToHoliday(HolidayRequest holidayRequest) {
     validateHolidayRequest(holidayRequest);
-    final HolidayYear currentHolidayYear = holidayYearService.getCurrentHolidayYear();
     final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
+    final HolidayYear holidayYear = holidayYearRepository.findById(holidayRequest.getHolidayYearId())
+        .orElseThrow(() -> new InvalidDetailsException("Holiday year does not exist"));
 
     final Holiday holiday = new Holiday();
     holiday.setName(holidayRequest.getName());
-    holiday.setHolidayYear(currentHolidayYear);
+    holiday.setHolidayYear(holidayYear);
     holiday.setEmployee(currentUserEmployee);
 
     final LocalDate startDate = holidayRequest.getStartDate();
     final List<HolidayDate> holidayDates = new ArrayList<>();
-    for (long i = 0; i < ChronoUnit.DAYS.between(startDate, holidayRequest.getEndDate()); i++) {
+
+    long days = ChronoUnit.DAYS.between(startDate, holidayRequest.getEndDate());
+    if (days == 0) {
+      days = 1; // if single day
+    }
+
+    for (long i = 0; i < days; i++) {
       final HolidayDate holidayDate = new HolidayDate();
       holidayDate.setDate(startDate.plusDays(i));
       holidayDate.setHolidayPeriod(HolidayPeriod.ALL_DAY);

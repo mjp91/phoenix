@@ -13,8 +13,9 @@ public class HolidayEntitlementService {
         .findFirst().orElse(null);
 
     double entitlement = 0.0;
-    if (holidayEntitlement != null) {
-      entitlement = holidayEntitlement.getHolidayEntitlementHours() / EmployeeService.getAverageDayLength(employee);
+    final double averageDayLength = EmployeeService.getAverageDayLength(employee);
+    if (holidayEntitlement != null && averageDayLength > 0.0) {
+      entitlement = holidayEntitlement.getHolidayEntitlementHours() / averageDayLength;
     }
 
     return entitlement;

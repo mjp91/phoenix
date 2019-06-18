@@ -8,8 +8,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMax;
@@ -17,6 +19,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor

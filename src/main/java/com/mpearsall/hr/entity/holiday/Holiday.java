@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
