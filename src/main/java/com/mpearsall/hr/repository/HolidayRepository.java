@@ -13,7 +13,7 @@ public interface HolidayRepository extends PagingAndSortingRepository<Holiday, L
 
   String FIND_ALL_PENDING_HOLIDAYS_QUERY = "SELECT h FROM Holiday h" +
       " JOIN Employee e ON e = h.employee AND e.manager = ?1" +
-      " WHERE h.approved IS NULL";
+      " WHERE h.approved IS NULL ORDER BY h.createdDate DESC";
 
   @Query(FIND_ALL_PENDING_HOLIDAYS_QUERY)
   Page<Holiday> findAllPendingHolidays(Employee manager, Pageable pageable);
