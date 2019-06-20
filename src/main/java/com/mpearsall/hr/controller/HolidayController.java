@@ -8,6 +8,8 @@ import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.service.CurrentUserHolidayService;
 import com.mpearsall.hr.service.EmployeeService;
 import com.mpearsall.hr.service.HolidayService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,14 @@ public class HolidayController {
   @ResponseStatus(HttpStatus.CREATED)
   public Holiday createHoliday(@RequestBody @Valid HolidayRequest holidayRequest) {
     return holidayService.requestToHoliday(holidayRequest);
+  }
+
+  @GetMapping(path = "/requests/page", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Page<Holiday> getRequests(@RequestParam int page, @RequestParam int size) {
+    // get user's employee record
+    final Employee employee = employeeService.getCurrentUserEmployee();
+
+    return holidayRepository.findAllPendingHolidays(employee, PageRequest.of(page, size));
   }
 
   @GetMapping(path = "/requests", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
