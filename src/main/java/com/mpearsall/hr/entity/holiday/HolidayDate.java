@@ -1,16 +1,15 @@
 package com.mpearsall.hr.entity.holiday;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -20,6 +19,11 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class HolidayDate extends AbstractAuditable<User, Long> {
+  @JsonManagedReference
+  @ManyToOne
+  @ToString.Exclude
+  private Holiday holiday;
+
   @NotNull
   private LocalDate date;
 

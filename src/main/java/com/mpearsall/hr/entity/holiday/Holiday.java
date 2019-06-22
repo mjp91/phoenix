@@ -34,8 +34,18 @@ public class Holiday extends AbstractAuditable<User, Long> {
   private HolidayYear holidayYear;
 
   @NotEmpty
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "holiday")
   private Collection<HolidayDate> holidayDates;
 
-  private Boolean approved = false;
+  private Boolean approved;
+
+  public void setHolidayDates(Collection<HolidayDate> holidayDates) {
+    if (holidayDates != null) {
+      for (HolidayDate holidayDate : holidayDates) {
+        holidayDate.setHoliday(this);
+      }
+    }
+
+    this.holidayDates = holidayDates;
+  }
 }

@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
@@ -14,8 +15,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -62,5 +67,13 @@ public class Employee extends AbstractAuditable<User, Long> {
     }
 
     this.holidayEntitlements = holidayEntitlements;
+  }
+
+  @JsonIgnore
+  public static Set<DayOfWeek> getDaysWorked(Employee employee) {
+    return EmployeeWeek.getDayOfWeekMap(employee.getEmployeeWeek()).entrySet().stream()
+        .filter((e) -> e.getValue() != null)
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toSet());
   }
 }

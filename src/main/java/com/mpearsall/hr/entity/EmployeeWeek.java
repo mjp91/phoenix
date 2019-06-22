@@ -1,9 +1,13 @@
 package com.mpearsall.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
 
 @Embeddable
 @Data
@@ -57,4 +61,18 @@ public class EmployeeWeek {
       @AttributeOverride(name = "end", column = @Column(name = "sunday_end"))
   })
   private EmployeeDay sunday;
+
+  @JsonIgnore
+  public static Map<DayOfWeek, EmployeeDay> getDayOfWeekMap(EmployeeWeek employeeWeek) {
+    final Map<DayOfWeek, EmployeeDay> employeeDayMap = new HashMap<>();
+    employeeDayMap.put(DayOfWeek.MONDAY, employeeWeek.getMonday());
+    employeeDayMap.put(DayOfWeek.TUESDAY, employeeWeek.getTuesday());
+    employeeDayMap.put(DayOfWeek.WEDNESDAY, employeeWeek.getWednesday());
+    employeeDayMap.put(DayOfWeek.THURSDAY, employeeWeek.getThursday());
+    employeeDayMap.put(DayOfWeek.FRIDAY, employeeWeek.getFriday());
+    employeeDayMap.put(DayOfWeek.SATURDAY, employeeWeek.getSaturday());
+    employeeDayMap.put(DayOfWeek.SUNDAY, employeeWeek.getSunday());
+
+    return employeeDayMap;
+  }
 }

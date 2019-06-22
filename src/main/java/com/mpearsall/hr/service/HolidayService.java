@@ -13,12 +13,15 @@ import com.mpearsall.hr.repository.HolidayYearRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class HolidayService {
@@ -57,10 +60,11 @@ public class HolidayService {
 
   @Transactional
   public Holiday requestToHoliday(HolidayRequest holidayRequest) {
-    validateHolidayRequest(holidayRequest);
     final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
     final HolidayYear holidayYear = holidayYearRepository.findById(holidayRequest.getHolidayYearId())
         .orElseThrow(() -> new InvalidDetailsException("Holiday year does not exist"));
+
+    validateHolidayRequest(holidayRequest, currentUserEmployee, holidayYear);
 
     final Holiday holiday = new Holiday();
     holiday.setName(holidayRequest.getName());
@@ -87,20 +91,45 @@ public class HolidayService {
     return holidayRepository.save(holiday);
   }
 
-  private void validateHolidayRequest(HolidayRequest holidayRequest) {
+  private void validateHolidayRequest(HolidayRequest holidayRequest, Employee employee, HolidayYear holidayYear) {
     final LocalDate startDate = holidayRequest.getStartDate();
     final LocalDate endDate = holidayRequest.getEndDate();
 
+    // check not backwards
     if (startDate.isAfter(endDate)) {
       throw new InvalidDetailsException("Start date must be before end date");
     }
 
-    // todo - factor in days not worked
-    final long daysBetween = ChronoUnit.DAYS.between(startDate, holidayRequest.getEndDate());
+    // check not in the past
+    final LocalDate today = LocalDate.now();
+    if (startDate.isBefore(today)) {
+      throw new InvalidDetailsException("Requested days are in the past");
+    }
+
+    // check in requested year
+    if (startDate.isBefore(holidayYear.getYearStart()) || endDate.isAfter(holidayYear.getYearEnd())) {
+      throw new InvalidDetailsException("Requested dates fall outside of requested year");
+    }
+
+    // check entitlement
+    final Set<DayOfWeek> daysWorked = Employee.getDaysWorked(employee);
+
+    final long daysBetween = Stream.iterate(startDate, d -> d.plusDays(1))
+        .limit(startDate.until(endDate, ChronoUnit.DAYS))
+        .filter(d -> daysWorked.contains(d.getDayOfWeek()))
+        .count();
+
     final CurrentUserHoliday currentUserHoliday = currentUserHolidayService.getCurrentUserHoliday();
 
     if (daysBetween > currentUserHoliday.getRemaining()) {
       throw new InvalidDetailsException("Requested holiday would exceed remaining holiday entitlement");
     }
+
+    // check not overlapping existing holidays
+    final Collection<Holiday> existingHolidays = holidayRepository.findAllInRange(startDate, endDate, employee);
+    if (existingHolidays.size() > 0) {
+      throw new InvalidDetailsException("Requested holiday overlaps existing holidays");
+    }
   }
+
 }

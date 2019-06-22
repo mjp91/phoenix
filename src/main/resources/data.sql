@@ -17,14 +17,9 @@ INSERT INTO holiday (id, name, employee_id, holiday_year_id, approved, created_d
 VALUES (1, 'Trip to Amsterdam', 1, 1, TRUE, '2019-02-01'),
        (2, 'Appointment', 2, 1, NULL, '2019-04-01');
 
-INSERT INTO holiday_date (id, date, holiday_period)
-VALUES (1, '2019-03-01', 'ALL_DAY'),
-       (2, '2019-03-02', 'AM'),
-       (3, '2019-05-29', 'ALL_DAY');
-
-INSERT INTO holiday_holiday_dates
-VALUES (1, 1),
-       (1, 2),
-       (2, 3);
+INSERT INTO holiday_date (id, date, holiday_period, holiday_id)
+VALUES (1, '2019-03-01', 'ALL_DAY', 1),
+       (2, '2019-03-02', 'AM', 1),
+       (3, '2019-05-29', 'ALL_DAY', 2);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 3;

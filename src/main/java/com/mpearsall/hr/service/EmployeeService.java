@@ -3,8 +3,8 @@ package com.mpearsall.hr.service;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.EmployeeDay;
 import com.mpearsall.hr.entity.EmployeeWeek;
-import com.mpearsall.hr.entity.User;
 import com.mpearsall.hr.repository.EmployeeRepository;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -24,7 +24,7 @@ public class EmployeeService {
 
     Employee employee = null;
     if (currentUser != null) {
-      employee = employeeRepository.findByUser(currentUser);
+      employee = employeeRepository.findByUser_Username(currentUser.getUsername());
     }
 
     return employee;

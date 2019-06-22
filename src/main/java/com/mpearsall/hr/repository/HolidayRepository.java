@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 public interface HolidayRepository extends PagingAndSortingRepository<Holiday, Long> {
@@ -20,4 +21,10 @@ public interface HolidayRepository extends PagingAndSortingRepository<Holiday, L
 
   @Query(FIND_ALL_PENDING_HOLIDAYS_QUERY)
   Collection<Holiday> findAllPendingHolidays(Employee employee);
+
+  @Query("SELECT DISTINCT h FROM Holiday h" +
+      " JOIN HolidayDate hd ON hd.holiday = h" +
+      " AND hd.date > ?1 AND hd.date < ?2" +
+      " WHERE h.employee = ?3")
+  Collection<Holiday> findAllInRange(LocalDate startDate, LocalDate endDate, Employee employee);
 }
