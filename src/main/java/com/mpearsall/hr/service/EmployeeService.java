@@ -4,7 +4,7 @@ import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.EmployeeDay;
 import com.mpearsall.hr.entity.EmployeeWeek;
 import com.mpearsall.hr.repository.EmployeeRepository;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -20,7 +20,7 @@ public class EmployeeService {
   }
 
   public Employee getCurrentUserEmployee() {
-    final User currentUser = userService.getCurrentUser();
+    final UserDetails currentUser = userService.getCurrentUser();
 
     Employee employee = null;
     if (currentUser != null) {
