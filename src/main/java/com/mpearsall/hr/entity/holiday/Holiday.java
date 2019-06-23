@@ -1,6 +1,5 @@
 package com.mpearsall.hr.entity.holiday;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
@@ -36,7 +35,6 @@ public class Holiday extends AbstractAuditable<User, Long> {
 
   @NotEmpty
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "holiday")
-  @JsonBackReference
   private Collection<HolidayDate> holidayDates;
 
   private Boolean approved;

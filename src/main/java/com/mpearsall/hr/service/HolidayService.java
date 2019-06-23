@@ -121,6 +121,10 @@ public class HolidayService {
 
     final CurrentUserHoliday currentUserHoliday = currentUserHolidayService.getCurrentUserHoliday();
 
+    if (daysBetween == 0) {
+      throw new InvalidDetailsException("Requested holiday dates are not worked");
+    }
+
     if (daysBetween > currentUserHoliday.getRemaining()) {
       throw new InvalidDetailsException("Requested holiday would exceed remaining holiday entitlement");
     }
