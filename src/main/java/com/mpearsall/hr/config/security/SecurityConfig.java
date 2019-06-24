@@ -1,5 +1,6 @@
-package com.mpearsall.hr.config;
+package com.mpearsall.hr.config.security;
 
+import com.mpearsall.hr.config.CustomUserDetailsMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -43,18 +44,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
+    http.cors()
+        .and()
+        .csrf().disable()
+        .authorizeRequests()
         .antMatchers("/h2-console/**").permitAll()
         .anyRequest().authenticated()
         .and()
-        .httpBasic()
-        .and()
-        .cors()
-        .and()
+        .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+        .addFilter(new JwtAuthorizationFilter(authenticationManager()))
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     // disable in production
-    http.csrf().disable();
     http.headers().frameOptions().disable();
   }
 

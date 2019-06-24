@@ -1,4 +1,4 @@
-package com.mpearsall.hr.config;
+package com.mpearsall.hr.config.security;
 
 import com.mpearsall.hr.entity.User;
 import org.springframework.data.domain.AuditorAware;
