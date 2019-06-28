@@ -24,7 +24,14 @@ public interface HolidayRepository extends PagingAndSortingRepository<Holiday, L
 
   @Query("SELECT DISTINCT h FROM Holiday h" +
       " JOIN HolidayDate hd ON hd.holiday = h" +
-      " AND hd.date > ?1 AND hd.date < ?2" +
+      " AND hd.date >= ?1 AND hd.date <= ?2" +
       " WHERE h.employee = ?3")
   Collection<Holiday> findAllInRange(LocalDate startDate, LocalDate endDate, Employee employee);
+
+  @Query("SELECT h FROM Holiday h" +
+      " JOIN HolidayDate hd ON hd.holiday = h" +
+      " AND hd.date >= ?1 AND hd.date <= ?2" +
+      " JOIN Employee e ON e = h.employee" +
+      " AND e.manager = ?3")
+  Collection<Holiday> findAllManagedInRange(LocalDate startDate, LocalDate endDate, Employee employee);
 }
