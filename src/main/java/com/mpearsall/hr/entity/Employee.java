@@ -1,8 +1,8 @@
 package com.mpearsall.hr.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import lombok.Data;
@@ -27,16 +27,16 @@ import java.util.stream.Collectors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Employee.class)
 public class Employee extends AbstractAuditable<User, Long> {
   @NotNull
   @OneToOne
   private User user;
 
-  @JsonBackReference
+  @JsonIgnore
   @OneToMany(mappedBy = "manager")
   private Collection<Employee> manages = new HashSet<>();
 
-  @JsonManagedReference
   @ManyToOne
   @ToString.Exclude
   private Employee manager;
@@ -45,11 +45,10 @@ public class Employee extends AbstractAuditable<User, Long> {
   @Embedded
   private EmployeeWeek employeeWeek;
 
-  @JsonBackReference
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
   private Collection<HolidayEntitlement> holidayEntitlements = new HashSet<>();
 
-  @JsonBackReference
+  @JsonIgnore
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
   private Collection<Holiday> holidays = new HashSet<>();
 

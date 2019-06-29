@@ -14,5 +14,7 @@ import java.util.Collection;
 public class TodaysHolidays implements Serializable {
   private final Holiday currentUserHoliday;
 
+  private final Holiday currentUserNextHoliday;
+
   private final Collection<Holiday> managedEmployeeHolidays;
 }

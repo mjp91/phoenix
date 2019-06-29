@@ -45,8 +45,11 @@ public class CurrentUserHolidayService {
     final Holiday todaysHoliday = holidayRepository.findAllInRange(now, now, currentUserEmployee).stream()
         .findFirst().orElse(null);
 
+    final Holiday nextHoliday = holidayRepository.findNext(LocalDate.now(), currentUserEmployee).stream()
+        .findFirst().orElse(null);
+
     final Collection<Holiday> managedInRange = holidayRepository.findAllManagedInRange(now, now, currentUserEmployee);
 
-    return new TodaysHolidays(todaysHoliday, managedInRange);
+    return new TodaysHolidays(todaysHoliday, nextHoliday, managedInRange);
   }
 }

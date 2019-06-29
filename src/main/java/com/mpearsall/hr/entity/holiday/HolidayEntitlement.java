@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity.holiday;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
@@ -23,8 +24,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = HolidayEntitlement.class)
 public class HolidayEntitlement extends AbstractAuditable<User, Long> {
-  @JsonManagedReference
   @ManyToOne
   @ToString.Exclude
   private Employee employee;

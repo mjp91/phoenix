@@ -71,17 +71,19 @@ public class HolidayService {
     holiday.setHolidayYear(holidayYear);
     holiday.setEmployee(currentUserEmployee);
 
+    // no manager approved by default
+    if (currentUserEmployee.getManager() == null) {
+      holiday.setApproved(true);
+    }
+
     final LocalDate startDate = holidayRequest.getStartDate();
     final List<HolidayDate> holidayDates = new ArrayList<>();
 
-    long days = ChronoUnit.DAYS.between(startDate, holidayRequest.getEndDate());
-    if (days == 0) {
-      days = 1; // if single day
-    }
+    final Set<LocalDate> dates = calculateHolidayDates(currentUserEmployee, startDate, holidayRequest.getEndDate());
 
-    for (long i = 0; i < days; i++) {
+    for (LocalDate date : dates) {
       final HolidayDate holidayDate = new HolidayDate();
-      holidayDate.setDate(startDate.plusDays(i));
+      holidayDate.setDate(date);
       holidayDate.setHolidayPeriod(HolidayPeriod.ALL_DAY);
       holidayDates.add(holidayDate);
     }
@@ -110,20 +112,13 @@ public class HolidayService {
     if (startDate.isBefore(holidayYear.getYearStart()) || endDate.isAfter(holidayYear.getYearEnd())) {
       throw new InvalidDetailsException("Requested dates fall outside of requested year");
     }
-
-    // check entitlement
-    final Set<DayOfWeek> daysWorked = Employee.getDaysWorked(employee);
-
-    final long daysBetween = Stream.iterate(startDate, d -> d.plusDays(1))
-        .limit(startDate.until(endDate, ChronoUnit.DAYS))
-        .filter(d -> daysWorked.contains(d.getDayOfWeek()))
-        .count();
-
-    final CurrentUserHoliday currentUserHoliday = currentUserHolidayService.getCurrentUserHoliday();
+    final long daysBetween = calculateHolidayDates(employee, startDate, endDate).size();
 
     if (daysBetween == 0) {
       throw new InvalidDetailsException("Requested holiday dates are not worked");
     }
+
+    final CurrentUserHoliday currentUserHoliday = currentUserHolidayService.getCurrentUserHoliday();
 
     if (daysBetween > currentUserHoliday.getRemaining()) {
       throw new InvalidDetailsException("Requested holiday would exceed remaining holiday entitlement");
@@ -134,6 +129,16 @@ public class HolidayService {
     if (existingHolidays.size() > 0) {
       throw new InvalidDetailsException("Requested holiday overlaps existing holidays");
     }
+  }
+
+  private Set<LocalDate> calculateHolidayDates(Employee employee, LocalDate startDate, LocalDate endDate) {
+    // check entitlement
+    final Set<DayOfWeek> daysWorked = Employee.getDaysWorked(employee);
+
+    return Stream.iterate(startDate, d -> d.plusDays(1))
+        .limit(startDate.until(endDate.plusDays(1), ChronoUnit.DAYS))
+        .filter(d -> daysWorked.contains(d.getDayOfWeek()))
+        .collect(Collectors.toSet());
   }
 
 }
