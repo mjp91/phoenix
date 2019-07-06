@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity.holiday;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
@@ -32,6 +33,7 @@ public class HolidayEntitlement extends AbstractAuditable<User, Long> {
 
   @NotNull
   @OneToOne
+  @JsonIgnore
   private HolidayYear holidayYear;
 
   @NotNull

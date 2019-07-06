@@ -8,6 +8,8 @@ import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayPeriod;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
+import com.mpearsall.hr.exception.PermissionException;
+import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.repository.HolidayYearRepository;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,7 @@ public class HolidayService {
     final List<HolidayDate> holidayDates = employee.getHolidays().stream()
         .filter(holiday -> holiday.getHolidayYear().equals(holidayYear))
         .filter(holiday -> holiday.getApproved() != null && holiday.getApproved())
+        .filter(holiday -> !holiday.isCancelled())
         .map(Holiday::getHolidayDates)
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
@@ -91,6 +94,22 @@ public class HolidayService {
     holiday.setHolidayDates(holidayDates);
 
     return holidayRepository.save(holiday);
+  }
+
+  @Transactional
+  public Holiday cancelHoliday(Long holidayId) {
+    final Holiday holiday = holidayRepository.findById(holidayId)
+        .orElseThrow(() -> new ResourceNotFoundException(holidayId, Holiday.class));
+
+    final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
+
+    if (holiday.getEmployee() != currentUserEmployee) {
+      throw new PermissionException("User does not have permission to cancel other users holiday");
+    }
+
+    holiday.setCancelled(true);
+
+    return holiday;
   }
 
   private void validateHolidayRequest(HolidayRequest holidayRequest, Employee employee, HolidayYear holidayYear) {

@@ -45,17 +45,22 @@ public class HolidayController {
   }
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public Collection<Holiday> getHolidays() {
+  public Page<Holiday> getHolidays() {
     // get user's employee record
     final Employee employee = employeeService.getCurrentUserEmployee();
 
-    return employee.getHolidays();
+    return holidayRepository.findAllByEmployee(employee, PageRequest.of(0, 100));
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public Holiday createHoliday(@RequestBody @Valid HolidayRequest holidayRequest) {
     return holidayService.requestToHoliday(holidayRequest);
+  }
+
+  @PatchMapping(path = "/cancel/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Holiday cancelHoliday(@PathVariable("id") Long id) {
+    return holidayService.cancelHoliday(id);
   }
 
   @GetMapping(path = "/requests/page", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

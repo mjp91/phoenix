@@ -13,9 +13,9 @@ INSERT INTO holiday_entitlement (id, employee_id, holiday_year_id, holiday_entit
 VALUES (1, 1, 1, 200.0),
        (2, 2, 1, 200.0);
 
-INSERT INTO holiday (id, name, employee_id, holiday_year_id, approved, created_date)
-VALUES (1, 'Trip to Amsterdam', 1, 1, TRUE, '2019-02-01'),
-       (2, 'Appointment', 2, 1, NULL, '2019-04-01');
+INSERT INTO holiday (id, name, employee_id, holiday_year_id, approved, created_date, cancelled)
+VALUES (1, 'Trip to Amsterdam', 1, 1, TRUE, '2019-02-01', FALSE),
+       (2, 'Appointment', 2, 1, NULL, '2019-04-01', FALSE);
 
 INSERT INTO holiday_date (id, date, holiday_period, holiday_id)
 VALUES (1, '2019-03-01', 'ALL_DAY', 1),

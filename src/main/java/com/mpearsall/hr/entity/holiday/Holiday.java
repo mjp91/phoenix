@@ -40,6 +40,9 @@ public class Holiday extends AbstractAuditable<User, Long> {
 
   private Boolean approved;
 
+  @NotNull
+  private boolean cancelled = false;
+
   public void setHolidayDates(Collection<HolidayDate> holidayDates) {
     if (holidayDates != null) {
       for (HolidayDate holidayDate : holidayDates) {
