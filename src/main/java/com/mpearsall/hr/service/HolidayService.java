@@ -112,6 +112,34 @@ public class HolidayService {
     return holiday;
   }
 
+  @Transactional
+  public Holiday approveHoliday(Long id) {
+    return modifyHolidayApproval(id, true);
+  }
+
+  @Transactional
+  public Holiday disapproveHoliday(Long id) {
+    return modifyHolidayApproval(id, false);
+  }
+
+  private Holiday modifyHolidayApproval(Long id, boolean approved) {
+    final Holiday holiday = holidayRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(id, Holiday.class));
+
+    // check is manager
+    final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
+    final Employee holidayEmployee = holiday.getEmployee();
+    final Employee manager = holidayEmployee.getManager();
+
+    if (manager == null || !manager.equals(currentUserEmployee)) {
+      throw new PermissionException("User is not the holiday creator's manager");
+    }
+
+    holiday.setApproved(approved);
+
+    return holiday;
+  }
+
   private void validateHolidayRequest(HolidayRequest holidayRequest, Employee employee, HolidayYear holidayYear) {
     final LocalDate startDate = holidayRequest.getStartDate();
     final LocalDate endDate = holidayRequest.getEndDate();
@@ -159,5 +187,4 @@ public class HolidayService {
         .filter(d -> daysWorked.contains(d.getDayOfWeek()))
         .collect(Collectors.toSet());
   }
-
 }

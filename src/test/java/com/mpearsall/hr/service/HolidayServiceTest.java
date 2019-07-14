@@ -8,10 +8,14 @@ import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
+import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.factory.HolidayYearFactory;
+import com.mpearsall.hr.repository.EmployeeRepository;
+import com.mpearsall.hr.repository.HolidayRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDate;
@@ -24,6 +28,12 @@ public class HolidayServiceTest extends HrApplicationTests {
 
   @Autowired
   private HolidayYearService holidayYearService;
+
+  @Autowired
+  private HolidayRepository holidayRepository;
+
+  @Autowired
+  private EmployeeRepository employeeRepository;
 
   @Test
   public void calculateHolidayUsed() {
@@ -73,5 +83,15 @@ public class HolidayServiceTest extends HrApplicationTests {
     holidayRequest.setHolidayYearId(holidayYearService.getCurrentHolidayYear().getId());
 
     holidayService.requestToHoliday(holidayRequest);
+  }
+
+  @Test(expected = PermissionException.class)
+  @WithMockUser(username = "matt")
+  public void testApproveFromInvalidUser() {
+    final Employee buzz = employeeRepository.findByUser_Username("buzz");
+    final Holiday holiday = holidayRepository.findAllByEmployee(buzz, Pageable.unpaged()).stream()
+        .findFirst().orElseThrow();
+
+    holidayService.approveHoliday(holiday.getId());
   }
 }

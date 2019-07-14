@@ -78,4 +78,14 @@ public class HolidayController {
 
     return holidayRepository.findAllPendingHolidays(employee);
   }
+
+  @PatchMapping(value = "/approve/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Holiday approveHoliday(@PathVariable("id") Long id) {
+    return holidayService.approveHoliday(id);
+  }
+
+  @PatchMapping(value = "/disapprove/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Holiday disapproveHoliday(@PathVariable("id") Long id) {
+    return holidayService.disapproveHoliday(id);
+  }
 }
