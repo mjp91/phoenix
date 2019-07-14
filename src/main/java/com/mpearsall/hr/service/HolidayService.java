@@ -12,6 +12,7 @@ import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.repository.HolidayYearRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -114,15 +115,15 @@ public class HolidayService {
 
   @Transactional
   public Holiday approveHoliday(Long id) {
-    return modifyHolidayApproval(id, true);
+    return modifyHolidayApproval(id, true, null);
   }
 
   @Transactional
-  public Holiday disapproveHoliday(Long id) {
-    return modifyHolidayApproval(id, false);
+  public Holiday disapproveHoliday(Long id, String reason) {
+    return modifyHolidayApproval(id, false, reason);
   }
 
-  private Holiday modifyHolidayApproval(Long id, boolean approved) {
+  private Holiday modifyHolidayApproval(Long id, boolean approved, @Nullable String reason) {
     final Holiday holiday = holidayRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(id, Holiday.class));
 
@@ -136,6 +137,7 @@ public class HolidayService {
     }
 
     holiday.setApproved(approved);
+    holiday.setDisapprovalReason(reason);
 
     return holiday;
   }

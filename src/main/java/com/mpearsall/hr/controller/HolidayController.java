@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/holiday")
@@ -84,8 +85,8 @@ public class HolidayController {
     return holidayService.approveHoliday(id);
   }
 
-  @PatchMapping(value = "/disapprove/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public Holiday disapproveHoliday(@PathVariable("id") Long id) {
-    return holidayService.disapproveHoliday(id);
+  @PatchMapping(value = "/disapprove/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public Holiday disapproveHoliday(@PathVariable("id") Long id, @RequestBody Map<String, Object> body) {
+    return holidayService.disapproveHoliday(id, (String) body.get("reason"));
   }
 }

@@ -40,6 +40,8 @@ public class Holiday extends AbstractAuditable<User, Long> {
 
   private Boolean approved;
 
+  private String disapprovalReason;
+
   @NotNull
   private boolean cancelled = false;
 
