@@ -15,6 +15,11 @@ spring:
   output:
     ansi:
       enabled: always
+  mail:
+    host:
+    username:
+    password:
+    port:
 management:
   health:
     ldap:
