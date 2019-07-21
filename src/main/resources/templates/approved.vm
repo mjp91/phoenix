@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+<head></head>
+<body>
+<p>
+    ${fullName}
+</p>
+<p>Your holiday has been approved</p>
+</body>
+</html>

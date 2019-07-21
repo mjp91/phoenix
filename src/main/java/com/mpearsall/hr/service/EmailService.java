@@ -5,6 +5,8 @@ import com.mpearsall.hr.dto.EmailTemplate;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +20,8 @@ import java.io.StringWriter;
 
 @Component
 public class EmailService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
+
   private static final String FROM_ADDRESS = "noreply@hr.com";
 
   private final JavaMailSender javaMailSender;
@@ -42,14 +46,18 @@ public class EmailService {
   }
 
   @Async
-  public void sendHtml(Email email, EmailTemplate emailTemplate) throws MessagingException {
+  public void sendHtml(Email email, EmailTemplate emailTemplate) {
     final Template template = velocityEngine.getTemplate(emailTemplate.getTemplateName());
 
     final StringWriter stringWriter = new StringWriter();
     template.merge(new VelocityContext(emailTemplate.getArguments()), stringWriter);
 
     email.setBody(stringWriter.toString());
-    sendHtml(email);
+    try {
+      sendHtml(email);
+    } catch (MessagingException e) {
+      LOGGER.error(e.getMessage(), e);
+    }
   }
 
   @Async

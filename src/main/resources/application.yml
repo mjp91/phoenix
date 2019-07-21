@@ -19,7 +19,10 @@ spring:
     host: smtp.mailgun.org
     username: hr@sandbox249b417c04164b2cb3206546eab97c38.mailgun.org
     password: 527cf58d85c6875ffaf6e53981f04ba8-fd0269a6-ff037e7a
-    port: 25
+    port: 587
+    properties:
+      mail:
+        debug: true
 management:
   health:
     ldap:

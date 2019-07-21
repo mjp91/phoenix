@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
   }
 
   public UserDetails createLocalUser(DirContextOperations ctx, String username) {
-    final User user = new User(username, ctx.getStringAttribute("cn"));
+    final User user = new User(username, ctx.getStringAttribute("mail"), ctx.getStringAttribute("cn"));
     return userRepository.save(user);
   }
 }

@@ -15,6 +15,7 @@ objectclass: organizationalPerson
 objectclass: inetOrgPerson
 cn: Buzz Lightyear
 sn: Lightyear
+mail: mjp91@live.co.uk
 uid: buzz
 userPassword: $2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou
 
@@ -25,6 +26,7 @@ objectclass: organizationalPerson
 objectclass: inetOrgPerson
 cn: Matthew Pearsall
 sn: Pearsall
+mail: mjp91@live.co.uk
 uid: matt
 userPassword: $2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou
 

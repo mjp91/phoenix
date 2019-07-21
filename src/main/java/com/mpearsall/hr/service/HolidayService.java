@@ -1,8 +1,11 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.dto.CurrentUserHoliday;
+import com.mpearsall.hr.dto.Email;
+import com.mpearsall.hr.dto.EmailTemplate;
 import com.mpearsall.hr.dto.HolidayRequest;
 import com.mpearsall.hr.entity.Employee;
+import com.mpearsall.hr.entity.User;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayPeriod;
@@ -19,26 +22,28 @@ import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class HolidayService {
+  private static final String APPROVED_TEMPLATE = "approved";
+
   private final HolidayYearRepository holidayYearRepository;
   private final EmployeeService employeeService;
   private final CurrentUserHolidayService currentUserHolidayService;
   private final HolidayRepository holidayRepository;
+  private final EmailService emailService;
 
   public HolidayService(HolidayYearRepository holidayYearRepository, EmployeeService employeeService,
-                        CurrentUserHolidayService currentUserHolidayService, HolidayRepository holidayRepository) {
+                        CurrentUserHolidayService currentUserHolidayService, HolidayRepository holidayRepository,
+                        EmailService emailService) {
     this.holidayYearRepository = holidayYearRepository;
     this.employeeService = employeeService;
     this.currentUserHolidayService = currentUserHolidayService;
     this.holidayRepository = holidayRepository;
+    this.emailService = emailService;
   }
 
   public static Double calculateHolidayUsed(Employee employee, HolidayYear holidayYear) {
@@ -115,7 +120,21 @@ public class HolidayService {
 
   @Transactional
   public Holiday approveHoliday(Long id) {
-    return modifyHolidayApproval(id, true, null);
+    final Holiday holiday = modifyHolidayApproval(id, true, null);
+
+    sendApprovalEmail(holiday);
+
+    return holiday;
+  }
+
+  private void sendApprovalEmail(Holiday holiday) {
+    final User user = holiday.getEmployee().getUser();
+
+    final String to = user.getEmail();
+    final Map<String, Object> args = Map.of("fullName", user.getFullName());
+
+    final EmailTemplate emailTemplate = new EmailTemplate(APPROVED_TEMPLATE, args);
+    emailService.sendHtml(new Email(Collections.singletonList(to), "Holiday Approved"), emailTemplate);
   }
 
   @Transactional

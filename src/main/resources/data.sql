@@ -1,6 +1,6 @@
-INSERT INTO user (id, username, full_name)
-VALUES (1, 'buzz', 'Buzz Lightyear'),
-       (2, 'matt', 'Matthew Pearsall');
+INSERT INTO user (id, username, full_name, email)
+VALUES (1, 'buzz', 'Buzz Lightyear', 'buzz@example.com'),
+       (2, 'matt', 'Matthew Pearsall', 'mjp91@live.co.uk');
 
 INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end)
 VALUES (1, 1, NULL, '09:00', '17:00'),

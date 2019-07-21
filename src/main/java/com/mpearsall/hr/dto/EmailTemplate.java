@@ -10,4 +10,8 @@ import java.util.Map;
 public class EmailTemplate {
   private final String templateName;
   private final Map<String, Object> arguments;
+
+  public String getTemplateName() {
+    return "templates/" + templateName + ".vm";
+  }
 }
