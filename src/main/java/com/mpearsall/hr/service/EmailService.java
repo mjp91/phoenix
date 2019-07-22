@@ -22,7 +22,7 @@ import java.io.StringWriter;
 public class EmailService {
   private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
-  private static final String FROM_ADDRESS = "noreply@hr.com";
+  private static final String FROM_ADDRESS = "noreply@holibyte.co.uk";
 
   private final JavaMailSender javaMailSender;
   private final VelocityEngine velocityEngine;

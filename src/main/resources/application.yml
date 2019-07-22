@@ -16,9 +16,9 @@ spring:
     ansi:
       enabled: always
   mail:
-    host: smtp.mailgun.org
-    username: hr@sandbox249b417c04164b2cb3206546eab97c38.mailgun.org
-    password: 527cf58d85c6875ffaf6e53981f04ba8-fd0269a6-ff037e7a
+    host: smtp.eu.mailgun.org
+    username: noreply@mail.holibyte.co.uk
+    password: ba2381eb1f4238eabdb070fd379783b9-c50f4a19-8faf1131
     port: 587
     properties:
       mail:
