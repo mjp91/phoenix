@@ -1,3 +1,6 @@
+INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end)
+VALUES (1, 'Holibyte', '200.0', '09:00', '17:00');
+
 INSERT INTO user (id, username, full_name, email)
 VALUES (1, 'buzz', 'Buzz Lightyear', 'buzz@example.com'),
        (2, 'matt', 'Matthew Pearsall', 'mjp91@live.co.uk');

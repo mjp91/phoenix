@@ -2,7 +2,6 @@ package com.mpearsall.hr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -11,7 +10,6 @@ import java.util.Map;
 
 @Embeddable
 @Data
-@NoArgsConstructor
 public class EmployeeWeek {
   @Embedded
   @AttributeOverrides({
@@ -61,6 +59,14 @@ public class EmployeeWeek {
       @AttributeOverride(name = "end", column = @Column(name = "sunday_end"))
   })
   private EmployeeDay sunday;
+
+  public EmployeeWeek() {
+    this.monday = new EmployeeDay();
+    this.tuesday = new EmployeeDay();
+    this.wednesday = new EmployeeDay();
+    this.thursday = new EmployeeDay();
+    this.friday = new EmployeeDay();
+  }
 
   @JsonIgnore
   public static Map<DayOfWeek, EmployeeDay> getDayOfWeekMap(EmployeeWeek employeeWeek) {
