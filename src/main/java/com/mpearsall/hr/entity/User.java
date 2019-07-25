@@ -12,7 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -35,10 +35,16 @@ public class User implements UserDetails {
   @NotEmpty
   private final String fullName;
 
+  @ManyToMany
+  private Collection<Role> roles;
+
   @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    return roles.stream().map(Role::getPrivileges).flatMap(Collection::stream)
+        .map(Privilege::getName)
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   @JsonIgnore

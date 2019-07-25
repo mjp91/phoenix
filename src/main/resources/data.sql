@@ -1,9 +1,19 @@
 INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end)
 VALUES (1, 'Holibyte', '200.0', '09:00', '17:00');
 
+INSERT INTO role (id, name)
+VALUES (1, 'ROLE_USER');
+INSERT INTO role (id, name)
+VALUES (2, 'ROLE_ADMIN');
+
 INSERT INTO user (id, username, full_name, email)
 VALUES (1, 'buzz', 'Buzz Lightyear', 'buzz@example.com'),
        (2, 'matt', 'Matthew Pearsall', 'mjp91@live.co.uk');
+
+INSERT INTO user_roles
+VALUES (1, 2);
+INSERT INTO user_roles
+VALUES (2, 1);
 
 INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end)
 VALUES (1, 1, NULL, '09:00', '17:00'),
