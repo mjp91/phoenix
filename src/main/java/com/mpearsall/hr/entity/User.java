@@ -35,7 +35,7 @@ public class User implements UserDetails {
   @NotEmpty
   private final String fullName;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   private Collection<Role> roles;
 
   @JsonIgnore

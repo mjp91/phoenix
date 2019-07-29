@@ -1,5 +1,6 @@
 package com.mpearsall.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class Privilege implements Serializable {
   @NotEmpty
   private String name;
 
+  @JsonIgnore
   @ManyToMany(mappedBy = "privileges")
   private Collection<Role> roles;
 }

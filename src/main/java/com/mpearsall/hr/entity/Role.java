@@ -1,5 +1,6 @@
 package com.mpearsall.hr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,9 +20,10 @@ public class Role implements Serializable {
   @NotEmpty
   private String name;
 
+  @JsonIgnore
   @ManyToMany(mappedBy = "roles")
   private Collection<User> users;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   private Collection<Privilege> privileges;
 }
