@@ -1,5 +1,6 @@
-INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end)
-VALUES (1, 'Holibyte', '200.0', '09:00', '17:00');
+INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end, created_date,
+                     last_modified_date)
+VALUES (1, 'Holibyte', '200.0', '09:00', '17:00', NOW(), NOW());
 
 INSERT INTO role (id, name)
 VALUES (1, 'ROLE_USER');
