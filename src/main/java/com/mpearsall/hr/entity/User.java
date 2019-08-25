@@ -41,8 +41,8 @@ public class User implements UserDetails {
   @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return roles.stream().map(Role::getPrivileges).flatMap(Collection::stream)
-        .map(Privilege::getName)
+    return roles.stream()
+        .map(Role::getName)
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toUnmodifiableSet());
   }
