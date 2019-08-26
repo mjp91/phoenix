@@ -2,6 +2,7 @@ package com.mpearsall.hr.entity.holiday;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.mpearsall.hr.dto.DateRange;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
@@ -14,7 +15,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -53,5 +57,18 @@ public class Holiday extends AbstractAuditable<User, Long> {
     }
 
     this.holidayDates = holidayDates;
+  }
+
+  public static DateRange getHolidayRange(Holiday holiday) {
+    DateRange result = null;
+
+    final List<HolidayDate> holidayDates = new ArrayList<>(holiday.getHolidayDates());
+    Collections.sort(holidayDates);
+
+    if (!holidayDates.isEmpty()) {
+      result = new DateRange(holidayDates.get(0).getDate(), holidayDates.get(holidayDates.size() - 1).getDate());
+    }
+
+    return result;
   }
 }

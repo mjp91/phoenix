@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
@@ -37,6 +38,9 @@ public class User implements UserDetails {
 
   @ManyToMany(fetch = FetchType.EAGER)
   private Collection<Role> roles;
+
+  @NotEmpty
+  private String calendarToken = UUID.randomUUID().toString();
 
   @JsonIgnore
   @Override

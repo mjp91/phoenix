@@ -1,20 +1,7 @@
 package com.mpearsall.hr.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
-  private Long id;
-  private Class<?> type;
-
-  public ResourceNotFoundException(Long id, Class<?> type) {
-    super("Resource of type " + type + " with ID " + id + " not found");
-    this.id = id;
-    this.type = type;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public Class<?> getType() {
-    return type;
+  public ResourceNotFoundException(Object id, Class<?> type) {
+    super(String.format("Resource of type %s with ID '%s' not found", type.getSimpleName(), id));
   }
 }

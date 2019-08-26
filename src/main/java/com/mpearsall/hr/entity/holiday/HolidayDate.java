@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = HolidayDate.class)
-public class HolidayDate extends AbstractAuditable<User, Long> {
+public class HolidayDate extends AbstractAuditable<User, Long> implements Comparable<HolidayDate> {
   @ManyToOne
   @ToString.Exclude
   private Holiday holiday;
@@ -31,4 +31,9 @@ public class HolidayDate extends AbstractAuditable<User, Long> {
   @NotNull
   @Enumerated(EnumType.STRING)
   private HolidayPeriod holidayPeriod = HolidayPeriod.ALL_DAY;
+
+  @Override
+  public int compareTo(HolidayDate holidayDate) {
+    return this.date.compareTo(holidayDate.getDate());
+  }
 }
