@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -34,7 +36,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler({
-      ResourceNotFoundException.class
+      ResourceNotFoundException.class,
+      NoSuchElementException.class
   })
   protected ResponseEntity<Object> handleResourceNotFound(RuntimeException ex) {
     return handleException(HttpStatus.NOT_FOUND, ex);

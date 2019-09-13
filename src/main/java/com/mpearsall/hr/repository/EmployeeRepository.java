@@ -14,5 +14,7 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
 
   Employee findByUser_Username(@NotNull String username);
 
+  Employee findByUser_Id(Long userId);
+
   Collection<Employee> findAllByManager(Employee manager);
 }
