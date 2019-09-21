@@ -16,16 +16,17 @@ VALUES (1, 2);
 INSERT INTO user_roles
 VALUES (2, 1);
 
-INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end)
-VALUES (1, 1, NULL, '09:00', '17:00'),
-       (2, 2, 1, '09:00', '17:00');
+INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date)
+VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW()),
+       (2, 2, 1, '09:00', '17:00', NOW(), NOW());
 
-INSERT INTO holiday_year (id, name, year_start, year_end)
-VALUES (1, '2019', '2019-01-01', '2019-12-31');
+INSERT INTO holiday_year (id, name, year_start, year_end, created_date, last_modified_date)
+VALUES (1, '2019', '2019-01-01', '2019-12-31', NOW(), NOW());
 
-INSERT INTO holiday_entitlement (id, employee_id, holiday_year_id, holiday_entitlement_hours)
-VALUES (1, 1, 1, 200.0),
-       (2, 2, 1, 200.0);
+INSERT INTO holiday_entitlement (id, employee_id, holiday_year_id, holiday_entitlement_hours, created_date,
+                                 last_modified_date)
+VALUES (1, 1, 1, 200.0, NOW(), NOW()),
+       (2, 2, 1, 200.0, NOW(), NOW());
 
 INSERT INTO holiday (id, name, employee_id, holiday_year_id, approved, created_date, cancelled)
 VALUES (1, 'Trip to Amsterdam', 1, 1, TRUE, '2019-02-01', FALSE),

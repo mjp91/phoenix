@@ -3,9 +3,8 @@ package com.mpearsall.hr.controller;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.repository.HolidayYearRepository;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/holidayYear")
@@ -19,5 +18,11 @@ public class HolidayYearController {
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public Iterable<HolidayYear> holidayYears() {
     return holidayYearRepository.findAll();
+  }
+
+  @Secured("ROLE_ADMIN")
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public HolidayYear save(@RequestBody HolidayYear holidayYear) {
+    return holidayYearRepository.save(holidayYear);
   }
 }
