@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity.holiday;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mpearsall.hr.entity.Employee;
 import com.mpearsall.hr.entity.User;
 import lombok.Data;
@@ -37,4 +38,14 @@ public class HolidayEntitlement extends AbstractAuditable<User, Long> {
   @DecimalMin("0.0")
   @DecimalMax("8784") // max hours in a year
   private double holidayEntitlementHours = 0.0;
+
+  @JsonIgnore
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  @JsonProperty
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 }
