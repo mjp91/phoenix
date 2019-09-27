@@ -30,6 +30,8 @@ public class Employee extends AbstractAuditable<User, Long> {
   @OneToOne
   private User user;
 
+  private String reference;
+
   @JsonIgnore
   @OneToMany(mappedBy = "manager")
   private Collection<Employee> manages = new HashSet<>();

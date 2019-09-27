@@ -32,3 +32,5 @@ logging:
     org:
       springframework:
         security: info
+storage:
+  location: /home/matt/hr
