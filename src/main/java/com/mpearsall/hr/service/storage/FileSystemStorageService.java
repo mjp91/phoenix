@@ -1,6 +1,7 @@
 package com.mpearsall.hr.service.storage;
 
 import com.mpearsall.hr.exception.StorageException;
+import com.mpearsall.hr.exception.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -58,10 +59,10 @@ public class FileSystemStorageService implements StorageService {
       if (resource.exists() && resource.isReadable()) {
         return resource;
       } else {
-        throw new StorageException(FILE_NOT_FOUND_MSG);
+        throw new StorageFileNotFoundException(FILE_NOT_FOUND_MSG);
       }
     } catch (MalformedURLException e) {
-      throw new StorageException(FILE_NOT_FOUND_MSG, e);
+      throw new StorageFileNotFoundException(FILE_NOT_FOUND_MSG, e);
     }
   }
 

@@ -4,12 +4,15 @@ import com.mpearsall.hr.dto.ApplicationError;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
+import com.mpearsall.hr.exception.StorageFileNotFoundException;
+import com.mpearsall.hr.util.ApplicationErrorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -23,7 +26,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({
       InvalidDetailsException.class
   })
-  protected ResponseEntity<Object> handleInvalidDetails(RuntimeException ex) {
+  protected ResponseEntity<ApplicationError> handleInvalidDetails(RuntimeException ex) {
     return handleException(HttpStatus.BAD_REQUEST, ex);
   }
 
@@ -31,25 +34,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       PermissionException.class,
       AccessDeniedException.class
   })
-  protected ResponseEntity<Object> handlePermissionException(RuntimeException ex) {
+  protected ResponseEntity<ApplicationError> handlePermissionException(RuntimeException ex) {
     return handleException(HttpStatus.FORBIDDEN, ex);
   }
 
   @ExceptionHandler({
       ResourceNotFoundException.class,
-      NoSuchElementException.class
+      NoSuchElementException.class,
+      StorageFileNotFoundException.class
   })
-  protected ResponseEntity<Object> handleResourceNotFound(RuntimeException ex) {
+  protected ResponseEntity<ApplicationError> handleResourceNotFound(RuntimeException ex) {
     return handleException(HttpStatus.NOT_FOUND, ex);
   }
 
-  @ExceptionHandler(Exception.class)
-  protected ResponseEntity<Object> handleUnexpectedException(Exception ex) {
-    return handleException(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+  @ExceptionHandler(TransactionSystemException.class)
+  protected ResponseEntity<ApplicationError> handleTransactionSystemException(TransactionSystemException ex) {
+    return handleUnexpectedException(ex.getRootCause());
   }
 
-  private ResponseEntity<Object> handleException(HttpStatus httpStatus, Exception ex) {
+  @ExceptionHandler(Exception.class)
+  protected ResponseEntity<ApplicationError> handleUnexpectedException(Throwable ex) {
+    return handleException(null, ex);
+  }
+
+  private ResponseEntity<ApplicationError> handleException(HttpStatus httpStatus, Throwable ex) {
     LOGGER.error(ex.getMessage(), ex);
-    return new ResponseEntity<>(new ApplicationError(ex.getMessage()), new HttpHeaders(), httpStatus);
+    final ApplicationError applicationError = ApplicationErrorFactory.generate(ex);
+
+    if (httpStatus == null) {
+      httpStatus = applicationError.getStatus();
+    } else {
+      applicationError.setStatus(httpStatus);
+    }
+
+    return new ResponseEntity<>(applicationError, new HttpHeaders(), httpStatus);
   }
 }
