@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,7 @@ public class FileUploadController {
         "attachment; filename=\"" + file.getFilename() + "\"").body(file);
   }
 
-  @PostMapping(path = "")
+  @PostMapping(path = "", produces = MediaType.TEXT_PLAIN_VALUE)
   public String upload(@RequestParam("file") MultipartFile file) {
     return storageService.store(file);
   }
