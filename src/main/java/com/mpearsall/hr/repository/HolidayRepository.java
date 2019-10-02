@@ -1,6 +1,6 @@
 package com.mpearsall.hr.repository;
 
-import com.mpearsall.hr.entity.Employee;
+import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

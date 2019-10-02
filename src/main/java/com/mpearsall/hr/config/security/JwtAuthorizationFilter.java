@@ -1,7 +1,7 @@
 package com.mpearsall.hr.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

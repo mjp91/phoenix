@@ -1,6 +1,6 @@
 package com.mpearsall.hr.controller;
 
-import com.mpearsall.hr.entity.Employee;
+import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;

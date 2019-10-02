@@ -1,5 +1,7 @@
 package com.mpearsall.hr.entity;
 
+import com.mpearsall.hr.entity.employee.EmployeeWeek;
+import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

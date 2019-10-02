@@ -1,4 +1,4 @@
-package com.mpearsall.hr.entity;
+package com.mpearsall.hr.entity.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

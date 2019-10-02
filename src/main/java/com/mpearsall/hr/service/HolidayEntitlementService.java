@@ -1,6 +1,6 @@
 package com.mpearsall.hr.service;
 
-import com.mpearsall.hr.entity.Employee;
+import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import org.springframework.stereotype.Service;

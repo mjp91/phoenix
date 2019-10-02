@@ -1,4 +1,4 @@
-package com.mpearsall.hr.entity;
+package com.mpearsall.hr.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Collection;
 @Entity
 @Data
 @NoArgsConstructor
-public class Privilege implements Serializable {
+public class Role implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -21,6 +21,9 @@ public class Privilege implements Serializable {
   private String name;
 
   @JsonIgnore
-  @ManyToMany(mappedBy = "privileges")
-  private Collection<Role> roles;
+  @ManyToMany(mappedBy = "roles")
+  private Collection<User> users;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  private Collection<Privilege> privileges;
 }

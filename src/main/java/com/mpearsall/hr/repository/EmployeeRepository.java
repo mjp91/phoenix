@@ -1,7 +1,7 @@
 package com.mpearsall.hr.repository;
 
-import com.mpearsall.hr.entity.Employee;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.user.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import javax.validation.constraints.NotNull;

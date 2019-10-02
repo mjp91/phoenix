@@ -1,6 +1,6 @@
 package com.mpearsall.hr.controller;
 
-import com.mpearsall.hr.entity.Role;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.RoleRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

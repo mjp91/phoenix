@@ -1,6 +1,6 @@
 package com.mpearsall.hr.controller;
 
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;

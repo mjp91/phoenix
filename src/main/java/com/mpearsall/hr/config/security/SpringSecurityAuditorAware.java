@@ -1,6 +1,6 @@
 package com.mpearsall.hr.config.security;
 
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

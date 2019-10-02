@@ -1,7 +1,11 @@
 package com.mpearsall.hr.service;
 
-import com.mpearsall.hr.entity.*;
+import com.mpearsall.hr.entity.Company;
+import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.employee.EmployeeDay;
+import com.mpearsall.hr.entity.employee.EmployeeWeek;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
+import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.CompanyRepository;
 import com.mpearsall.hr.repository.EmployeeRepository;

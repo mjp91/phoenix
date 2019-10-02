@@ -2,7 +2,7 @@ package com.mpearsall.hr.entity.holiday;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,9 @@
-package com.mpearsall.hr.entity;
+package com.mpearsall.hr.entity.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
+import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,14 @@ public class Employee extends AbstractAuditable<User, Long> {
   private User user;
 
   private String reference;
+
+  @Valid
+  @Embedded
+  private Address address = new Address();
+
+  private String telephoneNumber;
+
+  private String mobileNumber;
 
   private String profileFileName;
 
@@ -67,6 +76,10 @@ public class Employee extends AbstractAuditable<User, Long> {
     }
 
     this.holidayEntitlements = holidayEntitlements;
+  }
+
+  public Address getAddress() {
+    return address != null ? address : new Address();
   }
 
   @JsonIgnore

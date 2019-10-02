@@ -2,8 +2,8 @@ package com.mpearsall.hr.entity.holiday;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mpearsall.hr.entity.Employee;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

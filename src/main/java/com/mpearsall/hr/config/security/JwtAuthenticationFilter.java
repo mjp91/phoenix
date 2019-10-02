@@ -2,7 +2,7 @@ package com.mpearsall.hr.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mpearsall.hr.dto.Login;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.MediaType;

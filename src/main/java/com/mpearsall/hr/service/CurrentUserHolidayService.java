@@ -2,7 +2,7 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.dto.CurrentUserHoliday;
 import com.mpearsall.hr.dto.TodaysHolidays;
-import com.mpearsall.hr.entity.Employee;
+import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.repository.HolidayRepository;

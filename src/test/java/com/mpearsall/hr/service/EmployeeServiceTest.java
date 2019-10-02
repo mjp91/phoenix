@@ -1,8 +1,8 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.HrApplicationTests;
-import com.mpearsall.hr.entity.Employee;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;

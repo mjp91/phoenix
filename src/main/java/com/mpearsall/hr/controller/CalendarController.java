@@ -1,9 +1,9 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.DateRange;
-import com.mpearsall.hr.entity.Employee;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
+import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.EmployeeRepository;

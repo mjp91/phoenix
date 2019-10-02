@@ -1,9 +1,9 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.HrApplicationTests;
-import com.mpearsall.hr.entity.Employee;
-import com.mpearsall.hr.entity.EmployeeDay;
-import com.mpearsall.hr.entity.EmployeeWeek;
+import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.employee.EmployeeDay;
+import com.mpearsall.hr.entity.employee.EmployeeWeek;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.factory.HolidayYearFactory;

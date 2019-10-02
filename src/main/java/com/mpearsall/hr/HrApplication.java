@@ -1,7 +1,7 @@
 package com.mpearsall.hr;
 
 import com.mpearsall.hr.config.security.SpringSecurityAuditorAware;
-import com.mpearsall.hr.entity.User;
+import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.service.storage.StorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
