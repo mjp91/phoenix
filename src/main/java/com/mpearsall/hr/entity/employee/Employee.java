@@ -33,6 +33,9 @@ public class Employee extends AbstractAuditable<User, Long> {
 
   private String reference;
 
+  @OneToOne
+  private JobRole jobRole;
+
   @Valid
   @Embedded
   private Address address = new Address();

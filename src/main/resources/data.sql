@@ -16,9 +16,14 @@ VALUES (1, 2);
 INSERT INTO user_roles
 VALUES (2, 1);
 
-INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date)
-VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW()),
-       (2, 2, 1, '09:00', '17:00', NOW(), NOW());
+INSERT INTO job_role (id, description, created_date, last_modified_date)
+VALUES (1, 'HR Assistant', NOW(), NOW()),
+       (2, 'Software Development Manger', NOW(), NOW()),
+       (3, 'Software Developer', NOW(), NOW());
+
+INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id)
+VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2),
+       (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3);
 
 INSERT INTO holiday_year (id, name, year_start, year_end, created_date, last_modified_date)
 VALUES (1, '2019', '2019-01-01', '2019-12-31', NOW(), NOW());
