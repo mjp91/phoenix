@@ -44,6 +44,8 @@ public class Employee extends AbstractAuditable<User, Long> {
 
   private String mobileNumber;
 
+  private String extensionNumber;
+
   private String profileFileName;
 
   @JsonIgnore

@@ -18,7 +18,7 @@ VALUES (2, 1);
 
 INSERT INTO job_role (id, description, created_date, last_modified_date)
 VALUES (1, 'HR Assistant', NOW(), NOW()),
-       (2, 'Software Development Manger', NOW(), NOW()),
+       (2, 'Software Development Manager', NOW(), NOW()),
        (3, 'Software Developer', NOW(), NOW());
 
 INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id)
