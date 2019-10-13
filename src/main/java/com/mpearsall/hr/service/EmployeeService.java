@@ -77,6 +77,24 @@ public class EmployeeService {
   }
 
   @Transactional
+  public Employee save(Employee employee) {
+    final Employee manager = employee.getManager() != null
+        ? employeeRepository.findById(employee.getManager().getId()).orElseThrow() : null;
+
+    if (manager != null) {
+      if (manager.equals(employee)) {
+        throw new InvalidDetailsException("Employee cannot be their own manager");
+      }
+
+      if (manager.getManager().equals(employee)) {
+        throw new InvalidDetailsException("Employee cannot manage their own manger");
+      }
+    }
+
+    return employeeRepository.save(employee);
+  }
+
+  @Transactional
   public Employee createEmployee(User user) {
     final Company company = companyRepository.find();
 
@@ -94,6 +112,6 @@ public class EmployeeService {
 
     employee.setHolidayEntitlements(new ArrayList<>(List.of(holidayEntitlement)));
 
-    return employeeRepository.save(employee);
+    return save(employee);
   }
 }

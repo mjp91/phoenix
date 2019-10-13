@@ -2,6 +2,7 @@ package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.repository.EmployeeRepository;
+import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @Secured("ROLE_ADMIN")
 public class EmployeeController {
   private final EmployeeRepository employeeRepository;
+  private final EmployeeService employeeService;
 
-  public EmployeeController(EmployeeRepository employeeRepository) {
+  public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService) {
     this.employeeRepository = employeeRepository;
+    this.employeeService = employeeService;
   }
 
   @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -28,6 +31,6 @@ public class EmployeeController {
 
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public Employee save(@RequestBody Employee employee) {
-    return employeeRepository.save(employee);
+    return employeeService.save(employee);
   }
 }
