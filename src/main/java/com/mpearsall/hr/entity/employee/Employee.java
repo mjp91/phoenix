@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mpearsall.hr.entity.Department;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.user.User;
@@ -31,9 +32,12 @@ public class Employee extends AbstractAuditable<User, Long> {
   @OneToOne
   private User user;
 
+  @ManyToOne
+  private Department department;
+
   private String reference;
 
-  @OneToOne
+  @ManyToOne
   private JobRole jobRole;
 
   @Valid

@@ -21,6 +21,12 @@ VALUES (1, 'HR Assistant', NOW(), NOW()),
        (2, 'Software Development Manager', NOW(), NOW()),
        (3, 'Software Developer', NOW(), NOW());
 
+INSERT INTO department (id, title, parent_id, created_date, last_modified_date)
+VALUES (1, 'Central Services', NULL, NOW(), NOW()),
+       (2, 'Human Resources', 1, NOW(), NOW()),
+       (3, 'Software', NULL, NOW(), NOW()),
+       (4, 'Software Development', 3, NOW(), NOW());
+
 INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id)
 VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2),
        (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3);
@@ -42,4 +48,4 @@ VALUES (1, '2019-03-01', 'ALL_DAY', 1),
        (2, '2019-03-02', 'AM', 1),
        (3, '2019-05-29', 'ALL_DAY', 2);
 
-ALTER SEQUENCE hibernate_sequence RESTART WITH 3;
+ALTER SEQUENCE hibernate_sequence RESTART WITH 5;
