@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HolidayYear extends AbstractAuditable<User, Long> {
   @NotNull
+  @Column(unique = true)
   private String name;
 
   @NotNull

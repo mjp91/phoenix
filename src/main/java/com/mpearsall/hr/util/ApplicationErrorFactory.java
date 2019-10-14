@@ -1,6 +1,7 @@
 package com.mpearsall.hr.util;
 
 import com.mpearsall.hr.dto.ApplicationError;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 
 import javax.validation.ConstraintViolationException;
@@ -21,6 +22,10 @@ public final class ApplicationErrorFactory {
           .map(constraintViolation -> constraintViolation.getPropertyPath() + ": " + constraintViolation.getMessage())
           .collect(Collectors.joining(" | "));
 
+    } else if (throwable instanceof DataIntegrityViolationException) {
+      status = HttpStatus.BAD_REQUEST;
+
+      message = "Data integrity violation";
     }
 
     return new ApplicationError(status, message);
