@@ -46,7 +46,7 @@ public class HolidayService {
     this.emailService = emailService;
   }
 
-  public static Double calculateHolidayUsed(Employee employee, HolidayYear holidayYear) {
+  static Double calculateHolidayUsed(Employee employee, HolidayYear holidayYear) {
     final List<HolidayDate> holidayDates = employee.getHolidays().stream()
         .filter(holiday -> holiday.getHolidayYear().equals(holidayYear))
         .filter(holiday -> holiday.getApproved() != null && holiday.getApproved())
@@ -85,15 +85,19 @@ public class HolidayService {
       holiday.setApproved(true);
     }
 
-    final LocalDate startDate = holidayRequest.getStartDate();
+    final Set<LocalDate> dates = calculateHolidayDates(currentUserEmployee, holidayRequest.getStartDate(), holidayRequest.getEndDate());
+
+    // only allow half days to be requested for single dates
+    if (holidayRequest.getHolidayPeriod() != HolidayPeriod.ALL_DAY && dates.size() > 1) {
+      throw new InvalidDetailsException("Partial dates must be requested separately");
+    }
+
+    // create HolidayDate for each day
     final List<HolidayDate> holidayDates = new ArrayList<>();
-
-    final Set<LocalDate> dates = calculateHolidayDates(currentUserEmployee, startDate, holidayRequest.getEndDate());
-
     for (LocalDate date : dates) {
       final HolidayDate holidayDate = new HolidayDate();
       holidayDate.setDate(date);
-      holidayDate.setHolidayPeriod(HolidayPeriod.ALL_DAY);
+      holidayDate.setHolidayPeriod(holidayRequest.getHolidayPeriod());
       holidayDates.add(holidayDate);
     }
 

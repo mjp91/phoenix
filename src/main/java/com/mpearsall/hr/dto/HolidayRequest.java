@@ -1,5 +1,6 @@
 package com.mpearsall.hr.dto;
 
+import com.mpearsall.hr.entity.holiday.HolidayPeriod;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,7 @@ public class HolidayRequest implements Serializable {
 
   @NotNull
   private LocalDate endDate;
+
+  @NotNull
+  private HolidayPeriod holidayPeriod = HolidayPeriod.ALL_DAY;
 }
