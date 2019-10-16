@@ -19,17 +19,17 @@ public class EmployeeController {
     this.employeeService = employeeService;
   }
 
-  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Employee> index() {
     return employeeRepository.findAll();
   }
 
-  @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Employee byUserId(@PathVariable Long id) {
     return employeeRepository.findByUser_Id(id);
   }
 
-  @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Employee save(@RequestBody Employee employee) {
     return employeeService.save(employee);
   }

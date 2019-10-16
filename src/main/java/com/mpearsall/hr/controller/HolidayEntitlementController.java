@@ -14,12 +14,12 @@ public class HolidayEntitlementController {
     this.holidayEntitlementRepository = holidayEntitlementRepository;
   }
 
-  @GetMapping(path = "/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<HolidayEntitlement> byEmployee(@PathVariable Long employeeId) {
     return holidayEntitlementRepository.findAllByEmployee_Id(employeeId);
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public HolidayEntitlement save(@RequestBody HolidayEntitlement holidayEntitlement) {
     return holidayEntitlementRepository.save(holidayEntitlement);
   }

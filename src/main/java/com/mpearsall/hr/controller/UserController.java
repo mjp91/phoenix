@@ -21,12 +21,12 @@ public class UserController {
     return userRepository.findAll();
   }
 
-  @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User byId(@PathVariable Long id) {
     return userRepository.findById(id).orElseThrow();
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public User save(@RequestBody User user) {
     return userRepository.save(user);
   }

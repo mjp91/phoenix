@@ -16,7 +16,7 @@ public class RoleController {
     this.roleRepository = roleRepository;
   }
 
-  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Role> index() {
     return roleRepository.findAll();
   }

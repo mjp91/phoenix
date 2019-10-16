@@ -15,12 +15,12 @@ public class DepartmentController {
     this.departmentRepository = departmentRepository;
   }
 
-  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Department> index() {
     return departmentRepository.findAll();
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured("ROLE_ADMIN")
   public Department save(@RequestBody Department department) {
     return departmentRepository.save(department);

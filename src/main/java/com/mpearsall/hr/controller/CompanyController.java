@@ -16,12 +16,12 @@ public class CompanyController {
     this.companyRepository = companyRepository;
   }
 
-  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Company find() {
     return companyRepository.find();
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Company save(@RequestBody Company company) {
     return companyRepository.save(company);
   }

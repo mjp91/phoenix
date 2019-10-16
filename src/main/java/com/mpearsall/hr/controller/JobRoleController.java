@@ -14,12 +14,12 @@ public class JobRoleController {
     this.jobRoleRepository = jobRoleRepository;
   }
 
-  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<JobRole> index() {
     return jobRoleRepository.findAll();
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public JobRole save(@RequestBody JobRole jobRole) {
     return jobRoleRepository.save(jobRole);
   }

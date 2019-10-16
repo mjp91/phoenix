@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         .compact();
     response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 
-    response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.getWriter().write(new ObjectMapper().writeValueAsString(user));
   }
 }

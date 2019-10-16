@@ -18,13 +18,13 @@ public class HolidayYearController {
     this.holidayYearService = holidayYearService;
   }
 
-  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<HolidayYear> holidayYears() {
     return holidayYearRepository.findAll();
   }
 
   @Secured("ROLE_ADMIN")
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public HolidayYear save(@RequestBody HolidayYear holidayYear) {
     return holidayYearService.save(holidayYear);
   }
