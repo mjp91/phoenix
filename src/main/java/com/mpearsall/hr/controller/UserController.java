@@ -1,5 +1,6 @@
 package com.mpearsall.hr.controller;
 
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
 import org.springframework.http.MediaType;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@Secured("ROLE_ADMIN")
+@Secured(Role.ADMIN)
 public class UserController {
   private final UserRepository userRepository;
 

@@ -1,6 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.entity.Department;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.DepartmentRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -21,7 +22,7 @@ public class DepartmentController {
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured("ROLE_ADMIN")
+  @Secured(Role.ADMIN)
   public Department save(@RequestBody Department department) {
     return departmentRepository.save(department);
   }

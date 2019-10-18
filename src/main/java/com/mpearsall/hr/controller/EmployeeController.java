@@ -4,12 +4,10 @@ import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employee")
-@Secured("ROLE_ADMIN")
 public class EmployeeController {
   private final EmployeeRepository employeeRepository;
   private final EmployeeService employeeService;

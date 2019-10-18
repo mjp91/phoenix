@@ -1,6 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.entity.holiday.HolidayYear;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.HolidayYearRepository;
 import com.mpearsall.hr.service.HolidayYearService;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ public class HolidayYearController {
     return holidayYearRepository.findAll();
   }
 
-  @Secured("ROLE_ADMIN")
+  @Secured(Role.ADMIN)
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public HolidayYear save(@RequestBody HolidayYear holidayYear) {
     return holidayYearService.save(holidayYear);

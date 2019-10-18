@@ -51,6 +51,10 @@ public class User implements UserDetails {
         .collect(Collectors.toUnmodifiableSet());
   }
 
+  public boolean hasRole(Role role) {
+    return this.getRoles().contains(role);
+  }
+
   @JsonIgnore
   @Override
   public String getPassword() {

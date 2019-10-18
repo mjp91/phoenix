@@ -5,8 +5,10 @@ import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.employee.EmployeeDay;
 import com.mpearsall.hr.entity.employee.EmployeeWeek;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.InvalidDetailsException;
+import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.repository.CompanyRepository;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +34,7 @@ public class EmployeeService {
   }
 
   public Employee getCurrentUserEmployee() {
-    final UserDetails currentUser = userService.getCurrentUser();
+    final UserDetails currentUser = userService.getCurrentUserDetails();
 
     Employee employee = null;
     if (currentUser != null) {
@@ -78,6 +80,10 @@ public class EmployeeService {
 
   @Transactional
   public Employee save(Employee employee) {
+    if (!userService.currentUserHasRole(Role.ADMIN) && !employee.equals(getCurrentUserEmployee())) {
+      throw new PermissionException("User must be admin to update other employees");
+    }
+
     final Employee manager = employee.getManager() != null
         ? employeeRepository.findById(employee.getManager().getId()).orElseThrow() : null;
 
@@ -86,7 +92,7 @@ public class EmployeeService {
         throw new InvalidDetailsException("Employee cannot be their own manager");
       }
 
-      if (manager.getManager().equals(employee)) {
+      if (manager.getManager() != null && manager.getManager().equals(employee)) {
         throw new InvalidDetailsException("Employee cannot manage their own manger");
       }
     }
