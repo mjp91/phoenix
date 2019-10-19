@@ -9,13 +9,22 @@ import java.util.Optional;
 
 public class SpringSecurityAuditorAware implements AuditorAware<User> {
   public Optional<User> getCurrentAuditor() {
+    Optional<User> result;
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     if (authentication == null || !authentication.isAuthenticated()) {
-      return Optional.empty();
+      result = Optional.empty();
+    } else {
+      final Object principal = authentication.getPrincipal();
+      if (principal instanceof User) {
+        result = Optional.of((User) principal);
+      } else {
+        result = Optional.empty();
+      }
     }
 
-    return Optional.of((User) authentication.getPrincipal());
+
+    return result;
   }
 }

@@ -7,6 +7,7 @@ import com.mpearsall.hr.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 
 public class EmployeeServiceTest extends HrApplicationTests {
   @Autowired
@@ -16,6 +17,7 @@ public class EmployeeServiceTest extends HrApplicationTests {
   private UserRepository userRepository;
 
   @Test
+  @WithMockUser(username = "buzz", roles = {"ADMIN"})
   public void createEmployee() {
     User user = new User("test", "test@example.com", "Test User");
     user = userRepository.save(user);
