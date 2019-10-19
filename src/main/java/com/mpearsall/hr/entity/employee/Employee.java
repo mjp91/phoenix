@@ -1,10 +1,12 @@
 package com.mpearsall.hr.entity.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mpearsall.hr.entity.Department;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.view.View;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -42,10 +44,13 @@ public class Employee extends AbstractAuditable<User, Long> {
 
   @Valid
   @Embedded
+  @JsonView(View.Admin.class)
   private Address address = new Address();
 
+  @JsonView(View.Admin.class)
   private String telephoneNumber;
 
+  @JsonView(View.Admin.class)
   private String mobileNumber;
 
   private String extensionNumber;
@@ -65,6 +70,7 @@ public class Employee extends AbstractAuditable<User, Long> {
   private EmployeeWeek employeeWeek = new EmployeeWeek();
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+  @JsonView(View.Admin.class)
   private Collection<HolidayEntitlement> holidayEntitlements = new HashSet<>();
 
   @JsonIgnore

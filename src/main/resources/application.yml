@@ -23,6 +23,9 @@ spring:
     properties:
       mail:
         debug: true
+  jackson:
+    mapper:
+      default-view-inclusion: true
 management:
   health:
     ldap:
