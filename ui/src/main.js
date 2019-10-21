@@ -11,22 +11,18 @@ import getBaseUrl from "./lib/getBaseUrl";
 Vue.config.productionTip = false;
 
 axios.defaults.baseURL = getBaseUrl();
-axios.interceptors.request.use((config) = > {
+axios.interceptors.request.use((config) => {
   const auth = window.$cookies.get('jwt');
 
-if (auth) {
-  config.headers.Authorization = `Bearer ${auth}`;
-}
-return config;
+  if (auth) {
+    config.headers.Authorization = `Bearer ${auth}`;
+  }
+  return config;
 
-})
-;
-axios.interceptors.response.use((response) = > {
+});
+axios.interceptors.response.use((response) => {
   return response;
-},
-(error) =
->
-{
+}, (error) => {
   const status = error.response.status;
   if (typeof error.response === "undefined" || status === 401) {
     store.dispatch('logout');
@@ -47,9 +43,7 @@ axios.interceptors.response.use((response) = > {
   }
 
   return Promise.reject(error);
-}
-)
-;
+});
 
 Vue.use(VueCookies);
 Vue.use(VueAxios, axios);
@@ -58,6 +52,5 @@ new Vue({
   vuetify,
   router,
   store,
-  render: h = > h(App)
-}).
-$mount('#app');
+  render: h => h(App)
+}).$mount('#app');

@@ -1,12 +1,7 @@
-export default (user, role) =
->
-{
+export default (user, role) => {
   if (!user) {
     return false;
   }
 
-  return user.roles.map(role = > role.name;
-).
-  includes(role);
-}
-;
+  return user.roles.map(role => role.name).includes(role);
+};

@@ -1,6 +1,4 @@
-export default (holiday) =
->
-{
+export default (holiday) => {
   let holidayDates = holiday.holidayDates ? holiday.holidayDates : [];
 
   let firstDate, lastDate, length = 0.0;
@@ -31,5 +29,4 @@ export default (holiday) =
     range: firstDate ? `${firstDate.toLocaleDateString()} - ${lastDate.toLocaleDateString()}` : null,
     length: `${length} ${unit}`
   };
-}
-;
+};

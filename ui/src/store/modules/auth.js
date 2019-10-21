@@ -5,13 +5,10 @@ import router from '../../router';
 
 Vue.use(VueCookies);
 
-const getUserFromJwt = () =
->
-{
+const getUserFromJwt = () => {
   const jwt = Vue.cookies.get('jwt');
   return jwtDecode(jwt).user;
-}
-;
+};
 
 const state = {
   loggedIn: Vue.cookies.isKey('jwt'),
@@ -38,14 +35,13 @@ const mutations = {
 
 const actions = {
   login({commit}, payload) {
-    return Vue.axios.post('/login', payload).then((response) = > {
+    return Vue.axios.post('/login', payload).then((response) => {
       const token = response.headers.authorization.slice("BEARER ".length);
 
-    window.$cookies.set('jwt', token);
-    commit('setLoggedIn', true);
-    commit('setAuthUser', response.data);
-  })
-    ;
+      window.$cookies.set('jwt', token);
+      commit('setLoggedIn', true);
+      commit('setAuthUser', response.data);
+    });
   },
   logout({commit}) {
     window.$cookies.remove('jwt');

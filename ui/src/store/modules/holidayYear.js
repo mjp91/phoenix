@@ -6,50 +6,35 @@ const state = {
 };
 
 const getters = {
-  getHolidayYear: (state) = > {
-  return state.holidayYear;
-},
-getHolidayYears: (state) =
->
-{
-  return state.holidayYears;
-}
-}
-;
+  getHolidayYear: (state) => {
+    return state.holidayYear;
+  },
+  getHolidayYears: (state) => {
+    return state.holidayYears;
+  }
+};
 
 const mutations = {
-  setHolidayYear: (state, payload) = > {
-  state.holidayYear = payload;
-},
-setHolidayYears: (state, payload) =
->
-{
-  state.holidayYears = payload;
-}
-}
-;
+  setHolidayYear: (state, payload) => {
+    state.holidayYear = payload;
+  },
+  setHolidayYears: (state, payload) => {
+    state.holidayYears = payload;
+  }
+};
 
 const actions = {
-  fetchHolidayYears: ({commit}) = > {
-  Vue.axios.get('/holiday-year').then(response = > {
-    commit('setHolidayYears', response.data
-)
-;
-})
-;
-},
-saveHolidayYear: ({commit}, payload) =
->
-{
-  return Vue.axios.post('/holiday-year', payload).then(response = > {
-    commit('setHolidayYear', response.data
-)
-  ;
-})
-  ;
-}
-}
-;
+  fetchHolidayYears: ({commit}) => {
+    Vue.axios.get('/holiday-year').then(response => {
+      commit('setHolidayYears', response.data);
+    });
+  },
+  saveHolidayYear: ({commit}, payload) => {
+    return Vue.axios.post('/holiday-year', payload).then(response => {
+      commit('setHolidayYear', response.data);
+    });
+  }
+};
 
 export default {
   state,

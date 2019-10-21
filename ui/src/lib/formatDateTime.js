@@ -1,13 +1,7 @@
-export default (dateStr) =
->
-{
+export default (dateStr) => {
   return new Date(dateStr).toLocaleString();
-}
-;
+};
 
-export const formatDate = (dateStr) =
->
-{
+export const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString();
-}
-;
+};

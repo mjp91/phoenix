@@ -1,8 +1,6 @@
 import moment from 'moment';
 
-export default (holiday) =
->
-{
+export default (holiday) => {
   const holidayDates = holiday.holidayDates ? holiday.holidayDates : [];
 
   if (holidayDates.length === 0) {
@@ -12,5 +10,4 @@ export default (holiday) =
   const firstDate = holidayDates[0];
 
   return moment(firstDate.date).fromNow();
-}
-;
+};

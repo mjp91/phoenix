@@ -5,30 +5,24 @@ const state = {
 };
 
 const getters = {
-  getRoles: (state) = > {
-  return state.roles;
-}
-}
-;
+  getRoles: (state) => {
+    return state.roles;
+  }
+};
 
 const mutations = {
-  setRoles: (state, payload) = > {
-  state.roles = payload;
-}
-}
-;
+  setRoles: (state, payload) => {
+    state.roles = payload;
+  }
+};
 
 const actions = {
-  fetchRoles: ({commit}) = > {
-  Vue.axios.get('/roles').then((response) = > {
-    commit('setRoles', response.data
-)
-;
-})
-;
-}
-}
-;
+  fetchRoles: ({commit}) => {
+    Vue.axios.get('/roles').then((response) => {
+      commit('setRoles', response.data);
+    });
+  }
+};
 
 export default {
   state,

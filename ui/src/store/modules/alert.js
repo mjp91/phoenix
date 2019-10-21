@@ -10,9 +10,7 @@ const getters = {
 
 const mutations = {
   addAlert(state, payload) {
-    const notShown = state.alerts.filter((alert) = > !alert.shown;
-  )
-    ;
+    const notShown = state.alerts.filter((alert) => !alert.shown);
     notShown.push({
       message: "",
       shown: false,
@@ -23,9 +21,7 @@ const mutations = {
     state.alerts = notShown;
   },
   alertsShown(state) {
-    state.alerts.map((alert) = > alert.shown = true;
-  )
-    ;
+    state.alerts.map((alert) => alert.shown = true);
   },
 };
 
