@@ -1,15 +1,24 @@
-image: openjdk:13
-
 stages:
-  - build
-  - test
+  - build:ui
+  - build:services
+  - test:services
 
-build:
-  stage: build
+build:ui:
+  image: node:8
+  stage: build:ui
+  script:
+    - cd ui
+    - npm install --progress=false
+    - npm run build
+
+build:services:
+  image: openjdk:13
+  stage: build:services
   script: ./mvnw compile
 
-test:
-  stage: test
+test:services:
+  image: openjdk:13
+  stage: test:services
   script: ./mvnw test
   artifacts:
     reports:
