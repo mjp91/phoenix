@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @Secured(Role.ADMIN)
 public class UserController {
   private final UserRepository userRepository;

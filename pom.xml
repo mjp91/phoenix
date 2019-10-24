@@ -125,7 +125,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/public" failonerror="false">
+                                <copy todir="${project.build.directory}/classes/static" failonerror="false">
                                     <fileset dir="${project.basedir}/ui/dist"/>
                                 </copy>
                             </target>

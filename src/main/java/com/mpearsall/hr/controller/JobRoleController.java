@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/job-role")
+@RequestMapping(path = "/api/job-role")
 public class JobRoleController {
   private final JobRoleRepository jobRoleRepository;
 

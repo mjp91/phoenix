@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/holiday-entitlement")
+@RequestMapping(path = "/api/holiday-entitlement")
 public class HolidayEntitlementController {
   private final HolidayEntitlementRepository holidayEntitlementRepository;
 

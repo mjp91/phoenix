@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/company")
+@RequestMapping(path = "/api/company")
 @Secured(Role.ADMIN)
 public class CompanyController {
   private final CompanyRepository companyRepository;
