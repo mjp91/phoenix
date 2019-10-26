@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/department")
+@RequestMapping(path = "/api/department")
 public class DepartmentController {
   private final DepartmentRepository departmentRepository;
 

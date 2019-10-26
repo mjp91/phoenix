@@ -9,7 +9,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/holiday-year")
+@RequestMapping("/api/holiday-year")
 public class HolidayYearController {
   private final HolidayYearRepository holidayYearRepository;
   private final HolidayYearService holidayYearService;

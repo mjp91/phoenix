@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/holiday")
+@RequestMapping("/api/holiday")
 public class HolidayController {
   private final HolidayService holidayService;
   private final EmployeeService employeeService;
