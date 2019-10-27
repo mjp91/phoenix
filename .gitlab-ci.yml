@@ -1,11 +1,10 @@
 stages:
-  - build:ui
-  - build:services
-  - test:services
+  - build
+  - test
 
 build:ui:
   image: node:8
-  stage: build:ui
+  stage: build
   script:
     - cd ui
     - npm install --progress=false
@@ -13,12 +12,12 @@ build:ui:
 
 build:services:
   image: openjdk:13
-  stage: build:services
+  stage: build
   script: ./mvnw compile
 
-test:services:
+test:
   image: openjdk:13
-  stage: test:services
+  stage: test
   script: ./mvnw test
   artifacts:
     reports:
