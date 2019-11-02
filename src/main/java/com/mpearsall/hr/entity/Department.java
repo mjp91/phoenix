@@ -6,6 +6,7 @@ import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,9 +28,10 @@ public class Department extends AbstractAuditable<User, Long> {
 
   @ManyToOne
   @JsonIgnore
+  @ToString.Exclude
   private Department parent;
 
-  @OneToMany
+  @OneToMany(mappedBy = "parent")
   private Collection<Department> children;
 
   @JsonIgnore

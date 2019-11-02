@@ -6,6 +6,8 @@ import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
@@ -20,6 +22,11 @@ public class EmployeeController {
   @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Employee> index() {
     return employeeRepository.findAll();
+  }
+
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Optional<Employee> findById(@PathVariable Long id) {
+    return employeeRepository.findById(id);
   }
 
   @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

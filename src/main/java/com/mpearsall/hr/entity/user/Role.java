@@ -3,6 +3,7 @@ package com.mpearsall.hr.entity.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -25,6 +26,7 @@ public class Role implements Serializable {
 
   @JsonIgnore
   @ManyToMany(mappedBy = "roles")
+  @ToString.Exclude
   private Collection<User> users;
 
   @ManyToMany(fetch = FetchType.EAGER)

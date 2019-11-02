@@ -1,5 +1,6 @@
 package com.mpearsall.hr.repository;
 
+import com.mpearsall.hr.entity.Department;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.user.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -17,4 +18,6 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
   Employee findByUser_Id(Long userId);
 
   Collection<Employee> findAllByManager(Employee manager);
+
+  Collection<Employee> findByDepartment(Department department);
 }

@@ -24,6 +24,11 @@ const mutations = {
 };
 
 const actions = {
+  fetchEmployee: ({commit}, payload) => {
+    Vue.axios.get(`/employee/${payload}`).then((response) => {
+      commit('setEmployee', response.data);
+    });
+  },
   fetchEmployees: ({commit}) => {
     Vue.axios.get("/employee").then((response) => {
       commit('setEmployees', response.data);

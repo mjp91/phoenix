@@ -38,6 +38,11 @@ export default new Router({
       component: () => import('./views/HolidayRequests.vue')
     },
     {
+      path: '/employee/search',
+      name: 'employeeSearch',
+      component: () => import('./views/EmployeeLookup')
+    },
+    {
       path: '/admin/company',
       name: 'admin-company',
       component: () => import('./views/admin/CompanyForm'),

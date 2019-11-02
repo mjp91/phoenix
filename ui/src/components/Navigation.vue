@@ -81,6 +81,11 @@
             icon: 'mdi-view-dashboard'
           },
           {
+            title: 'Employee Search',
+            path: '/employee/search',
+            icon: 'mdi-account-search'
+          },
+          {
             title: 'Holiday',
             path: '/holiday',
             exact: true,
