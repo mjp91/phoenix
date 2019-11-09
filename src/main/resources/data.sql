@@ -49,4 +49,7 @@ VALUES (1, '2019-03-01', 'ALL_DAY', 1),
        (2, '2019-03-02', 'AM', 1),
        (3, '2019-05-29', 'ALL_DAY', 2);
 
+INSERT INTO absence (id, employee_id, start, end, reason, authorized)
+VALUES (1, 1, '2019-10-01', '2019-10-02', 'Flu', NULL);
+
 ALTER SEQUENCE hibernate_sequence RESTART WITH 5;

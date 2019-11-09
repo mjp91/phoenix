@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/resource")
 public class FileUploadController {
@@ -48,8 +51,14 @@ public class FileUploadController {
         "attachment; filename=\"" + file.getFilename() + "\"").body(file);
   }
 
-  @PostMapping(path = "", produces = MediaType.TEXT_PLAIN_VALUE)
-  public String upload(@RequestParam("file") MultipartFile file) {
-    return storageService.store(file);
+  @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<String> upload(@RequestParam("file") MultipartFile[] files) {
+    final List<String> fileNames = new ArrayList<>();
+
+    for (MultipartFile file : files) {
+      fileNames.add(storageService.store(file));
+    }
+
+    return fileNames;
   }
 }

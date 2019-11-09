@@ -49,7 +49,7 @@
     <template v-slot:item.approved="{ item }">
       <v-icon v-if="item.approved === true" color="success">mdi-thumb-up</v-icon>
       <v-icon v-else-if="item.approved === false" color="error">mdi-thumb-down</v-icon>
-      <v-icon v-else color="warning">mdi-schedule</v-icon>
+      <v-icon v-else color="warning">mdi-clock</v-icon>
     </template>
 
     <template v-slot:item.action="{ item }">

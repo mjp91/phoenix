@@ -38,6 +38,16 @@ export default new Router({
       component: () => import('./views/HolidayRequests.vue')
     },
     {
+      path: '/absence',
+      name: 'absence',
+      component: () => import('./views/Absence')
+    },
+    {
+      path: '/absence/new',
+      name: 'absenceForm',
+      component: () => import('./views/AbsenceForm')
+    },
+    {
       path: '/employee/search',
       name: 'employeeSearch',
       component: () => import('./views/EmployeeLookup')

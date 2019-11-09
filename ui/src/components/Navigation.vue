@@ -86,6 +86,11 @@
             icon: 'mdi-account-search'
           },
           {
+            title: 'Absence',
+            path: '/absence',
+            icon: 'mdi-hotel'
+          },
+          {
             title: 'Holiday',
             path: '/holiday',
             exact: true,

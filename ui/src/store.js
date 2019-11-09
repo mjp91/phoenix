@@ -12,6 +12,7 @@ import holidayEntitlement from "./store/modules/holidayEntitlement";
 import resource from "./store/modules/resource";
 import jobRole from "./store/modules/jobRole";
 import department from "./store/modules/department";
+import absence from "./store/modules/absence";
 
 Vue.use(Vuex);
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
     holidayEntitlement,
     resource,
     jobRole,
-    department
+    department,
+    absence
   },
   state: {},
   mutations: {},

@@ -9,7 +9,13 @@ const mutations = {};
 const actions = {
   uploadResource: ({commit}, payload) => {
     const formData = new FormData();
-    formData.append('file', payload);
+    if (Array.isArray(payload)) {
+      payload.forEach((file) => {
+        formData.append('file', file);
+      });
+    } else {
+      formData.append('file', payload);
+    }
 
     return Vue.axios.post('/resource', formData, {
       headers: {

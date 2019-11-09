@@ -49,9 +49,9 @@
         return getBaseUrl() + `/resource/image/${this.currentFileName}`;
       },
       upload(file) {
-        store.dispatch('uploadResource', file).then((fileName) => {
-          this.currentFileName = fileName;
-          this.$emit('input', fileName);
+        store.dispatch('uploadResource', file).then((fileNames) => {
+          this.currentFileName = fileNames[0];
+          this.$emit('input', fileNames[0]);
         });
       }
     }
