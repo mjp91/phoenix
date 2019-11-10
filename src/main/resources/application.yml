@@ -3,7 +3,7 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:hr
+    url: jdbc:h2:mem:hr;DB_CLOSE_ON_EXIT=FALSE
   flyway:
     enabled: false
   jpa:
