@@ -19,12 +19,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class HolidayService {
@@ -85,7 +82,7 @@ public class HolidayService {
       holiday.setApproved(true);
     }
 
-    final Set<LocalDate> dates = calculateHolidayDates(currentUserEmployee, holidayRequest.getStartDate(), holidayRequest.getEndDate());
+    final Set<LocalDate> dates = EmployeeService.calculateDaysWorkedBetween(currentUserEmployee, holidayRequest.getStartDate(), holidayRequest.getEndDate());
 
     // only allow half days to be requested for single dates
     if (holidayRequest.getHolidayPeriod() != HolidayPeriod.ALL_DAY && dates.size() > 1) {
@@ -184,7 +181,7 @@ public class HolidayService {
     if (startDate.isBefore(holidayYear.getYearStart()) || endDate.isAfter(holidayYear.getYearEnd())) {
       throw new InvalidDetailsException("Requested dates fall outside of requested year");
     }
-    final long daysBetween = calculateHolidayDates(employee, startDate, endDate).size();
+    final long daysBetween = EmployeeService.calculateDaysWorkedBetween(employee, startDate, endDate).size();
 
     if (daysBetween == 0) {
       throw new InvalidDetailsException("Requested holiday dates are not worked");
@@ -198,18 +195,9 @@ public class HolidayService {
 
     // check not overlapping existing holidays
     final Collection<Holiday> existingHolidays = holidayRepository.findAllInRange(startDate, endDate, employee);
-    if (existingHolidays.size() > 0) {
+    if (!existingHolidays.isEmpty()) {
       throw new InvalidDetailsException("Requested holiday overlaps existing holidays");
     }
   }
 
-  private Set<LocalDate> calculateHolidayDates(Employee employee, LocalDate startDate, LocalDate endDate) {
-    // check entitlement
-    final Set<DayOfWeek> daysWorked = Employee.getDaysWorked(employee);
-
-    return Stream.iterate(startDate, d -> d.plusDays(1))
-        .limit(startDate.until(endDate.plusDays(1), ChronoUnit.DAYS))
-        .filter(d -> daysWorked.contains(d.getDayOfWeek()))
-        .collect(Collectors.toSet());
-  }
 }

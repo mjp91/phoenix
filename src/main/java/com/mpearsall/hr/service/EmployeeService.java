@@ -15,9 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EmployeeService {
@@ -31,6 +36,16 @@ public class EmployeeService {
     this.companyRepository = companyRepository;
     this.userService = userService;
     this.holidayYearService = holidayYearService;
+  }
+
+  public static Set<LocalDate> calculateDaysWorkedBetween(Employee employee, LocalDate startDate, LocalDate endDate) {
+    // check entitlement
+    final Set<DayOfWeek> daysWorked = Employee.getDaysWorked(employee);
+
+    return Stream.iterate(startDate, d -> d.plusDays(1))
+        .limit(startDate.until(endDate.plusDays(1), ChronoUnit.DAYS))
+        .filter(d -> daysWorked.contains(d.getDayOfWeek()))
+        .collect(Collectors.toSet());
   }
 
   public Employee getCurrentUserEmployee() {
