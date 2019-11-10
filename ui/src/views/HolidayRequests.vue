@@ -17,7 +17,7 @@
           },
           {
             text: 'Year',
-            value: 'holidayYear'
+            value: 'companyYear'
           },
           {
             text: 'Requested',

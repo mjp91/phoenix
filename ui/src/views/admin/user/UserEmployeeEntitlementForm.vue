@@ -5,7 +5,7 @@
       <v-row>
         <v-col sm="6">
           <v-text-field v-if="this.employee" label="Employee" :value="this.employee.user.fullName" readonly/>
-          <holiday-year-select @select="holidayYearSelected"/>
+          <company-year-select @select="companyYearSelected"/>
           <v-text-field label="Entitlement (Hours)" type="number"
                         v-model="holidayEntitlement.holidayEntitlementHours"/>
         </v-col>
@@ -16,7 +16,7 @@
 
 <script>
   import FormHeader from "../../../components/FormHeader";
-  import HolidayYearSelect from "../../../components/HolidayYearSelect";
+  import CompanyYearSelect from "../../../components/CompanyYearSelect";
   import {mapActions, mapGetters} from "vuex";
 
   export default {
@@ -25,7 +25,7 @@
       return {
         holidayEntitlement: {
           employee: null,
-          holidayYear: null,
+          companyYear: null,
           holidayEntitlementHours: 0
         }
       };
@@ -36,8 +36,8 @@
       })
     },
     methods: {
-      holidayYearSelected(holidayYear) {
-        this.holidayEntitlement.holidayYear = holidayYear;
+      companyYearSelected(companyYear) {
+        this.holidayEntitlement.companyYear = companyYear;
       },
       cancel() {
         this.$router.push({
@@ -61,7 +61,7 @@
     beforeMount() {
       this.fetchByUserId(this.$route.params.id);
     },
-    components: {FormHeader, HolidayYearSelect}
+    components: {FormHeader, CompanyYearSelect}
   };
 </script>
 

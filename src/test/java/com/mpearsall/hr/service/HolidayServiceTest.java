@@ -3,13 +3,13 @@ package com.mpearsall.hr.service;
 import com.mpearsall.hr.HrApplicationTests;
 import com.mpearsall.hr.dto.HolidayRequest;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
-import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
-import com.mpearsall.hr.factory.HolidayYearFactory;
+import com.mpearsall.hr.factory.CompanyYearFactory;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.repository.HolidayRepository;
 import org.junit.Assert;
@@ -27,7 +27,7 @@ public class HolidayServiceTest extends HrApplicationTests {
   private HolidayService holidayService;
 
   @Autowired
-  private HolidayYearService holidayYearService;
+  private CompanyYearService companyYearService;
 
   @Autowired
   private HolidayRepository holidayRepository;
@@ -37,10 +37,10 @@ public class HolidayServiceTest extends HrApplicationTests {
 
   @Test
   public void calculateHolidayUsed() {
-    final HolidayYear holidayYear = HolidayYearFactory.generateForCurrentYear();
+    final CompanyYear companyYear = CompanyYearFactory.generateForCurrentYear();
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
-    holidayEntitlement.setHolidayYear(holidayYear);
+    holidayEntitlement.setCompanyYear(companyYear);
     holidayEntitlement.setHolidayEntitlementHours(7.5 * 25);
 
     final LocalDate now = LocalDate.now();
@@ -51,7 +51,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     holidayDateTomorrow.setDate(now.plusDays(1));
 
     final Holiday holiday = new Holiday();
-    holiday.setHolidayYear(holidayYear);
+    holiday.setCompanyYear(companyYear);
     holiday.setHolidayDates(Arrays.asList(holidayDateToday, holidayDateTomorrow));
     holiday.setApproved(true);
 
@@ -59,7 +59,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     employee.setHolidayEntitlements(Collections.singletonList(holidayEntitlement));
     employee.setHolidays(Collections.singletonList(holiday));
 
-    final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, holidayYear);
+    final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, companyYear);
     Assert.assertEquals(Double.valueOf(2.0), holidayUsed);
   }
 
@@ -69,7 +69,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     final HolidayRequest holidayRequest = new HolidayRequest();
     holidayRequest.setStartDate(LocalDate.now());
     holidayRequest.setEndDate(LocalDate.now().minusDays(1L));
-    holidayRequest.setHolidayYearId(holidayYearService.getCurrentHolidayYear().getId());
+    holidayRequest.setCompanyYearId(companyYearService.getCurrentCompanyYear().getId());
 
     holidayService.requestToHoliday(holidayRequest);
   }
@@ -80,7 +80,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     final HolidayRequest holidayRequest = new HolidayRequest();
     holidayRequest.setStartDate(LocalDate.now().minusDays(2L));
     holidayRequest.setEndDate(LocalDate.now().plusDays(4L));
-    holidayRequest.setHolidayYearId(holidayYearService.getCurrentHolidayYear().getId());
+    holidayRequest.setCompanyYearId(companyYearService.getCurrentCompanyYear().getId());
 
     holidayService.requestToHoliday(holidayRequest);
   }

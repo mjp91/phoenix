@@ -1,15 +1,15 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
-import com.mpearsall.hr.entity.holiday.HolidayYear;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HolidayEntitlementService {
-  public static Double calculateHolidayEntitlementInDays(Employee employee, HolidayYear holidayYear) {
+  public static Double calculateHolidayEntitlementInDays(Employee employee, CompanyYear companyYear) {
     final HolidayEntitlement holidayEntitlement = employee.getHolidayEntitlements().stream()
-        .filter(he -> he.getHolidayYear().equals(holidayYear))
+        .filter(he -> he.getCompanyYear().equals(companyYear))
         .findFirst().orElse(null);
 
     double entitlement = 0.0;

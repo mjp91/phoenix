@@ -36,7 +36,7 @@ public class Holiday extends AbstractAuditable<User, Long> {
 
   @NotNull
   @OneToOne
-  private HolidayYear holidayYear;
+  private CompanyYear companyYear;
 
   @NotEmpty
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "holiday")

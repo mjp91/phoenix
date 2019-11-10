@@ -14,7 +14,7 @@ public class HolidayRequest implements Serializable {
   private String name;
 
   @NotNull
-  private Long holidayYearId;
+  private Long companyYearId;
 
   @NotNull
   private LocalDate startDate;

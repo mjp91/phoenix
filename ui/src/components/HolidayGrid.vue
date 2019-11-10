@@ -38,8 +38,8 @@
       {{ item.employee.user.fullName }}
     </template>
 
-    <template v-slot:item.holidayYear="{ item }">
-      {{ item.holidayYear.name }}
+    <template v-slot:item.companyYear="{ item }">
+      {{ item.companyYear.name }}
     </template>
 
     <template v-slot:item.createdDate="{ item }">
@@ -113,7 +113,7 @@
             },
             {
               text: 'Year',
-              value: 'holidayYear'
+              value: 'companyYear'
             },
             {
               text: 'Requested',

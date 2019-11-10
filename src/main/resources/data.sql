@@ -32,15 +32,15 @@ INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created
 VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2, 3),
        (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3, 4);
 
-INSERT INTO holiday_year (id, name, year_start, year_end, created_date, last_modified_date)
+INSERT INTO company_year (id, name, year_start, year_end, created_date, last_modified_date)
 VALUES (1, '2019', '2019-01-01', '2019-12-31', NOW(), NOW());
 
-INSERT INTO holiday_entitlement (id, employee_id, holiday_year_id, holiday_entitlement_hours, created_date,
+INSERT INTO holiday_entitlement (id, employee_id, company_year_id, holiday_entitlement_hours, created_date,
                                  last_modified_date)
 VALUES (1, 1, 1, 200.0, NOW(), NOW()),
        (2, 2, 1, 200.0, NOW(), NOW());
 
-INSERT INTO holiday (id, name, employee_id, holiday_year_id, approved, created_date, cancelled)
+INSERT INTO holiday (id, name, employee_id, company_year_id, approved, created_date, cancelled)
 VALUES (1, 'Trip to Amsterdam', 1, 1, TRUE, '2019-02-01', FALSE),
        (2, 'Appointment', 2, 1, NULL, '2019-04-01', FALSE);
 
@@ -49,7 +49,7 @@ VALUES (1, '2019-03-01', 'ALL_DAY', 1),
        (2, '2019-03-02', 'AM', 1),
        (3, '2019-05-29', 'ALL_DAY', 2);
 
-INSERT INTO absence (id, employee_id, start, end, reason, authorized)
-VALUES (1, 1, '2019-10-01', '2019-10-02', 'Flu', NULL);
+INSERT INTO absence (id, employee_id, company_year_id, start, end, reason, authorized)
+VALUES (1, 1, 1, '2019-10-01', '2019-10-02', 'Flu', NULL);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 5;

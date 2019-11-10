@@ -14,15 +14,19 @@ import java.util.Collection;
 public class AbsenceService {
   private final AbsenceRepository absenceRepository;
   private final EmployeeService employeeService;
+  private final CompanyYearService companyYearService;
 
-  public AbsenceService(AbsenceRepository absenceRepository, EmployeeService employeeService) {
+  public AbsenceService(AbsenceRepository absenceRepository, EmployeeService employeeService,
+                        CompanyYearService companyYearService) {
     this.absenceRepository = absenceRepository;
     this.employeeService = employeeService;
+    this.companyYearService = companyYearService;
   }
 
   @Transactional
   public Absence create(Absence absence) {
     absence.setEmployee(employeeService.getCurrentUserEmployee());
+    absence.setCompanyYear(companyYearService.getCurrentCompanyYear());
 
     validateAbsence(absence);
 

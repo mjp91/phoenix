@@ -12,7 +12,7 @@
               v-model="holidayRequest.name"
               label="Name"
           ></v-text-field>
-          <holiday-year-select @select="holidayYearSelected"/>
+          <company-year-select @select="companyYearSelected"/>
           <v-switch
               :label="dateSelection ? 'Range' : 'Single Date'"
               v-model="dateSelection">
@@ -26,14 +26,14 @@
           />
         </v-col>
       </v-row>
-      <v-row v-if="holidayRequest.holidayYearId">
+      <v-row v-if="holidayRequest.companyYearId">
         <v-col sm="4">
           <v-subheader>From</v-subheader>
           <v-date-picker
               v-model="holidayRequest.startDate"
               :color="dateSelection ? 'green' : 'primary'"
-              :min="getHolidayYearStart"
-              :max="getHolidayYearEnd"
+              :min="getCompanyYearStart"
+              :max="getCompanyYearEnd"
               @input="validateDates">
           </v-date-picker>
         </v-col>
@@ -42,8 +42,8 @@
           <v-date-picker
               v-model="holidayRequest.endDate"
               color="red"
-              :min="getHolidayYearStart"
-              :max="getHolidayYearEnd"
+              :min="getCompanyYearStart"
+              :max="getCompanyYearEnd"
               @input="validateDates">
           </v-date-picker>
         </v-col>
@@ -56,19 +56,19 @@
   import moment from 'moment';
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import store from '../store';
-  import HolidayYearSelect from "../components/HolidayYearSelect";
+  import CompanyYearSelect from "../components/CompanyYearSelect";
   import FormHeader from "../components/FormHeader";
 
   export default {
     name: "HolidayForm",
-    components: {FormHeader, HolidayYearSelect},
+    components: {FormHeader, CompanyYearSelect},
     data() {
       return {
         dateSelection: false,
         holidayRequest: {
           startDate: null,
           endDate: null,
-          holidayYearId: null,
+          companyYearId: null,
           holidayPeriod: 'ALL_DAY',
         },
         types: [
@@ -85,33 +85,33 @@
             value: 'PM'
           }
         ],
-        holidayYearRules: [
+        companyYearRules: [
           v => !!v || 'Period is required'
         ]
       };
     },
     computed: {
       ...mapGetters({
-        holidayYears: 'getHolidayYears'
+        companyYears: 'getCompanyYears'
       }),
-      getHolidayYearStart() {
-        const holidayYear = this.findHolidayYear();
-        return holidayYear ? holidayYear.yearStart : null;
+      getCompanyYearStart() {
+        const companyYear = this.findCompanyYear();
+        return companyYear ? companyYear.yearStart : null;
       },
-      getHolidayYearEnd() {
-        const holidayYear = this.findHolidayYear();
-        return holidayYear ? holidayYear.yearEnd : null;
+      getCompanyYearEnd() {
+        const companyYear = this.findCompanyYear();
+        return companyYear ? companyYear.yearEnd : null;
       }
     },
     methods: {
-      holidayYearSelected(holidayYear) {
-        this.holidayRequest.holidayYearId = holidayYear.id;
+      companyYearSelected(companyYear) {
+        this.holidayRequest.companyYearId = companyYear.id;
       },
-      findHolidayYear() {
-        const holidayYears = this.holidayYears ? this.holidayYears : [];
+      findCompanyYear() {
+        const companyYears = this.companyYears ? this.companyYears : [];
 
-        return holidayYears.find((holidayYear) => {
-          return holidayYear.id === this.holidayRequest.holidayYearId;
+        return companyYears.find((companyYear) => {
+          return companyYear.id === this.holidayRequest.companyYearId;
         });
       },
       validateDates() {
@@ -154,11 +154,11 @@
         addAlert: 'addAlert',
       }),
       ...mapActions({
-        fetchHolidayYears: 'fetchHolidayYears',
+        fetchCompanyYears: 'fetchCompanyYears',
       })
     },
     beforeMount() {
-      this.fetchHolidayYears();
+      this.fetchCompanyYears();
     }
   };
 </script>

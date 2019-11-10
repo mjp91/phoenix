@@ -1,12 +1,12 @@
 <template>
   <v-data-table
       :headers="headers"
-      :items="this.holidayYears"
+      :items="this.companyYears"
   >
     <template v-slot:top>
       <v-toolbar flat>
         <div class="flex-grow-1"></div>
-        <v-btn color="success" to="/admin/holiday-year/new">New</v-btn>
+        <v-btn color="success" to="/admin/company-year/new">New</v-btn>
       </v-toolbar>
     </template>
     <template v-slot:items="props">
@@ -24,7 +24,7 @@
   import {formatDate} from "../../lib/formatDateTime";
 
   export default {
-    name: "HolidayYearManagement",
+    name: "CompanyYearManagement",
     data: () => {
       return {
         headers: [
@@ -45,19 +45,19 @@
     },
     computed: {
       ...mapGetters({
-        holidayYears: 'getHolidayYears'
+        companyYears: 'getCompanyYears'
       })
     },
     methods: {
       ...mapActions({
-        fetchHolidayYears: 'fetchHolidayYears'
+        fetchCompanyYears: 'fetchCompanyYears'
       }),
       formatDate(dateStr) {
         return formatDate(dateStr);
       }
     },
     beforeMount() {
-      this.fetchHolidayYears();
+      this.fetchCompanyYears();
     }
   };
 </script>

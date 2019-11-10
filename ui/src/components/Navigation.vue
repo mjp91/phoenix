@@ -119,8 +119,8 @@
                 admin: true
               },
               {
-                title: 'Holiday Years',
-                path: '/admin/holiday-year',
+                title: 'Company Years',
+                path: '/admin/company-year',
                 icon: 'mdi-calendar-blank',
                 admin: true
               },

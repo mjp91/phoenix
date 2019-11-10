@@ -4,9 +4,9 @@ import com.mpearsall.hr.HrApplicationTests;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.employee.EmployeeDay;
 import com.mpearsall.hr.entity.employee.EmployeeWeek;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
-import com.mpearsall.hr.entity.holiday.HolidayYear;
-import com.mpearsall.hr.factory.HolidayYearFactory;
+import com.mpearsall.hr.factory.CompanyYearFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class HolidayEntitlementServiceTest extends HrApplicationTests {
 
   @Test
   public void calculateHolidayEntitlementInDays() {
-    final HolidayYear holidayYear = HolidayYearFactory.generateForCurrentYear();
+    final CompanyYear companyYear = CompanyYearFactory.generateForCurrentYear();
 
     final double entitlement = 25.0;
     final LocalTime start = LocalTime.of(9, 0);
@@ -35,12 +35,12 @@ public class HolidayEntitlementServiceTest extends HrApplicationTests {
     employee.setEmployeeWeek(employeeWeek);
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
-    holidayEntitlement.setHolidayYear(holidayYear);
+    holidayEntitlement.setCompanyYear(companyYear);
     holidayEntitlement.setHolidayEntitlementHours(EmployeeService.getAverageDayLength(employee) * entitlement);
 
     employee.setHolidayEntitlements(Collections.singletonList(holidayEntitlement));
 
-    final Double entitlementInDays = HolidayEntitlementService.calculateHolidayEntitlementInDays(employee, holidayYear);
+    final Double entitlementInDays = HolidayEntitlementService.calculateHolidayEntitlementInDays(employee, companyYear);
     Assert.assertEquals(Double.valueOf(entitlement), entitlementInDays);
   }
 }

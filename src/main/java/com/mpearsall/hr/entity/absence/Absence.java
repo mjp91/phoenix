@@ -2,6 +2,7 @@ package com.mpearsall.hr.entity.absence;
 
 import com.mpearsall.hr.entity.Attachment;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,10 @@ public class Absence extends AbstractAuditable<User, Long> {
   @NotNull
   @ManyToOne
   private Employee employee;
+
+  @NotNull
+  @ManyToOne
+  private CompanyYear companyYear;
 
   @NotNull
   @Column(columnDefinition = "text")

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class HolidayYear extends AbstractAuditable<User, Long> {
+public class CompanyYear extends AbstractAuditable<User, Long> {
   @NotNull
   @Column(unique = true)
   private String name;

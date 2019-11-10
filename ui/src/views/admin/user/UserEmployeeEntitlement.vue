@@ -11,7 +11,7 @@
     </template>
     <template v-slot:items="props">
       <tr>
-        <td>{{props.item.holidayYear.name}}</td>
+        <td>{{props.item.companyYear.name}}</td>
         <td>{{props.item.holidayEntitlementHours}}</td>
       </tr>
     </template>
@@ -26,7 +26,7 @@
         headers: [
           {
             text: 'Year',
-            value: 'holidayYear.name'
+            value: 'companyYear.name'
           },
           {
             text: 'Entitlement (Hours)',

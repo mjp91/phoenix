@@ -1,12 +1,12 @@
 <template>
   <div>
-    <form-header title="New Holiday Year" :cancel="close" :save="save"/>
+    <form-header title="New Company Year" :cancel="close" :save="save"/>
     <v-form ref="form">
       <v-row>
         <v-col sm="6">
           <v-text-field
               label="Name"
-              v-model="holidayYear.name"
+              v-model="companyYear.name"
           />
         </v-col>
       </v-row>
@@ -21,11 +21,11 @@
   import FormHeader from "../../components/FormHeader";
 
   export default {
-    name: "HolidayYearForm",
+    name: "CompanyYearForm",
     components: {FormHeader, DateRange},
     data: () => {
       return {
-        holidayYear: {
+        companyYear: {
           name: null,
           yearStart: null,
           yearEnd: null
@@ -34,17 +34,17 @@
     },
     methods: {
       save() {
-        store.dispatch('saveHolidayYear', this.holidayYear).then(() => {
+        store.dispatch('saveCompanyYear', this.companyYear).then(() => {
           this.close();
         });
       },
       rangeSet(range) {
-        this.holidayYear.yearStart = range.startDate;
-        this.holidayYear.yearEnd = range.endDate;
+        this.companyYear.yearStart = range.startDate;
+        this.companyYear.yearEnd = range.endDate;
       },
       close() {
         this.$router.push({
-          name: 'holiday-year-management',
+          name: 'company-year-management',
         });
       },
     }

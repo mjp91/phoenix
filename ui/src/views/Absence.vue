@@ -27,6 +27,10 @@
       return {
         headers: [
           {
+            text: 'Year',
+            value: 'companyYear.name'
+          },
+          {
             text: 'Start',
             value: 'start'
           },

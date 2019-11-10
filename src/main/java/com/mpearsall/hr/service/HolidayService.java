@@ -5,16 +5,16 @@ import com.mpearsall.hr.dto.Email;
 import com.mpearsall.hr.dto.EmailTemplate;
 import com.mpearsall.hr.dto.HolidayRequest;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.holiday.HolidayDate;
 import com.mpearsall.hr.entity.holiday.HolidayPeriod;
-import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
+import com.mpearsall.hr.repository.CompanyYearRepository;
 import com.mpearsall.hr.repository.HolidayRepository;
-import com.mpearsall.hr.repository.HolidayYearRepository;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -27,25 +27,25 @@ import java.util.stream.Collectors;
 public class HolidayService {
   private static final String APPROVED_TEMPLATE = "approved";
 
-  private final HolidayYearRepository holidayYearRepository;
+  private final CompanyYearRepository companyYearRepository;
   private final EmployeeService employeeService;
   private final CurrentUserHolidayService currentUserHolidayService;
   private final HolidayRepository holidayRepository;
   private final EmailService emailService;
 
-  public HolidayService(HolidayYearRepository holidayYearRepository, EmployeeService employeeService,
+  public HolidayService(CompanyYearRepository companyYearRepository, EmployeeService employeeService,
                         CurrentUserHolidayService currentUserHolidayService, HolidayRepository holidayRepository,
                         EmailService emailService) {
-    this.holidayYearRepository = holidayYearRepository;
+    this.companyYearRepository = companyYearRepository;
     this.employeeService = employeeService;
     this.currentUserHolidayService = currentUserHolidayService;
     this.holidayRepository = holidayRepository;
     this.emailService = emailService;
   }
 
-  static Double calculateHolidayUsed(Employee employee, HolidayYear holidayYear) {
+  static Double calculateHolidayUsed(Employee employee, CompanyYear companyYear) {
     final List<HolidayDate> holidayDates = employee.getHolidays().stream()
-        .filter(holiday -> holiday.getHolidayYear().equals(holidayYear))
+        .filter(holiday -> holiday.getCompanyYear().equals(companyYear))
         .filter(holiday -> holiday.getApproved() != null && holiday.getApproved())
         .filter(holiday -> !holiday.isCancelled())
         .map(Holiday::getHolidayDates)
@@ -67,14 +67,14 @@ public class HolidayService {
   @Transactional
   public Holiday requestToHoliday(HolidayRequest holidayRequest) {
     final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
-    final HolidayYear holidayYear = holidayYearRepository.findById(holidayRequest.getHolidayYearId())
-        .orElseThrow(() -> new InvalidDetailsException("Holiday year does not exist"));
+    final CompanyYear companyYear = companyYearRepository.findById(holidayRequest.getCompanyYearId())
+        .orElseThrow(() -> new InvalidDetailsException("Company Year does not exist"));
 
-    validateHolidayRequest(holidayRequest, currentUserEmployee, holidayYear);
+    validateHolidayRequest(holidayRequest, currentUserEmployee, companyYear);
 
     final Holiday holiday = new Holiday();
     holiday.setName(holidayRequest.getName());
-    holiday.setHolidayYear(holidayYear);
+    holiday.setCompanyYear(companyYear);
     holiday.setEmployee(currentUserEmployee);
 
     // no manager approved by default
@@ -162,7 +162,7 @@ public class HolidayService {
     return holiday;
   }
 
-  private void validateHolidayRequest(HolidayRequest holidayRequest, Employee employee, HolidayYear holidayYear) {
+  private void validateHolidayRequest(HolidayRequest holidayRequest, Employee employee, CompanyYear companyYear) {
     final LocalDate startDate = holidayRequest.getStartDate();
     final LocalDate endDate = holidayRequest.getEndDate();
 
@@ -178,7 +178,7 @@ public class HolidayService {
     }
 
     // check in requested year
-    if (startDate.isBefore(holidayYear.getYearStart()) || endDate.isAfter(holidayYear.getYearEnd())) {
+    if (startDate.isBefore(companyYear.getYearStart()) || endDate.isAfter(companyYear.getYearEnd())) {
       throw new InvalidDetailsException("Requested dates fall outside of requested year");
     }
     final long daysBetween = EmployeeService.calculateDaysWorkedBetween(employee, startDate, endDate).size();

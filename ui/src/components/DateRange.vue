@@ -85,7 +85,10 @@
       };
     },
     props: {
-      slim: false
+      slim: {
+        type: Boolean,
+        default: false
+      }
     },
     methods: {
       startInput() {

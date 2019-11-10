@@ -1,11 +1,11 @@
 <template>
   <v-select
-      :items="this.holidayYears"
+      :items="this.companyYears"
       @input="onSelect"
       label="Period"
       item-text="name"
       :item-value="itemValue"
-      :rules="holidayYearRules"
+      :rules="companyYearRules"
       single-line>
   </v-select>
 </template>
@@ -14,32 +14,32 @@
   import {mapActions, mapGetters} from "vuex";
 
   export default {
-    name: "HolidayYearSelect",
+    name: "CompanyYearSelect",
     data: () => {
       return {
-        holidayYearRules: [
+        companyYearRules: [
           v => !!v || 'Period is required'
         ]
       };
     },
     computed: {
       ...mapGetters({
-        holidayYears: 'getHolidayYears'
+        companyYears: 'getCompanyYears'
       }),
     },
     methods: {
-      itemValue(holidayYear) {
-        return holidayYear;
+      itemValue(companyYear) {
+        return companyYear;
       },
       onSelect(e) {
         this.$emit('select', e);
       },
       ...mapActions({
-        fetchHolidayYears: 'fetchHolidayYears',
+        fetchCompanyYears: 'fetchCompanyYears',
       })
     },
     beforeMount() {
-      this.fetchHolidayYears();
+      this.fetchCompanyYears();
     }
   };
 </script>

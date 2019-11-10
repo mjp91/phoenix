@@ -71,15 +71,15 @@ export default new Router({
       beforeEnter: isAdminBeforeEnter
     },
     {
-      path: '/admin/holiday-year',
-      name: 'holiday-year-management',
-      component: () => import('./views/admin/HolidayYearManagement'),
+      path: '/admin/company-year',
+      name: 'company-year-management',
+      component: () => import('./views/admin/CompanyYearManagement'),
       beforeEnter: isAdminBeforeEnter
     },
     {
-      path: '/admin/holiday-year/new',
-      name: 'holidayYear',
-      component: () => import('./views/admin/HolidayYearForm'),
+      path: '/admin/company-year/new',
+      name: 'companyYear',
+      component: () => import('./views/admin/CompanyYearForm'),
       beforeEnter: isAdminBeforeEnter
     },
     {

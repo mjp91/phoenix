@@ -29,13 +29,13 @@ public class EmployeeService {
   private final EmployeeRepository employeeRepository;
   private final CompanyRepository companyRepository;
   private final UserService userService;
-  private final HolidayYearService holidayYearService;
+  private final CompanyYearService companyYearService;
 
-  public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, UserService userService, HolidayYearService holidayYearService) {
+  public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, UserService userService, CompanyYearService companyYearService) {
     this.employeeRepository = employeeRepository;
     this.companyRepository = companyRepository;
     this.userService = userService;
-    this.holidayYearService = holidayYearService;
+    this.companyYearService = companyYearService;
   }
 
   public static Set<LocalDate> calculateDaysWorkedBetween(Employee employee, LocalDate startDate, LocalDate endDate) {
@@ -128,7 +128,7 @@ public class EmployeeService {
     employee.setEmployeeWeek(company.getDefaultEmployeeWeek());
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
-    holidayEntitlement.setHolidayYear(holidayYearService.getCurrentHolidayYear());
+    holidayEntitlement.setCompanyYear(companyYearService.getCurrentCompanyYear());
     holidayEntitlement.setHolidayEntitlementHours(company.getDefaultHolidayEntitlementHours());
 
     employee.setHolidayEntitlements(new ArrayList<>(List.of(holidayEntitlement)));

@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id", "holiday_year_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id", "company_year_id"}))
 public class HolidayEntitlement extends AbstractAuditable<User, Long> {
   @ManyToOne
   @ToString.Exclude
@@ -30,7 +30,7 @@ public class HolidayEntitlement extends AbstractAuditable<User, Long> {
 
   @NotNull
   @OneToOne
-  private HolidayYear holidayYear;
+  private CompanyYear companyYear;
 
   @NotNull
   @DecimalMin("0.0")

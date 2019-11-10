@@ -3,8 +3,8 @@ package com.mpearsall.hr.service;
 import com.mpearsall.hr.dto.CurrentUserHoliday;
 import com.mpearsall.hr.dto.TodaysHolidays;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.Holiday;
-import com.mpearsall.hr.entity.holiday.HolidayYear;
 import com.mpearsall.hr.repository.HolidayRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +14,14 @@ import java.util.Collection;
 @Service
 public class CurrentUserHolidayService {
   private final EmployeeService employeeService;
-  private final HolidayYearService holidayYearService;
+  private final CompanyYearService companyYearService;
 
   private HolidayRepository holidayRepository;
 
-  public CurrentUserHolidayService(EmployeeService employeeService, HolidayYearService holidayYearService,
+  public CurrentUserHolidayService(EmployeeService employeeService, CompanyYearService companyYearService,
                                    HolidayRepository holidayRepository) {
     this.employeeService = employeeService;
-    this.holidayYearService = holidayYearService;
+    this.companyYearService = companyYearService;
     this.holidayRepository = holidayRepository;
   }
 
@@ -29,11 +29,11 @@ public class CurrentUserHolidayService {
     // get user's employee record
     final Employee employee = employeeService.getCurrentUserEmployee();
 
-    // get current holiday year
-    final HolidayYear holidayYear = holidayYearService.getCurrentHolidayYear();
+    // get current company Year
+    final CompanyYear companyYear = companyYearService.getCurrentCompanyYear();
 
-    final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, holidayYear);
-    final Double entitlement = HolidayEntitlementService.calculateHolidayEntitlementInDays(employee, holidayYear);
+    final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, companyYear);
+    final Double entitlement = HolidayEntitlementService.calculateHolidayEntitlementInDays(employee, companyYear);
 
     return new CurrentUserHoliday(holidayUsed, entitlement);
   }
