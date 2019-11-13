@@ -35,9 +35,12 @@ public class HolidayServiceTest extends HrApplicationTests {
   @Autowired
   private EmployeeRepository employeeRepository;
 
+  @Autowired
+  private CompanyYearFactory companyYearFactory;
+
   @Test
   public void calculateHolidayUsed() {
-    final CompanyYear companyYear = CompanyYearFactory.generateForCurrentYear();
+    final CompanyYear companyYear = companyYearFactory.generateForCurrentYear();
 
     final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
     holidayEntitlement.setCompanyYear(companyYear);

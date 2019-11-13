@@ -9,15 +9,19 @@ import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.factory.CompanyYearFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalTime;
 import java.util.Collections;
 
 public class HolidayEntitlementServiceTest extends HrApplicationTests {
 
+  @Autowired
+  private CompanyYearFactory companyYearFactory;
+
   @Test
   public void calculateHolidayEntitlementInDays() {
-    final CompanyYear companyYear = CompanyYearFactory.generateForCurrentYear();
+    final CompanyYear companyYear = companyYearFactory.generateForCurrentYear();
 
     final double entitlement = 25.0;
     final LocalTime start = LocalTime.of(9, 0);

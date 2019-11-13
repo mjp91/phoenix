@@ -2,6 +2,7 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.AbsenceRepository;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,17 @@ public class AbsenceService {
     if (!existingAbsences.isEmpty()) {
       throw new InvalidDetailsException("An existing absence overlaps with the specified range");
     }
+  }
+
+  public int calculateBradfordScore(Employee employee, CompanyYear companyYear) {
+    // B = S^2 * D
+    final Collection<Absence> absences = absenceRepository.findAllByEmployeeAndCompanyYear(employee, companyYear);
+
+    int totalDays = 0;
+    for (Absence absence : absences) {
+      totalDays += EmployeeService.calculateDaysWorkedBetween(employee, absence.getStart(), absence.getEnd()).size();
+    }
+
+    return (absences.size() * absences.size()) * totalDays;
   }
 }
