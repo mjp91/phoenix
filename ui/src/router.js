@@ -48,6 +48,11 @@ export default new Router({
       component: () => import('./views/AbsenceForm')
     },
     {
+      path: '/absence/:id',
+      name: 'absenceFormEdit',
+      component: () => import('./views/AbsenceFormEdit')
+    },
+    {
       path: '/employee/search',
       name: 'employeeSearch',
       component: () => import('./views/EmployeeLookup')

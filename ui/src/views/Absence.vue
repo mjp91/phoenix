@@ -2,6 +2,7 @@
   <v-data-table
       :headers="headers"
       :items="this.absences"
+      @click:row="onRowClick"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -53,7 +54,15 @@
     methods: {
       ...mapActions({
         fetchAbsences: 'fetchAbsences'
-      })
+      }),
+      onRowClick(item) {
+        this.$router.push({
+          name: 'absenceFormEdit',
+          params: {
+            id: item.id
+          }
+        });
+      }
     },
     beforeMount() {
       this.fetchAbsences();

@@ -24,16 +24,26 @@ const mutations = {
 };
 
 const actions = {
+  fetchAbsence: ({commit}, payload) => {
+    Vue.axios.get(`/absence/${payload}`).then((response) => {
+      commit('setAbsence', response.data);
+    });
+  },
   fetchAbsences: ({commit}) => {
     Vue.axios.get('/absence').then((response) => {
       commit('setAbsences', response.data.content);
     });
   },
-  saveAbsence: ({commit}, payload) => {
-    return Vue.axios.post('/absence', payload).then((response) => {
+  createAbsence: ({commit}, payload) => {
+    return Vue.axios.put('/absence', payload).then((response) => {
       commit('setAbsence', response.data);
     });
-  }
+  },
+  saveAbsence: ({commit}, payload) => {
+    return Vue.axios.patch(`/absence/${payload.id}`, payload.absenceUpdate).then((response) => {
+      commit('setAbsence', response.data);
+    });
+  },
 };
 
 export default {

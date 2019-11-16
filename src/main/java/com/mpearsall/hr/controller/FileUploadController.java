@@ -30,8 +30,10 @@ public class FileUploadController {
   @GetMapping("/{fileName:.+}")
   public ResponseEntity<Resource> serve(@PathVariable String fileName) {
     final Resource file = storageService.loadAsResource(fileName);
-    return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-        "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+        .body(file);
   }
 
   @GetMapping("/image/{fileName:.+}")

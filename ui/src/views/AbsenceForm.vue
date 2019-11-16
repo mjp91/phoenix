@@ -15,7 +15,7 @@
               hint="Please enter a reason for your absence with appropriate detail"
               no-resize
           />
-          <date-range slim="true" @rangeSet="rangeSet"/>
+          <date-range :slim="true" @rangeSet="rangeSet"/>
           <v-file-input
               v-model="files"
               label="Attachments"
@@ -63,7 +63,7 @@
               fileName
             });
           });
-          store.dispatch('saveAbsence', this.absence).then(() => {
+          store.dispatch('createAbsence', this.absence).then(() => {
             this.close();
           });
         });

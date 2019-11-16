@@ -1,5 +1,6 @@
 package com.mpearsall.hr.service;
 
+import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
@@ -29,12 +30,24 @@ public class AbsenceService {
     absence.setEmployee(employeeService.getCurrentUserEmployee());
     absence.setCompanyYear(companyYearService.getCurrentCompanyYear());
 
-    validateAbsence(absence);
+    validateNewAbsence(absence);
 
     return absenceRepository.save(absence);
   }
 
-  private void validateAbsence(Absence absence) {
+  @Transactional
+  public Absence update(Long id, AbsenceUpdate absenceUpdate) {
+    final Absence absence = absenceRepository.findById(id).orElseThrow();
+    absence.setReason(absenceUpdate.getReason());
+
+    return absenceRepository.save(absence);
+  }
+
+  private void validateNewAbsence(Absence absence) {
+    if (!absence.isNew()) {
+      throw new InvalidDetailsException("Absence already exists");
+    }
+
     final LocalDate start = absence.getStart();
     final LocalDate end = absence.getEnd();
 

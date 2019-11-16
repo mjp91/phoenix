@@ -1,5 +1,6 @@
 package com.mpearsall.hr.controller;
 
+import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.repository.AbsenceRepository;
@@ -32,9 +33,19 @@ public class AbsenceController {
     return absenceRepository.findAllByEmployee(employee, Pageable.unpaged());
   }
 
-  @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence getAbsence(@PathVariable Long id) {
+    return absenceRepository.findById(id).orElseThrow();
+  }
+
+  @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public Absence save(@RequestBody Absence absence) {
+  public Absence create(@RequestBody Absence absence) {
     return absenceService.create(absence);
+  }
+
+  @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence update(@PathVariable Long id, @RequestBody AbsenceUpdate absenceUpdate) {
+    return absenceService.update(id, absenceUpdate);
   }
 }
