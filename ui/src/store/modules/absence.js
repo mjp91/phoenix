@@ -56,13 +56,21 @@ const actions = {
       commit('setAbsence', response.data);
     });
   },
-  authoriseAbsence: ({dispatch}, payload) => {
+  authoriseAbsence: ({commit, dispatch}, payload) => {
     Vue.axios.patch(`/absence/authorise/${payload.id}`).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'Absence authorised'
+      });
       dispatch('fetchAbsenceAuthorisations');
     });
   },
-  unauthoriseAbsence: ({dispatch}, payload) => {
+  unauthoriseAbsence: ({commit, dispatch}, payload) => {
     Vue.axios.patch(`/absence/unauthorise/${payload.id}`).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'Absence unauthorised'
+      });
       dispatch('fetchAbsenceAuthorisations');
     });
   }

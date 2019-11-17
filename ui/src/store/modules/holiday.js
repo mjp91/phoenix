@@ -84,15 +84,23 @@ const actions = {
       dispatch('fetchHolidays');
     });
   },
-  approveHoliday: ({dispatch}, payload) => {
+  approveHoliday: ({commit, dispatch}, payload) => {
     Vue.axios.patch(`/holiday/approve/${payload.id}`).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'Holiday approved'
+      });
       dispatch('fetchHolidayRequests');
     });
   },
-  disapproveHoliday: ({dispatch}, payload) => {
+  disapproveHoliday: ({commit, dispatch}, payload) => {
     Vue.axios.patch(`/holiday/disapprove/${payload.holiday.id}`, {
       reason: payload.reason,
     }).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'Holiday disapproved'
+      });
       dispatch('fetchHolidayRequests');
     });
   }
