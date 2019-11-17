@@ -6,6 +6,7 @@ import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.factory.CompanyYearFactory;
+import com.mpearsall.hr.repository.AbsenceRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class AbsenceServiceTest extends HrApplicationTests {
 
   @Autowired
   private EmployeeService employeeService;
+
+  @Autowired
+  private AbsenceRepository absenceRepository;
 
   @Test(expected = InvalidDetailsException.class)
   @WithMockUser(username = "matt")
@@ -50,6 +54,6 @@ public class AbsenceServiceTest extends HrApplicationTests {
     final CompanyYear companyYear = companyYearFactory.generateForCurrentYear();
 
     final int bradfordScore = absenceService.calculateBradfordScore(currentUserEmployee, companyYear);
-    Assert.assertEquals(0, bradfordScore);
+    Assert.assertEquals(1, bradfordScore);
   }
 }
