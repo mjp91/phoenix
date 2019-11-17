@@ -28,10 +28,17 @@ public class AbsenceService {
 
   @Transactional
   public Absence create(Absence absence) {
-    absence.setEmployee(employeeService.getCurrentUserEmployee());
+    final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
+
+    absence.setEmployee(currentUserEmployee);
     absence.setCompanyYear(companyYearService.getCurrentCompanyYear());
 
     validateNewAbsence(absence);
+
+    // approved by default
+    if (currentUserEmployee.getManager() == null) {
+      absence.setAuthorized(true);
+    }
 
     return absenceRepository.save(absence);
   }

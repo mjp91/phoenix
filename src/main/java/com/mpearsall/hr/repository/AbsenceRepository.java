@@ -25,5 +25,11 @@ public interface AbsenceRepository extends PagingAndSortingRepository<Absence, L
       " JOIN Employee e ON e = a.employee AND e.manager = ?1" +
       " WHERE a.authorized IS NULL" +
       " ORDER BY a.createdDate DESC")
-  Collection<Absence> findAllPendingAuthorisation(Employee employee);
+  Collection<Absence> findAllPendingAuthorisationForManager(Employee employee);
+
+  @Query("SELECT a FROM Absence a" +
+      " WHERE a.authorized IS NULL" +
+      " ORDER BY a.createdDate DESC")
+  Collection<Absence> findAllPendingAuthorisation();
+
 }
