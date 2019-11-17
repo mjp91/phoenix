@@ -148,11 +148,7 @@ public class HolidayService {
         .orElseThrow(() -> new ResourceNotFoundException(id, Holiday.class));
 
     // check is manager
-    final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
-    final Employee holidayEmployee = holiday.getEmployee();
-    final Employee manager = holidayEmployee.getManager();
-
-    if (manager == null || !manager.equals(currentUserEmployee)) {
+    if (!employeeService.isManager(holiday.getEmployee())) {
       throw new PermissionException("User is not the holiday creator's manager");
     }
 

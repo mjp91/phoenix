@@ -29,9 +29,9 @@
 </template>
 
 <script>
-  import FormHeader from "../components/FormHeader";
-  import DateRange from "../components/DateRange";
-  import store from "../store";
+  import FormHeader from "../../components/FormHeader";
+  import DateRange from "../../components/DateRange";
+  import store from "../../store";
 
   export default {
     name: "AbsenceForm",

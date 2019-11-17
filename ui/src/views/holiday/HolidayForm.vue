@@ -55,9 +55,9 @@
 <script>
   import moment from 'moment';
   import {mapActions, mapGetters, mapMutations} from 'vuex';
-  import store from '../store';
-  import CompanyYearSelect from "../components/CompanyYearSelect";
-  import FormHeader from "../components/FormHeader";
+  import store from '../../store';
+  import CompanyYearSelect from "../../components/CompanyYearSelect";
+  import FormHeader from "../../components/FormHeader";
 
   export default {
     name: "HolidayForm",

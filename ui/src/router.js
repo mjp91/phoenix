@@ -25,32 +25,37 @@ export default new Router({
     {
       path: '/holiday',
       name: 'holiday',
-      component: () => import('./views/Holiday.vue')
+      component: () => import('./views/holiday/Holiday.vue')
     },
     {
       path: '/holiday/new',
       name: 'holidayForm',
-      component: () => import('./views/HolidayForm.vue')
+      component: () => import('./views/holiday/HolidayForm.vue')
     },
     {
       path: '/holiday/requests',
       name: 'holidayRequests',
-      component: () => import('./views/HolidayRequests.vue')
+      component: () => import('./views/holiday/HolidayRequests.vue')
     },
     {
       path: '/absence',
       name: 'absence',
-      component: () => import('./views/Absence')
+      component: () => import('./views/absence/Absence')
     },
     {
       path: '/absence/new',
       name: 'absenceForm',
-      component: () => import('./views/AbsenceForm')
+      component: () => import('./views/absence/AbsenceForm')
+    },
+    {
+      path: '/absence/authorisation',
+      name: 'absenceAuthorisation',
+      component: () => import('./views/absence/AbsenceAuthorisation')
     },
     {
       path: '/absence/:id',
       name: 'absenceFormEdit',
-      component: () => import('./views/AbsenceFormEdit')
+      component: () => import('./views/absence/AbsenceFormEdit')
     },
     {
       path: '/employee/search',

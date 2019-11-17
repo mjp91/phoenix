@@ -11,7 +11,7 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
-  import HolidayGrid from '../components/HolidayGrid';
+  import HolidayGrid from '../../components/HolidayGrid';
 
   export default {
     name: "Holiday",

@@ -135,4 +135,11 @@ public class EmployeeService {
 
     return save(employee);
   }
+
+  public boolean isManager(Employee employee) {
+    final Employee currentUserEmployee = getCurrentUserEmployee();
+    final Employee manager = employee.getManager();
+
+    return manager != null && manager.equals(currentUserEmployee);
+  }
 }

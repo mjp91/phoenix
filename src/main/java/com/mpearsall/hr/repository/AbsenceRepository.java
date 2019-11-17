@@ -20,4 +20,10 @@ public interface AbsenceRepository extends PagingAndSortingRepository<Absence, L
       " WHERE a.start >= ?1 AND a.end <= ?2" +
       " AND a.employee = ?3")
   Collection<Absence> findAllInRange(LocalDate start, LocalDate end, Employee employee);
+
+  @Query("SELECT a FROM Absence a" +
+      " JOIN Employee e ON e = a.employee AND e.manager = ?1" +
+      " WHERE a.authorized IS NULL" +
+      " ORDER BY a.createdDate DESC")
+  Collection<Absence> findAllPendingAuthorisation(Employee employee);
 }

@@ -5,6 +5,7 @@ import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
+import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.repository.AbsenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,5 +86,27 @@ public class AbsenceService {
     }
 
     return (absences.size() * absences.size()) * totalDays;
+  }
+
+  @Transactional
+  public Absence authorise(Long id) {
+    return modifyAbsenceAuthorisation(id, true);
+  }
+
+  @Transactional
+  public Absence unauthorise(Long id) {
+    return modifyAbsenceAuthorisation(id, false);
+  }
+
+  private Absence modifyAbsenceAuthorisation(Long id, boolean authorized) {
+    final Absence absence = absenceRepository.findById(id).orElseThrow();
+
+    if (!employeeService.isManager(absence.getEmployee())) {
+      throw new PermissionException("User is not the absence creator's manager");
+    }
+
+    absence.setAuthorized(authorized);
+
+    return absence;
   }
 }

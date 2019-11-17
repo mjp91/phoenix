@@ -2,7 +2,8 @@ import Vue from 'vue';
 
 const state = {
   absence: null,
-  absences: []
+  absences: [],
+  absenceAuthorisations: []
 };
 
 const getters = {
@@ -11,6 +12,9 @@ const getters = {
   },
   getAbsences: (state) => {
     return state.absences;
+  },
+  getAbsenceAuthorisations: (state) => {
+    return state.absenceAuthorisations;
   }
 };
 
@@ -20,6 +24,9 @@ const mutations = {
   },
   setAbsences: (state, payload) => {
     state.absences = payload;
+  },
+  setAbsenceAuthorisations: (state, payload) => {
+    state.absenceAuthorisations = payload;
   }
 };
 
@@ -34,6 +41,11 @@ const actions = {
       commit('setAbsences', response.data.content);
     });
   },
+  fetchAbsenceAuthorisations: ({commit}) => {
+    Vue.axios.get('/absence/authorisation').then((response) => {
+      commit('setAbsenceAuthorisations', response.data);
+    });
+  },
   createAbsence: ({commit}, payload) => {
     return Vue.axios.put('/absence', payload).then((response) => {
       commit('setAbsence', response.data);
@@ -44,6 +56,16 @@ const actions = {
       commit('setAbsence', response.data);
     });
   },
+  authoriseAbsence: ({dispatch}, payload) => {
+    Vue.axios.patch(`/absence/authorise/${payload.id}`).then(() => {
+      dispatch('fetchAbsenceAuthorisations');
+    });
+  },
+  unauthoriseAbsence: ({dispatch}, payload) => {
+    Vue.axios.patch(`/absence/unauthorise/${payload.id}`).then(() => {
+      dispatch('fetchAbsenceAuthorisations');
+    });
+  }
 };
 
 export default {

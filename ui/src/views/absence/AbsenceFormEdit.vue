@@ -39,11 +39,11 @@
 </template>
 
 <script>
-  import FormHeader from "../components/FormHeader";
+  import FormHeader from "../../components/FormHeader";
   import {mapActions} from "vuex";
-  import DateRange from "../components/DateRange";
-  import getBaseUrl from "../lib/getBaseUrl";
-  import store from "../store";
+  import DateRange from "../../components/DateRange";
+  import getBaseUrl from "../../lib/getBaseUrl";
+  import store from "../../store";
 
   export default {
     name: "AbsenceFormEdit",

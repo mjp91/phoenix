@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/api/absence")
 public class AbsenceController {
@@ -38,6 +40,14 @@ public class AbsenceController {
     return absenceRepository.findById(id).orElseThrow();
   }
 
+  @GetMapping(path = "/authorisation", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Collection<Absence> getPendingAuthorisation() {
+    // get user's employee record
+    final Employee employee = employeeService.getCurrentUserEmployee();
+
+    return absenceRepository.findAllPendingAuthorisation(employee);
+  }
+
   @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public Absence create(@RequestBody Absence absence) {
@@ -47,5 +57,15 @@ public class AbsenceController {
   @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Absence update(@PathVariable Long id, @RequestBody AbsenceUpdate absenceUpdate) {
     return absenceService.update(id, absenceUpdate);
+  }
+
+  @PatchMapping(path = "/authorise/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence authorise(@PathVariable Long id) {
+    return absenceService.authorise(id);
+  }
+
+  @PatchMapping(path = "/unauthorise/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence unauthorise(@PathVariable Long id) {
+    return absenceService.unauthorise(id);
   }
 }

@@ -87,19 +87,37 @@
           },
           {
             title: 'Absence',
-            path: '/absence',
-            icon: 'mdi-hotel'
+            icon: 'mdi-hotel',
+            children: [
+              {
+                title: 'My Absence',
+                path: '/absence',
+                exact: true,
+                icon: 'mdi-hotel'
+              },
+              {
+                title: 'Authorisation',
+                path: '/absence/authorisation',
+                icon: 'mdi-thumbs-up-down'
+              }
+            ]
           },
           {
             title: 'Holiday',
-            path: '/holiday',
-            exact: true,
-            icon: 'mdi-palm-tree'
-          },
-          {
-            title: 'Requests',
-            path: '/holiday/requests',
-            icon: 'mdi-inbox-arrow-down'
+            icon: 'mdi-palm-tree',
+            children: [
+              {
+                title: 'My Holidays',
+                path: '/holiday',
+                exact: true,
+                icon: 'mdi-palm-tree'
+              },
+              {
+                title: 'Requests',
+                path: '/holiday/requests',
+                icon: 'mdi-inbox-arrow-down'
+              },
+            ]
           },
           {
             title: 'Admin',
