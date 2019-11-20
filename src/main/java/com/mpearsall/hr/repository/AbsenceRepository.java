@@ -12,23 +12,33 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 public interface AbsenceRepository extends PagingAndSortingRepository<Absence, Long> {
+  @Query("SELECT a FROM Absence a" +
+      " WHERE a.employee = ?1" +
+      " AND a.cancelled = false")
   Page<Absence> findAllByEmployee(Employee employee, Pageable pageable);
 
+  @Query("SELECT a FROM Absence a" +
+      " WHERE a.employee = ?1" +
+      " AND a.companyYear = ?2" +
+      " AND a.cancelled = false")
   Collection<Absence> findAllByEmployeeAndCompanyYear(Employee employee, CompanyYear companyYear);
 
   @Query("SELECT a FROM Absence a" +
       " WHERE a.start >= ?1 AND a.end <= ?2" +
-      " AND a.employee = ?3")
+      " AND a.employee = ?3" +
+      " AND a.cancelled = false ")
   Collection<Absence> findAllInRange(LocalDate start, LocalDate end, Employee employee);
 
   @Query("SELECT a FROM Absence a" +
       " JOIN Employee e ON e = a.employee AND e.manager = ?1" +
       " WHERE a.authorized IS NULL" +
+      " AND a.cancelled = false" +
       " ORDER BY a.createdDate DESC")
   Collection<Absence> findAllPendingAuthorisationForManager(Employee employee);
 
   @Query("SELECT a FROM Absence a" +
       " WHERE a.authorized IS NULL" +
+      " AND a.cancelled = false" +
       " ORDER BY a.createdDate DESC")
   Collection<Absence> findAllPendingAuthorisation();
 

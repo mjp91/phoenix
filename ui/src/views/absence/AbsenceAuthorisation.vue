@@ -20,7 +20,7 @@
       </v-icon>
       <v-icon
           class="mr-2"
-          @click.stop=""
+          @click.stop="cancel(item)"
       >
         mdi-delete
       </v-icon>
@@ -75,6 +75,10 @@
       },
       unauthorise(absence) {
         store.dispatch('unauthoriseAbsence', absence);
+      },
+      cancel(absence) {
+        confirm("Are you sure you want to cancel this absence?")
+        && store.dispatch('cancelAbsence', absence);
       }
     },
     beforeMount() {

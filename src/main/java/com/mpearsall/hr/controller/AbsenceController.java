@@ -80,4 +80,9 @@ public class AbsenceController {
   public Absence unauthorise(@PathVariable Long id) {
     return absenceService.unauthorise(id);
   }
+
+  @PatchMapping(path = "/cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence cancel(@PathVariable Long id) {
+    return absenceService.cancel(id);
+  }
 }

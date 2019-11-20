@@ -4,6 +4,7 @@ import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.repository.AbsenceRepository;
@@ -18,12 +19,14 @@ public class AbsenceService {
   private final AbsenceRepository absenceRepository;
   private final EmployeeService employeeService;
   private final CompanyYearService companyYearService;
+  private final UserService userService;
 
   public AbsenceService(AbsenceRepository absenceRepository, EmployeeService employeeService,
-                        CompanyYearService companyYearService) {
+                        CompanyYearService companyYearService, UserService userService) {
     this.absenceRepository = absenceRepository;
     this.employeeService = employeeService;
     this.companyYearService = companyYearService;
+    this.userService = userService;
   }
 
   @Transactional
@@ -108,11 +111,24 @@ public class AbsenceService {
   private Absence modifyAbsenceAuthorisation(Long id, boolean authorized) {
     final Absence absence = absenceRepository.findById(id).orElseThrow();
 
-    if (!employeeService.isManager(absence.getEmployee())) {
+    if (!employeeService.isManager(absence.getEmployee()) && !userService.currentUserHasRole(Role.ADMIN)) {
       throw new PermissionException("User is not the absence creator's manager");
     }
 
     absence.setAuthorized(authorized);
+
+    return absence;
+  }
+
+  @Transactional
+  public Absence cancel(Long id) {
+    final Absence absence = absenceRepository.findById(id).orElseThrow();
+
+    if (!employeeService.isManager(absence.getEmployee()) && !userService.currentUserHasRole(Role.ADMIN)) {
+      throw new PermissionException("User is not the absence creator's manager");
+    }
+
+    absence.setCancelled(true);
 
     return absence;
   }

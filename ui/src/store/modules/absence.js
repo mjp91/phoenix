@@ -73,6 +73,15 @@ const actions = {
       });
       dispatch('fetchAbsenceAuthorisations');
     });
+  },
+  cancelAbsence: ({commit, dispatch}, payload) => {
+    Vue.axios.patch(`/absence/cancel/${payload.id}`).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'Absence cancelled'
+      });
+      dispatch('fetchAbsenceAuthorisations');
+    });
   }
 };
 
