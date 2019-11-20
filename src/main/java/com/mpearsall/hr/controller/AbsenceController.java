@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/absence")
@@ -76,9 +77,9 @@ public class AbsenceController {
     return absenceService.authorise(id);
   }
 
-  @PatchMapping(path = "/unauthorise/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence unauthorise(@PathVariable Long id) {
-    return absenceService.unauthorise(id);
+  @PatchMapping(path = "/unauthorise/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public Absence unauthorise(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+    return absenceService.unauthorise(id, (String) body.get("reason"));
   }
 
   @PatchMapping(path = "/cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

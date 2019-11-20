@@ -104,8 +104,11 @@ public class AbsenceService {
   }
 
   @Transactional
-  public Absence unauthorise(Long id) {
-    return modifyAbsenceAuthorisation(id, false);
+  public Absence unauthorise(Long id, String reason) {
+    final Absence absence = modifyAbsenceAuthorisation(id, false);
+    absence.setUnauthorizeReason(reason);
+
+    return absence;
   }
 
   private Absence modifyAbsenceAuthorisation(Long id, boolean authorized) {

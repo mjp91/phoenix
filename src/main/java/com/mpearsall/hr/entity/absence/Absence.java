@@ -41,6 +41,8 @@ public class Absence extends AbstractAuditable<User, Long> {
 
   private Boolean authorized;
 
+  private String unauthorizeReason;
+
   private boolean cancelled = false;
 
   @OneToMany(cascade = CascadeType.ALL)

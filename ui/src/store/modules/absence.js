@@ -66,7 +66,9 @@ const actions = {
     });
   },
   unauthoriseAbsence: ({commit, dispatch}, payload) => {
-    Vue.axios.patch(`/absence/unauthorise/${payload.id}`).then(() => {
+    Vue.axios.patch(`/absence/unauthorise/${payload.absence.id}`, {
+      reason: payload.reason
+    }).then(() => {
       commit('addAlert', {
         type: 'success',
         message: 'Absence unauthorised'
