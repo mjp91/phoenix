@@ -43,6 +43,11 @@ export default new Router({
       component: () => import('./views/absence/Absence')
     },
     {
+      path: '/absence/all',
+      name: 'absenceAll',
+      component: () => import('./views/absence/AbsenceAll')
+    },
+    {
       path: '/absence/new',
       name: 'absenceForm',
       component: () => import('./views/absence/AbsenceForm')

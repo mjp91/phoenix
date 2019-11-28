@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -38,6 +39,12 @@ public class AbsenceController {
     final Employee employee = employeeService.getCurrentUserEmployee();
 
     return absenceRepository.findAllByEmployee(employee, Pageable.unpaged());
+  }
+
+  @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured(Role.ADMIN)
+  public Page<Absence> getAllAbsences() {
+    return absenceRepository.findAll(Pageable.unpaged());
   }
 
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

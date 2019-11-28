@@ -41,6 +41,11 @@ const actions = {
       commit('setAbsences', response.data.content);
     });
   },
+  fetchAllAbsences: ({commit}) => {
+    Vue.axios.get('/absence/all').then(response => {
+      commit('setAbsences', response.data.content);
+    });
+  },
   fetchAbsenceAuthorisations: ({commit}) => {
     Vue.axios.get('/absence/authorisation').then((response) => {
       commit('setAbsenceAuthorisations', response.data);

@@ -14,7 +14,7 @@
               :exact="item.exact"
               :key="item.title">
             <v-list-item-action>
-              <v-icon>{{item.icon}}</v-icon>
+              <v-icon :color="getAdminIconColor(item)">{{item.icon}}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>{{item.title}}</v-list-item-title>
@@ -35,7 +35,7 @@
                   :exact="child.exact"
                   :key="child.title">
                 <v-list-item-action>
-                  <v-icon>{{child.icon}}</v-icon>
+                  <v-icon :color="getAdminIconColor(child)">{{child.icon}}</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                   <v-list-item-title>{{child.title}}</v-list-item-title>
@@ -89,6 +89,12 @@
             title: 'Absence',
             icon: 'mdi-hotel',
             children: [
+              {
+                title: 'All Absence',
+                path: '/absence/all',
+                admin: true,
+                icon: 'mdi-view-list'
+              },
               {
                 title: 'My Absence',
                 path: '/absence',
@@ -168,6 +174,9 @@
       ...mapActions({
         logout: 'logout'
       }),
+      getAdminIconColor(item) {
+        return item.admin ? 'amber' : null;
+      }
     },
     mixins: [UserMixin],
   };
