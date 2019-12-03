@@ -2,6 +2,7 @@ import Vue from 'vue';
 
 const state = {
   employee: null,
+  bradfordScore: null,
   employees: []
 };
 
@@ -11,6 +12,9 @@ const getters = {
   },
   getEmployee: (state) => {
     return state.employee;
+  },
+  getBradfordScore: (state) => {
+    return state.bradfordScore;
   }
 };
 
@@ -20,6 +24,9 @@ const mutations = {
   },
   setEmployee: (state, payload) => {
     state.employee = payload;
+  },
+  setBradfordScore: (state, payload) => {
+    state.bradfordScore = payload;
   }
 };
 
@@ -37,6 +44,11 @@ const actions = {
   fetchByUserId: ({commit}, payload) => {
     Vue.axios.get(`/employee/user/${payload}`).then((response) => {
       commit('setEmployee', response.data);
+    });
+  },
+  fetchBradfordScore: ({commit}, payload) => {
+    Vue.axios.get(`/absence/bradford-score/${payload}`).then((response) => {
+      commit('setBradfordScore', response.data);
     });
   },
   saveEmployee: ({commit}, payload) => {

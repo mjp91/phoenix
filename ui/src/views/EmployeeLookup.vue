@@ -28,7 +28,7 @@
             </template>
           </v-treeview>
         </v-col>
-        <v-divider vertical></v-divider>
+        <v-divider vertical/>
         <v-col class="d-flex text-center">
           <v-scroll-y-transition mode="out-in">
             <v-card
@@ -42,7 +42,14 @@
                   <v-img :src="getUrl()"/>
                 </v-avatar>
                 <h3 class="headline mb-2">
-                  {{ this.employee.user.fullName }}
+                  <template v-if="hasAdmin()">
+                    <router-link :to="`/admin/user/${this.employee.user.id}`">
+                      {{ this.employee.user.fullName }}
+                    </router-link>
+                  </template>
+                  <template v-else>
+                    {{ this.employee.user.fullName }}
+                  </template>
                 </h3>
                 <div class="font-weight-light">{{ this.employee.jobRole.description }}</div>
                 <div>
@@ -65,6 +72,7 @@
 <script>
   import {mapActions, mapGetters} from "vuex";
   import getBaseUrl from "../lib/getBaseUrl";
+  import UserMixin from "../mixins/UserMixin";
 
   export default {
     name: "EmployeeLookup",
@@ -100,7 +108,8 @@
     },
     beforeMount() {
       this.fetchDepartmentEmployees();
-    }
+    },
+    mixins: [UserMixin],
   };
 </script>
 

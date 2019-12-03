@@ -1,5 +1,5 @@
 <template>
-  <v-card flat color="transparent" class="pa-4">
+  <v-card flat color="transparent">
     <v-row align="center" justify="center">
       <v-col sm="3" class="pb-0">
         <v-avatar size="164" :tile="tile">

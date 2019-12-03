@@ -68,12 +68,20 @@
       </v-card>
     </v-col>
     <v-col sm="6">
-      <image-upload
-          label="Profile Picture"
-          v-model="employee.profileFileName"
-          default-file-name="default-profile.png"
-          :tile="false"
-      />
+      <v-card flat class="pa-4">
+        <image-upload
+            label="Profile Picture"
+            v-model="employee.profileFileName"
+            default-file-name="default-profile.png"
+            :tile="false"
+        />
+        <v-text-field
+            v-if="hasAdmin(employee.id)"
+            label="Bradford Score"
+            :value="bradfordScore.score"
+            readonly
+        />
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -82,6 +90,7 @@
   import {mapActions, mapGetters} from "vuex";
   import store from "../../../store";
   import ImageUpload from "../../../components/ImageUpload";
+  import UserMixin from "../../../mixins/UserMixin";
 
   export default {
     name: "UserEmployee",
@@ -101,7 +110,8 @@
       },
       ...mapGetters({
         jobRoles: 'getJobRoles',
-        departments: 'getDepartments'
+        departments: 'getDepartments',
+        bradfordScore: 'getBradfordScore'
       })
     },
     methods: {
@@ -117,16 +127,22 @@
       ...mapActions({
         fetchEmployees: 'fetchEmployees',
         fetchJobRoles: 'fetchJobRoles',
-        fetchDepartments: 'fetchDepartments'
+        fetchDepartments: 'fetchDepartments',
+        fetchBradfordScore: 'fetchBradfordScore'
       }),
     },
     beforeMount() {
+      if (this.hasAdmin()) {
+        this.fetchBradfordScore(this.employee.id);
+      }
+
       if (!this.readOnly) {
         this.fetchEmployees();
         this.fetchJobRoles();
         this.fetchDepartments();
       }
-    }
+    },
+    mixins: [UserMixin],
   };
 </script>
 

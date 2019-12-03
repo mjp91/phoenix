@@ -1,11 +1,15 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.AbsenceUpdate;
+import com.mpearsall.hr.dto.BradfordScore;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.AbsenceRepository;
+import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.service.AbsenceService;
+import com.mpearsall.hr.service.CompanyYearService;
 import com.mpearsall.hr.service.EmployeeService;
 import com.mpearsall.hr.service.UserService;
 import org.springframework.data.domain.Page;
@@ -22,13 +26,18 @@ import java.util.Map;
 @RequestMapping("/api/absence")
 public class AbsenceController {
   private final AbsenceRepository absenceRepository;
+  private final EmployeeRepository employeeRepository;
   private final EmployeeService employeeService;
+  private final CompanyYearService companyYearService;
   private final AbsenceService absenceService;
   private final UserService userService;
 
-  public AbsenceController(AbsenceRepository absenceRepository, EmployeeService employeeService,
+  public AbsenceController(AbsenceRepository absenceRepository, EmployeeRepository employeeRepository,
+                           EmployeeService employeeService, CompanyYearService companyYearService,
                            AbsenceService absenceService, UserService userService) {
     this.absenceRepository = absenceRepository;
+    this.employeeRepository = employeeRepository;
+    this.companyYearService = companyYearService;
     this.employeeService = employeeService;
     this.absenceService = absenceService;
     this.userService = userService;
@@ -92,5 +101,16 @@ public class AbsenceController {
   @PatchMapping(path = "/cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Absence cancel(@PathVariable Long id) {
     return absenceService.cancel(id);
+  }
+
+  @GetMapping(path = "/bradford-score/{employeeId}")
+  @Secured(Role.ADMIN)
+  public BradfordScore bradfordScore(@PathVariable Long employeeId) {
+    final Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+    final CompanyYear currentCompanyYear = companyYearService.getCurrentCompanyYear();
+
+    final int bradfordScore = absenceService.calculateBradfordScore(employee, currentCompanyYear);
+
+    return new BradfordScore(employee, currentCompanyYear, bradfordScore);
   }
 }
