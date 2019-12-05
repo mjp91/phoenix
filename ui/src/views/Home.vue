@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <v-row justify="space-around">
-      <v-col class="mb-4" sm="3">
+    <v-row justify="space-around" class="mb-1">
+      <v-col sm="4">
         <holiday-widget/>
       </v-col>
       <v-col sm="4">
@@ -11,18 +11,25 @@
         <holiday-request-widget/>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col sm="4">
+        <absence-widget/>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
   // @ is an alias to /src
-  import HolidayWidget from '../components/HolidayWidget.vue';
-  import HolidayRequestWidget from '../components/HolidayRequestWidget';
-  import HolidayTodayWidget from "../components/HolidayTodayWidget";
+  import HolidayWidget from '../components/widget/HolidayWidget.vue';
+  import HolidayRequestWidget from '../components/widget/HolidayRequestWidget';
+  import HolidayTodayWidget from "../components/widget/HolidayTodayWidget";
+  import AbsenceWidget from "../components/widget/AbsenceWidget";
 
   export default {
     name: 'home',
     components: {
+      AbsenceWidget,
       HolidayTodayWidget,
       HolidayWidget,
       HolidayRequestWidget

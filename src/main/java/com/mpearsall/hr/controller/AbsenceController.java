@@ -2,6 +2,7 @@ package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.dto.BradfordScore;
+import com.mpearsall.hr.dto.DaysAbsent;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
@@ -59,6 +60,16 @@ public class AbsenceController {
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Absence getAbsence(@PathVariable Long id) {
     return absenceRepository.findById(id).orElseThrow();
+  }
+
+  @GetMapping(path = "/days", produces = MediaType.APPLICATION_JSON_VALUE)
+  public DaysAbsent getDaysAbsent() {
+    final Employee currentUserEmployee = employeeService.getCurrentUserEmployee();
+    final CompanyYear currentCompanyYear = companyYearService.getCurrentCompanyYear();
+
+    final int totalDays = absenceService.calculateDaysAbsent(currentUserEmployee, currentCompanyYear);
+
+    return new DaysAbsent(currentUserEmployee, currentCompanyYear, totalDays);
   }
 
   @GetMapping(path = "/authorisation", produces = MediaType.APPLICATION_JSON_VALUE)

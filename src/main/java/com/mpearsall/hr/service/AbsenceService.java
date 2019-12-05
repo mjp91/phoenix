@@ -86,16 +86,28 @@ public class AbsenceService {
     }
   }
 
+  public int calculateDaysAbsent(Employee employee, CompanyYear companyYear) {
+    final Collection<Absence> absences =
+        absenceRepository.findAllByEmployeeAndCompanyYear(employee, companyYear);
+
+    return getTotalDays(employee, absences);
+  }
+
   public int calculateBradfordScore(Employee employee, CompanyYear companyYear) {
     // B = S^2 * D
     final Collection<Absence> absences = absenceRepository.findAllByEmployeeAndCompanyYear(employee, companyYear);
 
+    int totalDays = getTotalDays(employee, absences);
+
+    return (absences.size() * absences.size()) * totalDays;
+  }
+
+  private int getTotalDays(Employee employee, Collection<Absence> absences) {
     int totalDays = 0;
     for (Absence absence : absences) {
       totalDays += EmployeeService.calculateDaysWorkedBetween(employee, absence.getStart(), absence.getEnd()).size();
     }
-
-    return (absences.size() * absences.size()) * totalDays;
+    return totalDays;
   }
 
   @Transactional

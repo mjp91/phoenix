@@ -14,7 +14,7 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
-  import HolidayList from "./HolidayList";
+  import HolidayList from "../HolidayList";
 
   export default {
     name: "HolidayRequestWidget",

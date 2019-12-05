@@ -37,9 +37,9 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
-  import getHolidayRange from "../lib/getHolidayRange";
-  import getDaysToHoliday from "../lib/getDaysToHoliday";
-  import HolidayList from "./HolidayList";
+  import getHolidayRange from "../../lib/getHolidayRange";
+  import getDaysToHoliday from "../../lib/getDaysToHoliday";
+  import HolidayList from "../HolidayList";
 
   export default {
     name: "HolidayTodayWidget",

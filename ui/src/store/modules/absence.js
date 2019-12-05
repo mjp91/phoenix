@@ -3,7 +3,8 @@ import Vue from 'vue';
 const state = {
   absence: null,
   absences: [],
-  absenceAuthorisations: []
+  absenceAuthorisations: [],
+  daysAbsent: 0
 };
 
 const getters = {
@@ -15,6 +16,9 @@ const getters = {
   },
   getAbsenceAuthorisations: (state) => {
     return state.absenceAuthorisations;
+  },
+  getAbsenceDays: (state) => {
+    return state.daysAbsent;
   }
 };
 
@@ -27,6 +31,9 @@ const mutations = {
   },
   setAbsenceAuthorisations: (state, payload) => {
     state.absenceAuthorisations = payload;
+  },
+  setAbsenceDays: (state, payload) => {
+    state.daysAbsent = payload;
   }
 };
 
@@ -49,6 +56,11 @@ const actions = {
   fetchAbsenceAuthorisations: ({commit}) => {
     Vue.axios.get('/absence/authorisation').then((response) => {
       commit('setAbsenceAuthorisations', response.data);
+    });
+  },
+  fetchAbsenceDays: ({commit}) => {
+    Vue.axios.get('/absence/days').then((response) => {
+      commit('setAbsenceDays', response.data.daysAbsent);
     });
   },
   createAbsence: ({commit}, payload) => {
