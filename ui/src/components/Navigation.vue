@@ -113,6 +113,12 @@
             icon: 'mdi-palm-tree',
             children: [
               {
+                title: 'All Holidays',
+                path: '/holiday/all',
+                admin: true,
+                icon: 'mdi-view-list'
+              },
+              {
                 title: 'My Holidays',
                 path: '/holiday',
                 exact: true,

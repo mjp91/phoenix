@@ -55,6 +55,11 @@ const actions = {
       commit('setHolidays', response.data.content);
     });
   },
+  fetchAllHolidays: ({commit}) => {
+    Vue.axios.get('/holiday/all').then(response => {
+      commit('setHolidays', response.data.content);
+    });
+  },
   fetchHolidayRequests: ({commit}) => {
     Vue.axios.get('/holiday/requests').then(response => {
       commit('setHolidayRequests', response.data);

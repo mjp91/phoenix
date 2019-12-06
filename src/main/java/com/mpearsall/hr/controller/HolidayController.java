@@ -5,14 +5,17 @@ import com.mpearsall.hr.dto.HolidayRequest;
 import com.mpearsall.hr.dto.TodaysHolidays;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
+import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.service.CurrentUserHolidayService;
 import com.mpearsall.hr.service.EmployeeService;
 import com.mpearsall.hr.service.HolidayService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,6 +54,12 @@ public class HolidayController {
     final Employee employee = employeeService.getCurrentUserEmployee();
 
     return holidayRepository.findAllByEmployee(employee, PageRequest.of(0, 100));
+  }
+
+  @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured(Role.ADMIN)
+  public Page<Holiday> getAllHolidays() {
+    return holidayRepository.findAll(Pageable.unpaged());
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

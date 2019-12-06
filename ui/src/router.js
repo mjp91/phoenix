@@ -28,6 +28,11 @@ export default new Router({
       component: () => import('./views/holiday/Holiday.vue')
     },
     {
+      path: '/holiday/all',
+      name: 'holidayAll',
+      component: () => import('./views/holiday/HolidayAll')
+    },
+    {
       path: '/holiday/new',
       name: 'holidayForm',
       component: () => import('./views/holiday/HolidayForm.vue')
