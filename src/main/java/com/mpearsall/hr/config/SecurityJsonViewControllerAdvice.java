@@ -39,7 +39,7 @@ public class SecurityJsonViewControllerAdvice extends AbstractMappingJacksonResp
       final Collection<? extends GrantedAuthority> authorities
           = authentication.getAuthorities();
 
-      final List<Class> jsonViews = authorities.stream()
+      final List<Class<?>> jsonViews = authorities.stream()
           .map(GrantedAuthority::getAuthority)
           .map(View.MAPPINGS::get)
           .collect(Collectors.toList());

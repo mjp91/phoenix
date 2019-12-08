@@ -13,7 +13,7 @@
         <v-tab>Working Hours</v-tab>
         <v-tab>Holiday Entitlement</v-tab>
         <v-tab-item>
-          <v-card flat>
+          <v-card flat class="pa-4">
             <user-general :user="this.user"/>
           </v-card>
         </v-tab-item>

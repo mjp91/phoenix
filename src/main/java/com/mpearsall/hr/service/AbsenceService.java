@@ -1,5 +1,6 @@
 package com.mpearsall.hr.service;
 
+import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
@@ -19,14 +20,14 @@ public class AbsenceService {
   private final AbsenceRepository absenceRepository;
   private final EmployeeService employeeService;
   private final CompanyYearService companyYearService;
-  private final UserService userService;
+  private final CustomUserDetailsService customUserDetailsService;
 
   public AbsenceService(AbsenceRepository absenceRepository, EmployeeService employeeService,
-                        CompanyYearService companyYearService, UserService userService) {
+                        CompanyYearService companyYearService, CustomUserDetailsService customUserDetailsService) {
     this.absenceRepository = absenceRepository;
     this.employeeService = employeeService;
     this.companyYearService = companyYearService;
-    this.userService = userService;
+    this.customUserDetailsService = customUserDetailsService;
   }
 
   @Transactional
@@ -126,7 +127,7 @@ public class AbsenceService {
   private Absence modifyAbsenceAuthorisation(Long id, boolean authorized) {
     final Absence absence = absenceRepository.findById(id).orElseThrow();
 
-    if (!employeeService.isManager(absence.getEmployee()) && !userService.currentUserHasRole(Role.ADMIN)) {
+    if (!employeeService.isManager(absence.getEmployee()) && !customUserDetailsService.currentUserHasRole(Role.ADMIN)) {
       throw new PermissionException("User is not the absence creator's manager");
     }
 
@@ -139,7 +140,7 @@ public class AbsenceService {
   public Absence cancel(Long id) {
     final Absence absence = absenceRepository.findById(id).orElseThrow();
 
-    if (!employeeService.isManager(absence.getEmployee()) && !userService.currentUserHasRole(Role.ADMIN)) {
+    if (!employeeService.isManager(absence.getEmployee()) && !customUserDetailsService.currentUserHasRole(Role.ADMIN)) {
       throw new PermissionException("User is not the absence creator's manager");
     }
 

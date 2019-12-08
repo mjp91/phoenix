@@ -23,6 +23,10 @@ export default new Router({
       component: Home
     },
     {
+      path: '/password-reset/:token',
+      name: 'password-reset',
+    },
+    {
       path: '/holiday',
       name: 'holiday',
       component: () => import('./views/holiday/Holiday.vue')
@@ -85,6 +89,12 @@ export default new Router({
       beforeEnter: isAdminBeforeEnter
     },
     {
+      path: '/admin/user/new',
+      name: 'user-create',
+      component: () => import('./views/admin/user/UserCreate'),
+      beforeEnter: isAdminBeforeEnter
+    },
+    {
       path: '/admin/user/:id',
       name: 'user',
       component: () => import('./views/admin/user/UserForm'),
@@ -144,6 +154,10 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 });

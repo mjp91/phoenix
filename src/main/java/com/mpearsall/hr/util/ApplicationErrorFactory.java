@@ -3,6 +3,7 @@ package com.mpearsall.hr.util;
 import com.mpearsall.hr.dto.ApplicationError;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
@@ -26,6 +27,12 @@ public final class ApplicationErrorFactory {
       status = HttpStatus.BAD_REQUEST;
 
       message = "Data integrity violation";
+    } else if (throwable instanceof MethodArgumentNotValidException) {
+      status = HttpStatus.BAD_REQUEST;
+
+      message = ((MethodArgumentNotValidException) throwable).getBindingResult().getFieldErrors().stream()
+          .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+          .collect(Collectors.joining(" | "));
     }
 
     return new ApplicationError(status, message);

@@ -1,5 +1,6 @@
 package com.mpearsall.hr.controller;
 
+import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.dto.AbsenceUpdate;
 import com.mpearsall.hr.dto.BradfordScore;
 import com.mpearsall.hr.dto.DaysAbsent;
@@ -12,7 +13,6 @@ import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.service.AbsenceService;
 import com.mpearsall.hr.service.CompanyYearService;
 import com.mpearsall.hr.service.EmployeeService;
-import com.mpearsall.hr.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,17 +31,17 @@ public class AbsenceController {
   private final EmployeeService employeeService;
   private final CompanyYearService companyYearService;
   private final AbsenceService absenceService;
-  private final UserService userService;
+  private final CustomUserDetailsService customUserDetailsService;
 
   public AbsenceController(AbsenceRepository absenceRepository, EmployeeRepository employeeRepository,
                            EmployeeService employeeService, CompanyYearService companyYearService,
-                           AbsenceService absenceService, UserService userService) {
+                           AbsenceService absenceService, CustomUserDetailsService customUserDetailsService) {
     this.absenceRepository = absenceRepository;
     this.employeeRepository = employeeRepository;
     this.companyYearService = companyYearService;
     this.employeeService = employeeService;
     this.absenceService = absenceService;
-    this.userService = userService;
+    this.customUserDetailsService = customUserDetailsService;
   }
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +79,7 @@ public class AbsenceController {
     // get user's employee record
     final Employee employee = employeeService.getCurrentUserEmployee();
 
-    if (userService.currentUserHasRole(Role.ADMIN)) {
+    if (customUserDetailsService.currentUserHasRole(Role.ADMIN)) {
       result = absenceRepository.findAllPendingAuthorisation();
     } else {
       result = absenceRepository.findAllPendingAuthorisationForManager(employee);

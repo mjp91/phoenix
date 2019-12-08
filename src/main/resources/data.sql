@@ -7,9 +7,9 @@ VALUES (1, 'ROLE_USER');
 INSERT INTO role (id, name)
 VALUES (2, 'ROLE_ADMIN');
 
-INSERT INTO user (id, username, full_name, email, calendar_token)
-VALUES (1, 'buzz', 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-4083-8671-2c9d9ddb2db3'),
-       (2, 'matt', 'Matthew Pearsall', 'mjp91@live.co.uk', '85171ffc-a233-449b-8629-f6a020d010db');
+INSERT INTO user (id, username, full_name, email, calendar_token, credentials_expired)
+VALUES (1, 'buzz', 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-4083-8671-2c9d9ddb2db3', FALSE),
+       (2, 'matt', 'Matthew Pearsall', 'mjp91@live.co.uk', '85171ffc-a233-449b-8629-f6a020d010db', FALSE);
 
 INSERT INTO user_roles
 VALUES (1, 2);

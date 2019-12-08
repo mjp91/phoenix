@@ -1,6 +1,7 @@
 package com.mpearsall.hr.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +30,9 @@ public class User implements UserDetails {
   @NotEmpty
   @Column(unique = true)
   private final String username;
+
+  @JsonIgnore
+  private String password;
 
   @NotEmpty
   @Email
@@ -41,6 +47,12 @@ public class User implements UserDetails {
 
   @NotEmpty
   private String calendarToken = UUID.randomUUID().toString();
+
+  @NotNull
+  private boolean credentialsExpired;
+
+  @Column(unique = true)
+  private String passwordResetToken;
 
   @JsonIgnore
   @Override
@@ -58,7 +70,7 @@ public class User implements UserDetails {
   @JsonIgnore
   @Override
   public String getPassword() {
-    return null;
+    return password;
   }
 
   @Override
@@ -81,12 +93,16 @@ public class User implements UserDetails {
   @JsonIgnore
   @Override
   public boolean isCredentialsNonExpired() {
-    return true;
+    return !credentialsExpired;
   }
 
   @JsonIgnore
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public boolean isLdap() {
+    return password == null;
   }
 }

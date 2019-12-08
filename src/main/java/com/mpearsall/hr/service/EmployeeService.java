@@ -1,5 +1,6 @@
 package com.mpearsall.hr.service;
 
+import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.entity.Company;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.employee.EmployeeDay;
@@ -28,13 +29,14 @@ import java.util.stream.Stream;
 public class EmployeeService {
   private final EmployeeRepository employeeRepository;
   private final CompanyRepository companyRepository;
-  private final UserService userService;
+  private final CustomUserDetailsService customUserDetailsService;
   private final CompanyYearService companyYearService;
 
-  public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, UserService userService, CompanyYearService companyYearService) {
+  public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository,
+                         CustomUserDetailsService customUserDetailsService, CompanyYearService companyYearService) {
     this.employeeRepository = employeeRepository;
     this.companyRepository = companyRepository;
-    this.userService = userService;
+    this.customUserDetailsService = customUserDetailsService;
     this.companyYearService = companyYearService;
   }
 
@@ -49,7 +51,7 @@ public class EmployeeService {
   }
 
   public Employee getCurrentUserEmployee() {
-    final UserDetails currentUser = userService.getCurrentUserDetails();
+    final UserDetails currentUser = customUserDetailsService.getCurrentUserDetails();
 
     Employee employee = null;
     if (currentUser != null) {
@@ -95,7 +97,7 @@ public class EmployeeService {
 
   @Transactional
   public Employee save(Employee employee) {
-    if (!userService.currentUserHasRole(Role.ADMIN) && !employee.equals(getCurrentUserEmployee())) {
+    if (!customUserDetailsService.currentUserHasRole(Role.ADMIN) && !employee.equals(getCurrentUserEmployee())) {
       throw new PermissionException("User must be admin to update other employees");
     }
 

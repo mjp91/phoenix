@@ -1,29 +1,32 @@
 <template>
   <v-row>
     <v-col sm="6">
-      <v-card flat class="pa-4">
-        <v-text-field
-            label="Username"
-            :value="user.username"
-            readonly
-        />
-        <v-text-field
-            label="Email"
-            :value="user.email"
-            readonly
-        />
-        <v-select
-            v-model="user.roles"
-            :items="this.roles"
-            chips
-            label="Roles"
-            multiple
-            clearable
-            deletable-chips
-            :item-text="roleDisplay"
-            :item-value="roleValue"
-        ></v-select>
-      </v-card>
+      <v-text-field
+          label="Full Name"
+          v-model="user.fullName"
+          :readonly="this.readOnly"
+      />
+      <v-text-field
+          label="Username"
+          v-model="user.username"
+          :readonly="this.readOnly"
+      />
+      <v-text-field
+          label="Email"
+          v-model="user.email"
+          :readonly="this.readOnly"
+      />
+      <v-select
+          v-model="user.roles"
+          :items="this.roles"
+          chips
+          label="Roles"
+          multiple
+          clearable
+          deletable-chips
+          :item-text="roleDisplay"
+          :item-value="roleValue"
+      ></v-select>
     </v-col>
   </v-row>
 </template>
@@ -34,7 +37,11 @@
   export default {
     name: "UserGeneral",
     props: {
-      user: Object
+      user: Object,
+      readOnly: {
+        type: Boolean,
+        default: true
+      }
     },
     computed: {
       ...mapGetters({

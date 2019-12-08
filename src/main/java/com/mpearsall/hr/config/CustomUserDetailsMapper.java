@@ -1,5 +1,6 @@
 package com.mpearsall.hr.config;
 
+import com.mpearsall.hr.service.UserService;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +13,11 @@ import java.util.Collection;
 @Component
 public class CustomUserDetailsMapper extends LdapUserDetailsMapper {
   private final CustomUserDetailsService customUserDetailsService;
+  private final UserService userService;
 
-  public CustomUserDetailsMapper(CustomUserDetailsService customUserDetailsService) {
+  public CustomUserDetailsMapper(CustomUserDetailsService customUserDetailsService, UserService userService) {
     this.customUserDetailsService = customUserDetailsService;
+    this.userService = userService;
   }
 
   @Override
@@ -24,7 +27,7 @@ public class CustomUserDetailsMapper extends LdapUserDetailsMapper {
       userDetails = customUserDetailsService.loadUserByUsername(username);
     } catch (UsernameNotFoundException e) {
       // valid LDAP user but not found locally
-      userDetails = customUserDetailsService.createLocalUser(ctx, username);
+      userDetails = userService.createLocalUserFromLdap(ctx, username);
     }
 
     return userDetails;

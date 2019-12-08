@@ -34,6 +34,17 @@ const actions = {
       commit('setUsers', response.data);
     });
   },
+  createUser: ({commit}, payload) => {
+    return Vue.axios.put('/users/register', payload).then(() => {
+      commit('addAlert', {
+        type: 'success',
+        message: 'User registered successfully'
+      });
+    });
+  },
+  resetPassword: ({commit}, payload) => {
+    return Vue.axios.patch('/users/password-reset', payload);
+  },
   saveUser: ({commit}, payload) => {
     Vue.axios.post('/users', payload).then((response) => {
       commit('setUser', response.data);

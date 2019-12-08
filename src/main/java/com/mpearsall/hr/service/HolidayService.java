@@ -23,10 +23,10 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.mpearsall.hr.dto.EmailTemplate.APPROVED_TEMPLATE;
+
 @Service
 public class HolidayService {
-  private static final String APPROVED_TEMPLATE = "approved";
-
   private final CompanyYearRepository companyYearRepository;
   private final EmployeeService employeeService;
   private final CurrentUserHolidayService currentUserHolidayService;

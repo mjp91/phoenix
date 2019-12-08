@@ -10,7 +10,12 @@
       </v-content>
     </template>
     <v-content v-else>
-      <login/>
+      <template v-if="$route.name === 'password-reset'">
+        <password-reset/>
+      </template>
+      <template v-else>
+        <login/>
+      </template>
     </v-content>
   </v-app>
 </template>
@@ -21,6 +26,7 @@
   import Login from "./views/Login";
   import UserMixin from "./mixins/UserMixin";
   import Navigation from "./components/Navigation";
+  import PasswordReset from "./views/PasswordReset";
 
   export default {
     name: 'App',
@@ -34,6 +40,7 @@
     },
     mixins: [UserMixin],
     components: {
+      PasswordReset,
       Navigation,
       Login,
       Alert

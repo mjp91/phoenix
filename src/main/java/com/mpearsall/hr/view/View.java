@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class View {
-  public static final Map<String, Class> MAPPINGS = new HashMap<>();
+  public static final Map<String, Class<?>> MAPPINGS = new HashMap<>();
 
   static {
     MAPPINGS.put(Role.ADMIN, Admin.class);

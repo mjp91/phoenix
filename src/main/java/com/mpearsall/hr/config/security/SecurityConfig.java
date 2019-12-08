@@ -1,15 +1,17 @@
 package com.mpearsall.hr.config.security;
 
 import com.mpearsall.hr.config.CustomUserDetailsMapper;
+import com.mpearsall.hr.config.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,26 +24,41 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final CustomUserDetailsMapper customUserDetailsMapper;
+  private final CustomUserDetailsService customUserDetailsService;
+  private final PasswordEncoder passwordEncoder;
 
-  public SecurityConfig(CustomUserDetailsMapper customUserDetailsMapper) {
+  @Value("${hr.ldap.enabled:true}")
+  private boolean ldapEnabled;
+
+  @Value("${hr.base-url:#{null}}")
+  private String baseUrl;
+
+  public SecurityConfig(CustomUserDetailsMapper customUserDetailsMapper, CustomUserDetailsService customUserDetailsService,
+                        PasswordEncoder passwordEncoder) {
     this.customUserDetailsMapper = customUserDetailsMapper;
+    this.customUserDetailsService = customUserDetailsService;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.ldapAuthentication()
-        .userDetailsContextMapper(customUserDetailsMapper)
-        .userSearchBase("ou=people")
-        .userSearchFilter("(uid={0})")
-        .groupSearchBase("ou=groups")
-        .groupSearchFilter("member={0}")
-        .passwordCompare()
-        .passwordEncoder(passwordEncoder())
-        .passwordAttribute("userPassword")
-        .and()
-        .contextSource()
-        .root("dc=hr,dc=com")
-        .ldif("classpath:users.ldif");
+    if (ldapEnabled) {
+      auth.ldapAuthentication()
+          .userDetailsContextMapper(customUserDetailsMapper)
+          .userSearchBase("ou=people")
+          .userSearchFilter("(uid={0})")
+          .groupSearchBase("ou=groups")
+          .groupSearchFilter("member={0}")
+          .passwordCompare()
+          .passwordEncoder(passwordEncoder)
+          .passwordAttribute("userPassword")
+          .and()
+          .contextSource()
+          .root("dc=hr,dc=com")
+          .ldif("classpath:users.ldif");
+    }
+
+    auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
   }
 
   @Override
@@ -52,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/api/calendar/**").permitAll()
         .antMatchers("/api/resource/**").permitAll()
+        .antMatchers("/api/users/password-reset").permitAll()
         .antMatchers("/api/**").authenticated()
         .antMatchers("/h2-console/**").permitAll()
         .anyRequest().permitAll()
@@ -68,18 +86,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean
   public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration corsConfiguration = new CorsConfiguration();
-    corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+    final CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowedOrigins(baseUrl != null ? Collections.singletonList(baseUrl) : Collections.singletonList("*"));
     corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
     corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-    corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    corsConfiguration.setExposedHeaders(Collections.singletonList(HttpHeaders.AUTHORIZATION));
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", corsConfiguration);
 
     return source;
