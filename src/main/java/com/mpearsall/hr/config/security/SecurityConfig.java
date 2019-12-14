@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/calendar/**").permitAll()
         .antMatchers("/api/resource/**").permitAll()
         .antMatchers("/api/users/password-reset").permitAll()
+        .antMatchers("/api/users/forgotten-password/{username}").permitAll()
         .antMatchers("/api/**").authenticated()
         .antMatchers("/h2-console/**").permitAll()
         .anyRequest().permitAll()

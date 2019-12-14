@@ -58,7 +58,7 @@
     },
     methods: {
       reset() {
-        let valid = this.$refs.form.validate();
+        const valid = this.$refs.form.validate();
 
         if (valid) {
           const alert = {};

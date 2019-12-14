@@ -27,6 +27,10 @@ export default new Router({
       name: 'password-reset',
     },
     {
+      path: '/forgotten-password',
+      name: 'forgottenPassword'
+    },
+    {
       path: '/holiday',
       name: 'holiday',
       component: () => import('./views/holiday/Holiday.vue')

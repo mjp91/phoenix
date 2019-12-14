@@ -9,6 +9,7 @@ import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.RoleRepository;
 import com.mpearsall.hr.repository.UserRepository;
 import com.mpearsall.hr.util.TokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import static com.mpearsall.hr.dto.EmailTemplate.PASSWORD_RESET_TEMPLATE;
 import static java.util.Collections.singletonList;
 
 @Service
+@Slf4j
 public class UserService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
@@ -78,7 +80,12 @@ public class UserService {
     return defaultRoles;
   }
 
-  private void resetPasswordRequest(User user) {
+  public void resetPasswordRequest(User user) {
+    if (user.isLdap()) {
+      log.warn("Reset password request ignored for LDAP user '{}'", user.getUsername());
+      return;
+    }
+
     final String resetToken = TokenUtil.randomToken(8);
 
     user.setPasswordResetToken(resetToken);

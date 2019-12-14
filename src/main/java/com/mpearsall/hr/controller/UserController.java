@@ -48,6 +48,13 @@ public class UserController {
     return userRepository.save(user);
   }
 
+  @PostMapping(path = "/forgotten-password/{username}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void requestPasswordReset(@PathVariable String username) {
+    userRepository.findByUsername(username)
+        .ifPresent(userService::resetPasswordRequest);
+  }
+
   @PatchMapping(path = "/password-reset", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void resetPassword(@Valid @RequestBody PasswordReset passwordReset) {

@@ -1,6 +1,5 @@
 package com.mpearsall.hr.config;
 
-import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +18,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    final User user = userRepository.findByUsername(username);
-
-    if (user == null) {
-      throw new UsernameNotFoundException("User not found");
-    }
-
-    return user;
+    return userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
   public UserDetails getCurrentUserDetails() {

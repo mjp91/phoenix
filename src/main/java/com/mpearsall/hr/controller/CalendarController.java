@@ -5,7 +5,6 @@ import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.holiday.Holiday;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.PermissionException;
-import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.repository.HolidayRepository;
 import com.mpearsall.hr.repository.UserRepository;
@@ -36,11 +35,7 @@ public class CalendarController {
 
   @GetMapping(path = "/{username}/{token}", produces = "text/calendar")
   public String getCalendar(@PathVariable String username, @PathVariable String token) {
-    final User user = userRepository.findByUsername(username);
-
-    if (user == null) {
-      throw new ResourceNotFoundException(username, User.class);
-    }
+    final User user = userRepository.findByUsername(username).orElseThrow();
 
     if (!user.getCalendarToken().equals(token)) {
       throw new PermissionException("Token invalid");

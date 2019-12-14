@@ -24,6 +24,7 @@
     </v-form>
 
     <template v-slot:actions>
+      <v-btn to="/forgotten-password" text x-small>Forgot Password?</v-btn>
       <v-btn color="deep-orange" @click="login">Login</v-btn>
     </template>
   </login-template>
