@@ -1,6 +1,10 @@
 <template>
   <div>
-    <form-header title="Account" :save="save"/>
+    <form-header title="Account" :save="save">
+      <template v-if="!user.ldap" slot="actions">
+        <v-btn to="/account/change-password" class="mr-2" color="primary">Change Password</v-btn>
+      </template>
+    </form-header>
     <v-form>
       <v-tabs grow>
         <v-tab>General</v-tab>

@@ -1,11 +1,9 @@
 package com.mpearsall.hr.service;
 
-import com.mpearsall.hr.dto.Email;
-import com.mpearsall.hr.dto.EmailTemplate;
-import com.mpearsall.hr.dto.PasswordReset;
-import com.mpearsall.hr.dto.UserDto;
+import com.mpearsall.hr.dto.*;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.RoleRepository;
 import com.mpearsall.hr.repository.UserRepository;
 import com.mpearsall.hr.util.TokenUtil;
@@ -48,6 +46,7 @@ public class UserService {
     // create user
     User user = new User(username, ctx.getStringAttribute("mail"), ctx.getStringAttribute("cn"));
     user.setRoles(getDefaultRoles());
+    user.setLdap(true);
     user = userRepository.save(user);
 
     // create employee
@@ -116,5 +115,19 @@ public class UserService {
     final Email email = new Email(singletonList(user.getEmail()), "Password Reset");
 
     emailService.sendHtml(email, emailTemplate);
+  }
+
+  @Transactional
+  public void changePassword(User user, ChangePassword changePassword) {
+    if (user.isLdap()) {
+      throw new InvalidDetailsException("User registered through LDAP, unable to change password");
+    }
+
+    if (!passwordEncoder.matches(changePassword.getCurrentPassword(), user.getPassword())) {
+      throw new InvalidDetailsException("Current password is incorrect");
+    }
+
+    user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
+    userRepository.save(user);
   }
 }

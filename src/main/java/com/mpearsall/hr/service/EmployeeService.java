@@ -51,7 +51,7 @@ public class EmployeeService {
   }
 
   public Employee getCurrentUserEmployee() {
-    final UserDetails currentUser = customUserDetailsService.getCurrentUserDetails();
+    final UserDetails currentUser = customUserDetailsService.getCurrentUserDetails(false);
 
     Employee employee = null;
     if (currentUser != null) {

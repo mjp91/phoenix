@@ -22,12 +22,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
-  public UserDetails getCurrentUserDetails() {
-    return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  public UserDetails getCurrentUserDetails(boolean reload) {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (reload) {
+      userDetails = loadUserByUsername(userDetails.getUsername());
+    }
+
+    return userDetails;
   }
 
   public boolean currentUserHasRole(String role) {
-    return getCurrentUserDetails().getAuthorities().stream()
+    return getCurrentUserDetails(false).getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .anyMatch(s -> s.equals(role));
   }

@@ -54,6 +54,9 @@ public class User implements UserDetails {
   @Column(unique = true)
   private String passwordResetToken;
 
+  @NotNull
+  private boolean ldap = false;
+
   @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,9 +103,5 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
-  }
-
-  public boolean isLdap() {
-    return password == null;
   }
 }

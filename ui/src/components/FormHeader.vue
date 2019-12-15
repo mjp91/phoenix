@@ -6,6 +6,7 @@
     <v-col>
       <v-row align="end" justify="end">
         <v-btn v-if="cancel" class="mr-2" @click="cancel">Cancel</v-btn>
+        <slot name="actions"/>
         <v-btn v-if="save" class="mr-2" color="success" @click="save">Save</v-btn>
       </v-row>
     </v-col>

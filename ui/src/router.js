@@ -152,6 +152,11 @@ export default new Router({
       component: () => import('./views/Account.vue'),
     },
     {
+      path: '/account/change-password',
+      name: 'changePassword',
+      component: () => import('./views/ChangePassword'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
