@@ -47,7 +47,7 @@ const actions = {
     window.$cookies.remove('jwt');
     commit('setLoggedIn', false);
     commit('setAuthUser', null);
-    router.push('/');
+    router.go();
   }
 };
 
