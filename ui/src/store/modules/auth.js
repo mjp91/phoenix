@@ -43,11 +43,15 @@ const actions = {
       commit('setAuthUser', response.data);
     });
   },
-  logout({commit}) {
+  clearCredentials({commit}) {
     window.$cookies.remove('jwt');
     commit('setLoggedIn', false);
     commit('setAuthUser', null);
-    router.go();
+  },
+  logout({dispatch}) {
+    dispatch('clearCredentials').then(() => {
+      router.go();
+    });
   }
 };
 

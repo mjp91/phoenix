@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Value("${hr.base-url:#{null}}")
   private String baseUrl;
 
+  @Value("${spring.ldap.urls}")
+  private String ldapUrl;
+
   public SecurityConfig(CustomUserDetailsMapper customUserDetailsMapper, CustomUserDetailsService customUserDetailsService,
                         PasswordEncoder passwordEncoder) {
     this.customUserDetailsMapper = customUserDetailsMapper;
@@ -45,17 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     if (ldapEnabled) {
       auth.ldapAuthentication()
           .userDetailsContextMapper(customUserDetailsMapper)
-          .userSearchBase("ou=people")
-          .userSearchFilter("(uid={0})")
+          .userDnPatterns("uid={0},ou=people")
           .groupSearchBase("ou=groups")
-          .groupSearchFilter("member={0}")
+          .contextSource()
+          .url(ldapUrl)
+          .and()
           .passwordCompare()
           .passwordEncoder(passwordEncoder)
-          .passwordAttribute("userPassword")
-          .and()
-          .contextSource()
-          .root("dc=hr,dc=com")
-          .ldif("classpath:users.ldif");
+          .passwordAttribute("userPassword");
     }
 
     auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);

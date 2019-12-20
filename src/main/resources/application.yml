@@ -26,6 +26,12 @@ spring:
   jackson:
     mapper:
       default-view-inclusion: true
+  ldap:
+    embedded:
+      port: 8389
+      ldif: "classpath:users.ldif"
+      base-dn: "dc=hr,dc=com"
+    urls: "ldap://localhost:8389/dc=hr,dc=com"
 management:
   health:
     ldap:

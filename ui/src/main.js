@@ -25,7 +25,7 @@ axios.interceptors.response.use((response) => {
 }, (error) => {
   const status = error.response.status;
   if (typeof error.response === "undefined" || status === 401) {
-    store.dispatch('logout');
+    store.dispatch('clearCredentials');
   } else {
     let message = `[${status}]: `;
     if (error.response.data) {
