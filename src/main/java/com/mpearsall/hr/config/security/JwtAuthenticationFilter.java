@@ -1,13 +1,14 @@
 package com.mpearsall.hr.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mpearsall.hr.dto.ApplicationError;
 import com.mpearsall.hr.dto.Login;
 import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.util.ApplicationErrorFactory;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,7 +39,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       final Login login = new ObjectMapper().readValue(request.getInputStream(), Login.class);
 
       return authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), new ArrayList<>())
+          new TotpAuthenticationToken(login.getUsername(), login.getPassword(), login.getTotpCode(), new ArrayList<>())
       );
     } catch (IOException e) {
       // fixme
@@ -60,5 +61,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.getWriter().write(new ObjectMapper().writeValueAsString(user));
+  }
+
+  @Override
+  protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+    final ApplicationError applicationError = ApplicationErrorFactory.generate(failed);
+
+    response.setStatus(applicationError.getStatus().value());
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.getWriter().write(new ObjectMapper().writeValueAsString(applicationError));
   }
 }

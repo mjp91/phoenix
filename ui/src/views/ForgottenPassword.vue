@@ -14,6 +14,7 @@
       />
     </v-form>
     <template v-slot:actions>
+      <v-btn to="/">Cancel</v-btn>
       <v-btn color="deep-orange" @click="submit">Submit</v-btn>
     </template>
   </login-template>

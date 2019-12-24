@@ -22,8 +22,18 @@
           :rules="confirmPasswordRules"
           required
       />
+      <template v-if="totpRequired">
+        <totp-qr-code :totp-url="totpUrl"/>
+        <v-text-field
+            v-model="passwordReset.totpCode"
+            label="Authenticator Code"
+            :rules="totpCodeRules"
+            prepend-icon="mdi-two-factor-authentication"
+        />
+      </template>
     </v-form>
     <template v-slot:actions>
+      <v-btn to="/">Cancel</v-btn>
       <v-btn color="deep-orange" @click="reset">Reset</v-btn>
     </template>
   </login-template>
@@ -32,6 +42,7 @@
 <script>
   import LoginTemplate from "../components/LoginTemplate";
   import store from "../store";
+  import TotpQrCode from "../components/TotpQrCode";
 
   export default {
     name: "PasswordReset",
@@ -44,15 +55,21 @@
         },
         passwordReset: {
           token: this.$route.params.token,
-          password: null
+          password: null,
+          totpCode: null
         },
         confirmPassword: null,
+        totpRequired: false,
+        totpUrl: null,
         passwordRules: [
           v => !!v || 'Password is required'
         ],
         confirmPasswordRules: [
           v => !!v || 'Confirmed password is required',
           v => (!!v && v) === this.passwordReset.password || 'Must match password'
+        ],
+        totpCodeRules: [
+          v => !!v || 'Authenticator code is required'
         ]
       };
     },
@@ -62,11 +79,19 @@
 
         if (valid) {
           const alert = {};
-          store.dispatch('resetPassword', this.passwordReset).then(() => {
-            alert.type = "success";
-            alert.message = "Password reset successful";
+          store.dispatch('resetPassword', this.passwordReset).then((response) => {
+            if (!response.data.success) {
+              alert.type = "warning";
+              alert.message = response.data.message;
 
-            this.$router.push("/");
+              this.totpRequired = response.data.totpRequired;
+              this.totpUrl = response.data.totpUrl;
+            } else {
+              alert.type = "success";
+              alert.message = "Password reset successful";
+
+              this.$router.push("/");
+            }
           }).catch(error => {
             if (error.response) {
               const status = error.response.status;
@@ -88,10 +113,7 @@
         }
       }
     },
-    components: {LoginTemplate}
+    components: {TotpQrCode, LoginTemplate}
   };
 </script>
 
-<style scoped>
-
-</style>

@@ -57,6 +57,12 @@ public class User implements UserDetails {
   @NotNull
   private boolean ldap = false;
 
+  @NotNull
+  private boolean totpEnabled = false;
+
+  @JsonIgnore
+  private String totpSecret;
+
   @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -68,6 +74,11 @@ public class User implements UserDetails {
 
   public boolean hasRole(Role role) {
     return this.getRoles().contains(role);
+  }
+
+  @JsonIgnore
+  public String getTotpSecret() {
+    return totpSecret;
   }
 
   @JsonIgnore

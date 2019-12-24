@@ -12,6 +12,9 @@ import javax.validation.constraints.NotEmpty;
 public class PasswordReset {
   @NotEmpty
   private String token;
+
   @NotEmpty
   private String password;
+
+  private String totpCode;
 }

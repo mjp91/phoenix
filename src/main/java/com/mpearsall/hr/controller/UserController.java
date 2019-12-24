@@ -1,9 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
-import com.mpearsall.hr.dto.ChangePassword;
-import com.mpearsall.hr.dto.PasswordReset;
-import com.mpearsall.hr.dto.UserDto;
+import com.mpearsall.hr.dto.*;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
@@ -43,14 +41,14 @@ public class UserController {
 
   @PutMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
-  public User registerUser(@Valid @RequestBody UserDto userDto) {
-    return userService.createUser(userDto);
+  public User registerUser(@Valid @RequestBody CreateUser createUser) {
+    return userService.createUser(createUser);
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
-  public User save(@RequestBody User user) {
-    return userRepository.save(user);
+  public User save(@RequestBody UpdateUser updateUser) {
+    return userService.updateUser(updateUser);
   }
 
   @PostMapping(path = "/forgotten-password/{username}")
@@ -68,8 +66,19 @@ public class UserController {
   }
 
   @PatchMapping(path = "/password-reset", consumes = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void resetPassword(@Valid @RequestBody PasswordReset passwordReset) {
-    userService.resetPassword(passwordReset);
+  public PasswordResetResult resetPassword(@Valid @RequestBody PasswordReset passwordReset) {
+    return userService.resetPassword(passwordReset);
+  }
+
+  @PatchMapping(path = "/2fa-reset/{username}")
+  @Secured(Role.ADMIN)
+  public void reset2fa(@PathVariable String username) {
+    userRepository.findByUsername(username)
+        .ifPresent(userService::reset2fa);
+  }
+
+  @PatchMapping(path = "/2fa-register")
+  public TotpRegister register2fa(@RequestBody Login login) {
+    return userService.register2fa(login);
   }
 }

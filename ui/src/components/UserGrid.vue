@@ -28,6 +28,15 @@
           <v-icon>mdi-checkbox-blank-outline</v-icon>
       </span>
     </template>
+
+    <template v-slot:item.totpEnabled="{ item }">
+      <span v-if="item.totpEnabled">
+          <v-icon>mdi-checkbox-marked-outline</v-icon>
+      </span>
+      <span v-else>
+          <v-icon>mdi-checkbox-blank-outline</v-icon>
+      </span>
+    </template>
   </v-data-table>
 </template>
 
@@ -53,6 +62,11 @@
           {
             text: 'LDAP',
             value: 'ldap',
+            sortable: false
+          },
+          {
+            text: '2FA',
+            value: 'totpEnabled',
             sortable: false
           }
         ]

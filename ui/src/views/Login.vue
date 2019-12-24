@@ -7,22 +7,28 @@
         @submit.prevent="login"
     >
       <v-text-field
-          v-model="user.username"
+          v-model="loginDetails.username"
           label="Username"
           :rules="usernameRules"
           prepend-icon="mdi-account"
-          required>
-      </v-text-field>
+      />
       <v-text-field
-          v-model="user.password"
+          v-model="loginDetails.password"
           label="Password"
           type="password"
           :rules="passwordRules"
           prepend-icon="mdi-lock"
-          required>
-      </v-text-field>
+      />
+      <template v-if="totpRequired">
+        <totp-qr-code v-if="totpRegisterRequired" :totp-url="this.totpRegisterUrl"/>
+        <v-text-field
+            v-model="loginDetails.totpCode"
+            label="Authenticator Code"
+            :rules="totpCodeRules"
+            prepend-icon="mdi-two-factor-authentication"
+        />
+      </template>
     </v-form>
-
     <template v-slot:actions>
       <v-btn to="/forgotten-password" text x-small>Forgot Password?</v-btn>
       <v-btn color="deep-orange" @click="login">Login</v-btn>
@@ -33,16 +39,22 @@
 <script>
   import store from '../store';
   import LoginTemplate from "../components/LoginTemplate";
+  import {ApplicationErrorType} from "../lib/Constants";
+  import TotpQrCode from "../components/TotpQrCode";
 
   export default {
     name: "Login",
-    components: {LoginTemplate},
+    components: {TotpQrCode, LoginTemplate},
     data: () => {
       return {
         valid: false,
-        user: {
+        totpRegisterRequired: false,
+        totpRegisterUrl: null,
+        totpRequired: false,
+        loginDetails: {
           username: null,
-          password: null
+          password: null,
+          totpCode: null,
         },
         usernameRules: [
           v => !!v || 'Username is required'
@@ -50,6 +62,9 @@
         passwordRules: [
           v => !!v || 'Password is required'
         ],
+        totpCodeRules: [
+          v => !!v || 'Authenticator code is required'
+        ]
       };
     },
     methods: {
@@ -57,17 +72,45 @@
         let valid = this.$refs.form.validate();
 
         if (valid) {
-          store.dispatch('login', this.user).catch((error) => {
+          store.dispatch('login', this.loginDetails).catch((error) => {
             if (error.response && error.response.status === 401) {
-              store.commit('addAlert', {
-                type: "warning",
-                message: "Username or Password is incorrect"
-              });
+              const type = error.response.data.type;
+              if (type === ApplicationErrorType.TOTP_REQUIRED) {
+                this.totpRequired = true;
+                store.commit('addAlert', {
+                  type: "info",
+                  message: "Please enter 2FA code"
+                });
+              } else if (type === ApplicationErrorType.TOTP_NOT_REGISTERED) {
+                this.totpRequired = true;
+                this.totpRegisterRequired = true;
+                this.register2fa();
+                store.commit('addAlert', {
+                  type: "info",
+                  message: "Please register for 2FA"
+                });
+              } else {
+                let message = "Username or password is incorrect";
+
+                if (this.totpRequired) {
+                  message = "Username, password or 2FA code is incorrect";
+                }
+
+                store.commit('addAlert', {
+                  type: "warning",
+                  message
+                });
+              }
             } else {
               console.error(error);
             }
           });
         }
+      },
+      register2fa() {
+        store.dispatch('register2fa', this.loginDetails).then((response) => {
+          this.totpRegisterUrl = response.data.totpUrl;
+        });
       }
     }
   };

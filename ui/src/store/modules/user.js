@@ -45,6 +45,12 @@ const actions = {
   resetPassword: ({commit}, payload) => {
     return Vue.axios.patch('/users/password-reset', payload);
   },
+  reset2fa: ({commit}, payload) => {
+    return Vue.axios.patch(`/users/2fa-reset/${payload}`);
+  },
+  register2fa: ({commit}, payload) => {
+    return Vue.axios.patch(`/users/2fa-register`, payload);
+  },
   forgottenPassword: ({commit}, payload) => {
     return Vue.axios.post(`/users/forgotten-password/${payload}`);
   },

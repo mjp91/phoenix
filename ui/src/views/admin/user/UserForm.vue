@@ -4,7 +4,11 @@
         :title="user.fullName"
         :cancel="close"
         :save="save"
-    />
+    >
+      <template v-if="!user.ldap && user.totpEnabled" slot="actions">
+        <v-btn class="mr-2" color="primary" @click="resetTwoFactorAuth">Reset 2FA</v-btn>
+      </template>
+    </form-header>
     <v-form ref="form">
       <v-tabs grow>
         <v-tab>General</v-tab>
@@ -67,6 +71,7 @@
       ...mapActions({
         fetchUser: 'fetchUser',
         fetchEmployeeByUserId: 'fetchByUserId',
+        reset2fa: 'reset2fa'
       }),
       save() {
         Promise.all([
@@ -87,6 +92,14 @@
           name: 'user-management',
         });
       },
+      resetTwoFactorAuth() {
+        this.reset2fa(this.user.username).then(() => {
+          store.commit('addAlert', {
+            type: 'success',
+            message: '2FA reset successfully'
+          });
+        });
+      }
     },
     beforeMount() {
       const userId = this.$route.params.id;

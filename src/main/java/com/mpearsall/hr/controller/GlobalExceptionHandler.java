@@ -1,6 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.ApplicationError;
+import com.mpearsall.hr.dto.ApplicationErrorType;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
       MethodArgumentNotValidException.class
   })
   protected ResponseEntity<ApplicationError> handleInvalidDetails(Exception ex) {
-    return handleException(HttpStatus.BAD_REQUEST, ex);
+    return handleException(HttpStatus.BAD_REQUEST, ApplicationErrorType.BAD_REQUEST, ex);
   }
 
   @ExceptionHandler({
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
       AccessDeniedException.class
   })
   protected ResponseEntity<ApplicationError> handlePermissionException(RuntimeException ex) {
-    return handleException(HttpStatus.FORBIDDEN, ex);
+    return handleException(HttpStatus.FORBIDDEN, ApplicationErrorType.FORBIDDEN, ex);
   }
 
   @ExceptionHandler({
@@ -45,7 +46,7 @@ public class GlobalExceptionHandler {
       StorageFileNotFoundException.class
   })
   protected ResponseEntity<ApplicationError> handleResourceNotFound(RuntimeException ex) {
-    return handleException(HttpStatus.NOT_FOUND, ex);
+    return handleException(HttpStatus.NOT_FOUND, ApplicationErrorType.NOT_FOUND, ex);
   }
 
   @ExceptionHandler(TransactionSystemException.class)
@@ -55,10 +56,10 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   protected ResponseEntity<ApplicationError> handleUnexpectedException(Throwable ex) {
-    return handleException(null, ex);
+    return handleException(null, null, ex);
   }
 
-  private ResponseEntity<ApplicationError> handleException(HttpStatus httpStatus, Throwable ex) {
+  private ResponseEntity<ApplicationError> handleException(HttpStatus httpStatus, ApplicationErrorType type, Throwable ex) {
     LOGGER.error(ex.getMessage(), ex);
     final ApplicationError applicationError = ApplicationErrorFactory.generate(ex);
 
@@ -66,6 +67,10 @@ public class GlobalExceptionHandler {
       httpStatus = applicationError.getStatus();
     } else {
       applicationError.setStatus(httpStatus);
+    }
+
+    if (type != null) {
+      applicationError.setType(type);
     }
 
     return new ResponseEntity<>(applicationError, new HttpHeaders(), httpStatus);

@@ -26,7 +26,13 @@
           deletable-chips
           :item-text="roleDisplay"
           :item-value="roleValue"
-      ></v-select>
+      />
+      <v-switch
+          v-if="!user.ldap"
+          v-model="user.totpEnabled"
+          label="Two Factor Authentication (2FA)"
+          color="primary"
+      />
     </v-col>
   </v-row>
 </template>

@@ -11,4 +11,5 @@ import java.io.Serializable;
 public class ApplicationError implements Serializable {
   private HttpStatus status;
   private String message;
+  private ApplicationErrorType type;
 }
