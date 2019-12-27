@@ -65,6 +65,60 @@
             label="Extension"
             :readonly="readOnly"
         />
+        <!--DOB-->
+        <v-menu
+            ref="dobMenu"
+            v-model="dobMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            :disabled="readOnly"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="employee.dateOfBirth"
+                label="Date of Birth"
+                prepend-icon="mdi-cake"
+                readonly
+                v-on="on"
+            />
+          </template>
+          <v-date-picker
+              ref="dobPicker"
+              v-model="employee.dateOfBirth"
+              :max="new Date().toISOString().substr(0, 10)"
+              min="1900-01-01"
+              :readonly="readOnly"
+          />
+        </v-menu>
+        <!--Service start-->
+        <v-menu
+            ref="serviceStartMenu"
+            v-model="serviceStartMenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            :disabled="readOnly"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+                v-model="employee.serviceStartDate"
+                label="Service Start Date"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-on="on"
+            />
+          </template>
+          <v-date-picker
+              ref="serviceStartPicker"
+              v-model="employee.serviceStartDate"
+              :max="new Date().toISOString().substr(0, 10)"
+              min="1900-01-01"
+              :readonly="readOnly"
+          />
+        </v-menu>
       </v-card>
     </v-col>
     <v-col sm="6">
@@ -94,13 +148,27 @@
 
   export default {
     name: "UserEmployee",
+    data: () => {
+      return {
+        dobMenu: false,
+        serviceStartMenu: false
+      };
+    },
     components: {ImageUpload},
     props: {
       employee: Object,
       readOnly: {
         type: Boolean,
         default: false
-      }
+      },
+      watch: {
+        dobMenu(val) {
+          val && setTimeout(() => (this.$refs.dobPicker.activePicker = 'YEAR'));
+        },
+        serviceStartMenu(val) {
+          val && setTimeout(() => (this.$refs.serviceStartPicker.activePicker = 'YEAR'));
+        }
+      },
     },
     computed: {
       employees: function () {

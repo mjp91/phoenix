@@ -18,6 +18,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -56,6 +57,10 @@ public class Employee extends AbstractAuditable<User, Long> {
   private String extensionNumber;
 
   private String profileFileName;
+
+  private LocalDate dateOfBirth;
+
+  private LocalDate serviceStartDate;
 
   @JsonIgnore
   @OneToMany(mappedBy = "manager")

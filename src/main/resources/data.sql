@@ -32,10 +32,10 @@ VALUES (1, 'Central Services', NULL, NOW(), NOW()),
        (4, 'Software Development', 3, NOW(), NOW());
 
 INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id,
-                      department_id)
-VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2, 3),
-       (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3, 4),
-       (3, 3, 1, '09:00', '17:00', NOW(), NOW(), 3, 4);
+                      department_id, date_of_birth, service_start_date)
+VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2, 3, '1976-09-05', '2018-03-04'),
+       (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3, 4, '1991-12-01', '2015-11-23'),
+       (3, 3, 1, '09:00', '17:00', NOW(), NOW(), 3, 4, '1987-04-20', '2001-02-21');
 
 INSERT INTO company_year (id, name, year_start, year_end, created_date, last_modified_date)
 VALUES (1, '2019', '2019-01-01', '2019-12-31', NOW(), NOW());
