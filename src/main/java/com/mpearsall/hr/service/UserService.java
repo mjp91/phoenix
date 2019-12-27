@@ -2,9 +2,11 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.security.CustomDaoAuthenticationProvider;
 import com.mpearsall.hr.dto.*;
+import com.mpearsall.hr.entity.Company;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.exception.InvalidDetailsException;
+import com.mpearsall.hr.repository.CompanyRepository;
 import com.mpearsall.hr.repository.RoleRepository;
 import com.mpearsall.hr.repository.UserRepository;
 import com.mpearsall.hr.util.TokenUtil;
@@ -32,16 +34,19 @@ import static java.util.Collections.singletonList;
 public class UserService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
+  private final CompanyRepository companyRepository;
   private final ServerService serverService;
   private final EmailService emailService;
   private final EmployeeService employeeService;
   private final PasswordEncoder passwordEncoder;
 
   public UserService(UserRepository userRepository, RoleRepository roleRepository,
-                     ServerService serverService, EmailService emailService,
-                     EmployeeService employeeService, PasswordEncoder passwordEncoder) {
+                     CompanyRepository companyRepository, ServerService serverService,
+                     EmailService emailService, EmployeeService employeeService,
+                     PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
+    this.companyRepository = companyRepository;
     this.serverService = serverService;
     this.emailService = emailService;
     this.employeeService = employeeService;
@@ -63,11 +68,13 @@ public class UserService {
 
   @Transactional
   public User createUser(CreateUser createUser) {
+    final Company company = companyRepository.find();
+
     // create user
     User user = new User(createUser.getUsername(), createUser.getEmail(), createUser.getFullName());
     user.setRoles(getDefaultRoles());
     user.setCredentialsExpired(true);
-    user.setTotpEnabled(true);
+    user.setTotpEnabled(company.isTotpRequired());
     user = userRepository.save(user);
 
     // create employee
@@ -223,6 +230,12 @@ public class UserService {
 
     final Boolean totpEnabled = updateUser.getTotpEnabled();
     if (totpEnabled != null) {
+      final Company company = companyRepository.find();
+
+      if (!totpEnabled && company.isTotpRequired()) {
+        throw new InvalidDetailsException("Company configuration enforces 2FA");
+      }
+
       user.setTotpEnabled(totpEnabled);
     }
 

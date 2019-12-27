@@ -58,7 +58,7 @@ const actions = {
     return Vue.axios.post('/users/change-password', payload);
   },
   saveUser: ({commit}, payload) => {
-    Vue.axios.post('/users', payload).then((response) => {
+    return Vue.axios.post('/users', payload).then((response) => {
       commit('setUser', response.data);
     });
   }

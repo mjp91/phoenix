@@ -34,4 +34,7 @@ public class Company extends AbstractAuditable<User, Long> {
   @DecimalMin("0.0")
   @DecimalMax("8784") // max hours in a year
   private double defaultHolidayEntitlementHours = 0.0;
+
+  @NotNull
+  private boolean totpRequired = false;
 }
