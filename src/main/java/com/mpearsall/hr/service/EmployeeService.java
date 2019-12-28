@@ -1,6 +1,7 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
+import com.mpearsall.hr.dto.EmployeeAnniversary;
 import com.mpearsall.hr.entity.Company;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.employee.EmployeeDay;
@@ -19,14 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class EmployeeService {
+  private static final int BIRTHDAYS = 5;
+
   private final EmployeeRepository employeeRepository;
   private final CompanyRepository companyRepository;
   private final CustomUserDetailsService customUserDetailsService;
@@ -143,5 +145,57 @@ public class EmployeeService {
     final Employee manager = employee.getManager();
 
     return manager != null && manager.equals(currentUserEmployee);
+  }
+
+  public List<EmployeeAnniversary> findAllWithUpcomingBirthdays() {
+    // group by unique birthday
+    final Map<LocalDate, List<Employee>> employeeMap = StreamSupport.stream(employeeRepository.findAll().spliterator(), false)
+        .collect(Collectors.groupingBy(employee -> employee.getDateOfBirth().withYear(LocalDate.now().getYear())));
+
+    return getEmployeeAnniversaries(employeeMap, BIRTHDAYS);
+  }
+
+  public List<EmployeeAnniversary> findAllWithUpcomingServiceAnniversaries() {
+    final Map<LocalDate, List<Employee>> employeeMap = StreamSupport.stream(employeeRepository.findAll().spliterator(), false)
+        .collect(Collectors.groupingBy(employee -> employee.getServiceStartDate().withYear(LocalDate.now().getYear())));
+
+    return getEmployeeAnniversaries(employeeMap, BIRTHDAYS);
+  }
+
+  private List<EmployeeAnniversary> getEmployeeAnniversaries(Map<LocalDate, List<Employee>> employeeMap, int limit) {
+    final List<LocalDate> uniqueDates = new ArrayList<>(employeeMap.keySet());
+    Collections.sort(uniqueDates);
+
+    final List<EmployeeAnniversary> results = new ArrayList<>();
+
+    LocalDate now = LocalDate.now();
+    int i = 0;
+    while (results.size() < limit) {
+      final Iterator<LocalDate> iterator = uniqueDates.iterator();
+
+      // break if empty
+      if (!iterator.hasNext()) {
+        break;
+      }
+
+      while (results.size() < limit && iterator.hasNext()) {
+        final LocalDate dateKey = iterator.next();
+        LocalDate date = dateKey;
+
+        // if second pass or more use the next year
+        if (i > 0) {
+          date = dateKey.withYear(now.getYear());
+        } else if (dateKey.isBefore(now)) {
+          continue;
+        }
+
+        results.add(new EmployeeAnniversary(date, employeeMap.get(dateKey)));
+      }
+
+      now = now.plusYears(1);
+      i++;
+    }
+
+    return results;
   }
 }

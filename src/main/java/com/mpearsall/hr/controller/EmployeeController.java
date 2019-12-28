@@ -1,11 +1,13 @@
 package com.mpearsall.hr.controller;
 
+import com.mpearsall.hr.dto.EmployeeAnniversary;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +34,16 @@ public class EmployeeController {
   @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Employee byUserId(@PathVariable Long id) {
     return employeeRepository.findByUser_Id(id);
+  }
+
+  @GetMapping(value = "/upcoming-birthdays", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<EmployeeAnniversary> byUpcomingBirthday() {
+    return employeeService.findAllWithUpcomingBirthdays();
+  }
+
+  @GetMapping(value = "/upcoming-service-anniversaries", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<EmployeeAnniversary> byUpcomingServiceAnniversaries() {
+    return employeeService.findAllWithUpcomingServiceAnniversaries();
   }
 
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
