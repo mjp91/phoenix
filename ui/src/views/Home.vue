@@ -15,6 +15,9 @@
       <v-col sm="4">
         <absence-widget/>
       </v-col>
+      <v-col sm="8">
+        <anniversary-widget/>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -25,10 +28,12 @@
   import HolidayRequestWidget from '../components/widget/HolidayRequestWidget';
   import HolidayTodayWidget from "../components/widget/HolidayTodayWidget";
   import AbsenceWidget from "../components/widget/AbsenceWidget";
+  import AnniversaryWidget from "../components/widget/AnniversaryWidget";
 
   export default {
     name: 'home',
     components: {
+      AnniversaryWidget,
       AbsenceWidget,
       HolidayTodayWidget,
       HolidayWidget,

@@ -1,21 +1,18 @@
 <template>
-  <v-card>
-    <v-card-title primary-title class="layout justify-center">
-      <h2 class="display-1">Days Absent</h2>
-    </v-card-title>
-    <v-row class="pa-3" justify="center">
-      <div class="display-4 pa-4">
-        {{this.daysAbsent}}
-      </div>
-    </v-row>
-  </v-card>
+  <widget title="Days Absent">
+    <div class="display-4 layout justify-center">
+      {{daysAbsent}}
+    </div>
+  </widget>
 </template>
 
 <script>
   import {mapActions, mapGetters} from "vuex";
+  import Widget from "./Widget";
 
   export default {
     name: "AbsenceWidget",
+    components: {Widget},
     computed: {
       ...mapGetters({
         daysAbsent: 'getAbsenceDays'
@@ -32,6 +29,3 @@
   };
 </script>
 
-<style scoped>
-
-</style>

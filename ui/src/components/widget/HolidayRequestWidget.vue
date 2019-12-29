@@ -1,20 +1,18 @@
 <template>
-  <v-card>
-    <v-card-title primary-title class="layout justify-center">
-      <h2 class="display-1">Requests</h2>
-    </v-card-title>
-    <v-row class="pa-2" v-if="mostRecentHolidayRequests.length > 0">
-      <v-col cols="12">
-        <holiday-list :holidays="mostRecentHolidayRequests" title="employee"></holiday-list>
-      </v-col>
-    </v-row>
+  <widget title="Requests">
+    <holiday-list
+        v-if="mostRecentHolidayRequests.length > 0"
+        :holidays="mostRecentHolidayRequests"
+        title="employee"
+    />
     <v-card-text v-else>No outstanding requests</v-card-text>
-  </v-card>
+  </widget>
 </template>
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
   import HolidayList from "../HolidayList";
+  import Widget from "./Widget";
 
   export default {
     name: "HolidayRequestWidget",
@@ -31,7 +29,7 @@
     beforeMount() {
       this.fetchMostRecentHolidayRequests();
     },
-    components: {HolidayList}
+    components: {Widget, HolidayList}
   };
 </script>
 

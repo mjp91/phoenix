@@ -1,9 +1,6 @@
 <template>
-  <v-card>
-    <v-card-title primary-title class="layout justify-center">
-      <h2 class="display-1">Holiday Used</h2>
-    </v-card-title>
-    <v-row class="pa-3" justify="center">
+  <widget title="Holiday Used">
+    <div class="layout justify-center">
       <v-progress-circular
           :rotate="-90"
           :size="200"
@@ -16,15 +13,17 @@
             {{ `${this.holiday.used} / ${this.holiday.total}` }}
         </span>
       </v-progress-circular>
-    </v-row>
-  </v-card>
+    </div>
+  </widget>
 </template>
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
+  import Widget from "./Widget";
 
   export default {
     name: "Holiday",
+    components: {Widget},
     computed: {
       ...mapGetters({
         holiday: 'getHoliday'

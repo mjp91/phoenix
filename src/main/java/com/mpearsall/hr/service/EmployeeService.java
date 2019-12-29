@@ -27,7 +27,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class EmployeeService {
-  private static final int BIRTHDAYS = 5;
+  private static final int BIRTHDAYS = 3;
 
   private final EmployeeRepository employeeRepository;
   private final CompanyRepository companyRepository;

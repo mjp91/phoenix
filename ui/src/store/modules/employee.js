@@ -3,7 +3,9 @@ import Vue from 'vue';
 const state = {
   employee: null,
   bradfordScore: null,
-  employees: []
+  employees: [],
+  upcomingBirthdays: [],
+  upcomingServiceAnniversaries: []
 };
 
 const getters = {
@@ -15,6 +17,12 @@ const getters = {
   },
   getBradfordScore: (state) => {
     return state.bradfordScore;
+  },
+  getUpcomingBirthdays: (state) => {
+    return state.upcomingBirthdays;
+  },
+  getUpcomingServiceAnniversaries: (state) => {
+    return state.upcomingServiceAnniversaries;
   }
 };
 
@@ -27,6 +35,12 @@ const mutations = {
   },
   setBradfordScore: (state, payload) => {
     state.bradfordScore = payload;
+  },
+  setUpcomingBirthdays: (state, payload) => {
+    state.upcomingBirthdays = payload;
+  },
+  setUpcomingServiceAnniversaries: (state, payload) => {
+    state.upcomingServiceAnniversaries = payload;
   }
 };
 
@@ -49,6 +63,16 @@ const actions = {
   fetchBradfordScore: ({commit}, payload) => {
     Vue.axios.get(`/absence/bradford-score/${payload}`).then((response) => {
       commit('setBradfordScore', response.data);
+    });
+  },
+  fetchUpcomingBirthdays: ({commit}) => {
+    Vue.axios.get(`/employee/upcoming-birthdays`).then((response) => {
+      commit('setUpcomingBirthdays', response.data);
+    });
+  },
+  fetchUpcomingServiceAnniversaries: ({commit}) => {
+    Vue.axios.get(`/employee/upcoming-service-anniversaries`).then((response) => {
+      commit('setUpcomingServiceAnniversaries', response.data);
     });
   },
   saveEmployee: ({commit}, payload) => {
