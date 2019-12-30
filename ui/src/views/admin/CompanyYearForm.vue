@@ -8,9 +8,9 @@
               label="Name"
               v-model="companyYear.name"
           />
+          <date-range @rangeSet="rangeSet"/>
         </v-col>
       </v-row>
-      <date-range @rangeSet="rangeSet"/>
     </v-form>
   </div>
 </template>

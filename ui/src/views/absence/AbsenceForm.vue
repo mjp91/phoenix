@@ -15,7 +15,7 @@
               hint="Please enter a reason for your absence with appropriate detail"
               no-resize
           />
-          <date-range :slim="true" @rangeSet="rangeSet"/>
+          <date-range @rangeSet="rangeSet"/>
           <v-file-input
               v-model="files"
               label="Attachments"

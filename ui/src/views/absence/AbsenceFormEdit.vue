@@ -18,7 +18,6 @@
           <date-range
               :startValue="absence.start"
               :endValue="absence.end"
-              :slim="true"
               read-only
           />
           <v-chip

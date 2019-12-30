@@ -11,7 +11,7 @@
           <v-text-field
               v-model="holidayRequest.name"
               label="Name"
-          ></v-text-field>
+          />
           <company-year-select @select="companyYearSelected"/>
           <v-switch
               :label="dateSelection ? 'Range' : 'Single Date'"
@@ -24,28 +24,12 @@
               :items="types"
               value="ALL_DAY"
           />
-        </v-col>
-      </v-row>
-      <v-row v-if="holidayRequest.companyYearId">
-        <v-col sm="4">
-          <v-subheader>From</v-subheader>
-          <v-date-picker
-              v-model="holidayRequest.startDate"
-              :color="dateSelection ? 'green' : 'primary'"
+          <date-range
+              v-if="holidayRequest.companyYearId"
+              @rangeSet="rangeSet"
               :min="getCompanyYearStart"
               :max="getCompanyYearEnd"
-              @input="validateDates">
-          </v-date-picker>
-        </v-col>
-        <v-col v-if="dateSelection" sm="4">
-          <v-subheader>To</v-subheader>
-          <v-date-picker
-              v-model="holidayRequest.endDate"
-              color="red"
-              :min="getCompanyYearStart"
-              :max="getCompanyYearEnd"
-              @input="validateDates">
-          </v-date-picker>
+          />
         </v-col>
       </v-row>
     </v-form>
@@ -53,15 +37,15 @@
 </template>
 
 <script>
-  import moment from 'moment';
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import store from '../../store';
   import CompanyYearSelect from "../../components/CompanyYearSelect";
   import FormHeader from "../../components/FormHeader";
+  import DateRange from "../../components/DateRange";
 
   export default {
     name: "HolidayForm",
-    components: {FormHeader, CompanyYearSelect},
+    components: {DateRange, FormHeader, CompanyYearSelect},
     data() {
       return {
         dateSelection: false,
@@ -114,15 +98,9 @@
           return companyYear.id === this.holidayRequest.companyYearId;
         });
       },
-      validateDates() {
-        const startDate = this.holidayRequest.startDate;
-        const endDate = this.holidayRequest.endDate;
-        if (startDate && endDate) {
-          const invalid = moment(startDate).isAfter(moment(endDate));
-          if (invalid) {
-            this.holidayRequest.endDate = startDate;
-          }
-        }
+      rangeSet(range) {
+        this.holidayRequest.startDate = range.startDate;
+        this.holidayRequest.endDate = range.endDate;
       },
       saveHoliday() {
         let valid = this.$refs.form.validate();

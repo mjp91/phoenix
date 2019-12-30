@@ -13,7 +13,7 @@
               </div>
             </v-list-item-title>
             <v-list-item-subtitle>
-              <v-icon small>mdi-calendar-today</v-icon>
+              <v-icon small>mdi-palm-tree</v-icon>
               {{ getHolidayRange(item).range }}
             </v-list-item-subtitle>
           </v-list-item-content>
