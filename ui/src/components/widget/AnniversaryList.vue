@@ -3,11 +3,14 @@
     <template v-for="(item, index) in anniversaries">
       <v-list-item :key="`anniversary-date-${index}`">
         <v-list-item-content>
-          <v-list-item-title>{{formatDate(item.date)}}</v-list-item-title>
+          <v-list-item-title>
+            {{formatDate(item.date)}}
+          </v-list-item-title>
           <v-list-item-subtitle v-for="(employee, index) in item.employees">
             <div :key="`employee-anniversary-${index}`">
               <v-icon small>{{icon ? icon : 'mdi-calendar'}}</v-icon>
               {{' ' + employee.user.fullName}}
+              <slot name="years" :date="item.date" :employee="employee"/>
             </div>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -23,7 +26,7 @@
     name: 'anniversary-list',
     props: {
       anniversaries: Array,
-      icon: String
+      icon: String,
     },
     methods: {
       formatDate(dateStr) {
