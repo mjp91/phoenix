@@ -4,6 +4,7 @@ import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.repository.CompanyYearRepository;
 import com.mpearsall.hr.service.CompanyYearService;
+import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyYearController {
   private final CompanyYearRepository companyYearRepository;
   private final CompanyYearService companyYearService;
+  private final EmployeeService employeeService;
 
-  public CompanyYearController(CompanyYearRepository companyYearRepository, CompanyYearService companyYearService) {
+  public CompanyYearController(CompanyYearRepository companyYearRepository, CompanyYearService companyYearService,
+                               EmployeeService employeeService) {
     this.companyYearRepository = companyYearRepository;
     this.companyYearService = companyYearService;
+    this.employeeService = employeeService;
   }
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,9 +28,18 @@ public class CompanyYearController {
     return companyYearRepository.findAll();
   }
 
+  @GetMapping(path = "/future", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<CompanyYear> currentAndFutureCompanyYears() {
+    return companyYearRepository.findAllCurrentAndFuture();
+  }
+
   @Secured(Role.ADMIN)
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public CompanyYear save(@RequestBody CompanyYear companyYear) {
-    return companyYearService.save(companyYear);
+    companyYear = companyYearService.save(companyYear);
+
+    employeeService.addDefaultHolidayEntitlement(companyYear);
+
+    return companyYear;
   }
 }

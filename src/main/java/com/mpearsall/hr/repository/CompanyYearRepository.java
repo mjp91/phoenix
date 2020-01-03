@@ -14,4 +14,7 @@ public interface CompanyYearRepository extends PagingAndSortingRepository<Compan
 
   @Query("SELECT hy FROM CompanyYear hy WHERE hy.yearStart <= ?1 AND hy.yearEnd >= ?1")
   CompanyYear findForDate(@NotNull LocalDate date);
+
+  @Query("SELECT cy FROM CompanyYear cy WHERE cy.yearEnd > CURRENT_DATE()")
+  Iterable<CompanyYear> findAllCurrentAndFuture();
 }

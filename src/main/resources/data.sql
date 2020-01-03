@@ -7,13 +7,14 @@ VALUES (1, 'ROLE_USER');
 INSERT INTO role (id, name)
 VALUES (2, 'ROLE_ADMIN');
 
-INSERT INTO user (id, username, password, full_name, email, calendar_token, credentials_expired, ldap, totp_enabled)
+INSERT INTO user (id, username, password, full_name, email, calendar_token, credentials_expired, ldap, totp_enabled,
+                  enabled)
 VALUES (1, 'buzz', NULL, 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-4083-8671-2c9d9ddb2db3', FALSE, TRUE,
-        FALSE),
+        FALSE, TRUE),
        (2, 'matt', NULL, 'Matthew Pearsall', 'mjp91@live.co.uk', '85171ffc-a233-449b-8629-f6a020d010db', FALSE, TRUE,
-        FALSE),
+        FALSE, TRUE),
        (3, 'rick', '$2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou', 'Rick Sanchez', 'rick@example.com',
-        '10702fa0-74e6-4d17-851b-5c6ae06c917c', FALSE, FALSE, TRUE);
+        '10702fa0-74e6-4d17-851b-5c6ae06c917c', FALSE, FALSE, TRUE, TRUE);
 
 INSERT INTO user_roles
 VALUES (1, 2),

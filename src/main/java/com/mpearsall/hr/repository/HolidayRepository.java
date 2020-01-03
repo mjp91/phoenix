@@ -13,7 +13,7 @@ import java.util.Collection;
 public interface HolidayRepository extends PagingAndSortingRepository<Holiday, Long> {
 
   String FIND_ALL_PENDING_HOLIDAYS_QUERY = "SELECT h FROM Holiday h" +
-      " JOIN Employee e ON e = h.employee AND e.manager = ?1" +
+      " JOIN Employee e ON e = h.employee AND e.manager = ?1 AND e.serviceEndDate IS NULL" +
       " WHERE h.approved IS NULL ORDER BY h.createdDate DESC";
 
   @Query(FIND_ALL_PENDING_HOLIDAYS_QUERY)
@@ -48,4 +48,9 @@ public interface HolidayRepository extends PagingAndSortingRepository<Holiday, L
       " WHERE h.employee = ?1" +
       " AND h.cancelled = false")
   Page<Holiday> findAllByEmployee(Employee employee, Pageable pageable);
+
+  @Override
+  @Query("SELECT h FROM Holiday h" +
+      " WHERE h.employee.serviceEndDate IS NULL")
+  Page<Holiday> findAll(Pageable pageable);
 }

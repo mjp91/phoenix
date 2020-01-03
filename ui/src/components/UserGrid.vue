@@ -37,6 +37,15 @@
           <v-icon>mdi-checkbox-blank-outline</v-icon>
       </span>
     </template>
+
+    <template v-slot:item.enabled="{ item }">
+      <span v-if="item.enabled">
+          <v-icon>mdi-checkbox-marked-outline</v-icon>
+      </span>
+      <span v-else>
+          <v-icon>mdi-checkbox-blank-outline</v-icon>
+      </span>
+    </template>
   </v-data-table>
 </template>
 
@@ -67,6 +76,11 @@
           {
             text: '2FA',
             value: 'totpEnabled',
+            sortable: false
+          },
+          {
+            text: 'Enabled',
+            value: 'enabled',
             sortable: false
           }
         ]

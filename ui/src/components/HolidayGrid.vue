@@ -7,7 +7,7 @@
       show-expand
   >
     <template v-slot:top>
-      <slot name="top"></slot>
+      <slot name="top"/>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="500">
           <v-card>
@@ -25,7 +25,7 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer/>
               <v-btn @click="dialog = false">Cancel</v-btn>
               <v-btn color="error" @click="closeDisapprovalModal">Disapprove</v-btn>
             </v-card-actions>

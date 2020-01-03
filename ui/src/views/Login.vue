@@ -73,8 +73,9 @@
 
         if (valid) {
           store.dispatch('login', this.loginDetails).catch((error) => {
-            if (error.response && error.response.status === 401) {
-              const type = error.response.data.type;
+            const response = error.response;
+            if (response && response.status === 401) {
+              const type = response.data.type;
               if (type === ApplicationErrorType.TOTP_REQUIRED) {
                 this.totpRequired = true;
                 store.commit('addAlert', {
@@ -90,7 +91,7 @@
                   message: "Please register for 2FA"
                 });
               } else {
-                let message = "Username or password is incorrect";
+                let message = response.data.message;
 
                 if (this.totpRequired) {
                   message = "Username, password or 2FA code is incorrect";

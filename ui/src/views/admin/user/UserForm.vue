@@ -1,12 +1,55 @@
 <template>
   <div>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="500">
+        <v-card>
+          <v-card-title class="headline">Leaver</v-card-title>
+          <v-card-text>
+            <div class="mb-1">
+              Select the employee's leave date and confirm.
+              Access will be revoked immediately.
+            </div>
+            <v-row justify="center">
+              <v-date-picker
+                  v-model="leaveDate"
+                  color="error"
+                  :max="new Date().toISOString()"
+              />
+            </v-row>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn @click="dialog = false">Cancel</v-btn>
+            <v-btn color="error" @click="leave" :disabled="leaveDate === null">Confirm</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
     <form-header
         :title="user.fullName"
         :cancel="close"
         :save="save"
     >
-      <template v-if="!user.ldap && user.totpEnabled" slot="actions">
-        <v-btn class="mr-2" color="primary" @click="resetTwoFactorAuth">Reset 2FA</v-btn>
+      <template slot="chips">
+        <v-chip v-if="employee.serviceEndDate" color="error">Left</v-chip>
+      </template>
+      <template slot="actions">
+        <template v-if="!employee.serviceEndDate">
+          <v-btn
+              v-if="!user.ldap && user.totpEnabled"
+              class="mr-2"
+              color="primary"
+              @click="resetTwoFactorAuth">
+            Reset 2FA
+          </v-btn>
+          <v-btn
+              v-if="hasAdmin"
+              class="mr-2"
+              color="error"
+              @click="dialog = true">
+            Leave
+          </v-btn>
+        </template>
       </template>
     </form-header>
     <v-form ref="form">
@@ -55,11 +98,15 @@
   import UserEmployeeEntitlement from "./UserEmployeeEntitlement";
   import FormHeader from "../../../components/FormHeader";
   import UserEmployeeContactInformation from "./UserEmployeeContactInformation";
+  import UserMixin from "../../../mixins/UserMixin";
 
   export default {
     name: "UserForm",
     data: () => {
-      return {};
+      return {
+        dialog: false,
+        leaveDate: null
+      };
     },
     computed: {
       ...mapGetters({
@@ -71,7 +118,8 @@
       ...mapActions({
         fetchUser: 'fetchUser',
         fetchEmployeeByUserId: 'fetchByUserId',
-        reset2fa: 'reset2fa'
+        reset2fa: 'reset2fa',
+        leaveEmployee: 'leaveEmployee'
       }),
       save() {
         Promise.all([
@@ -99,6 +147,19 @@
             message: '2FA reset successfully'
           });
         });
+      },
+      leave() {
+        this.leaveEmployee({
+          employeeId: this.employee.id,
+          leaveDate: this.leaveDate
+        }).then(() => {
+          store.commit('addAlert', {
+            type: 'success',
+            message: 'Employee left successfully'
+          });
+          this.dialog = false;
+          this.close();
+        });
       }
     },
     beforeMount() {
@@ -113,7 +174,8 @@
       UserEmployeeDays,
       UserEmployee,
       UserGeneral,
-    }
+    },
+    mixins: [UserMixin],
   };
 </script>
 

@@ -39,7 +39,12 @@ public interface AbsenceRepository extends PagingAndSortingRepository<Absence, L
   @Query("SELECT a FROM Absence a" +
       " WHERE a.authorized IS NULL" +
       " AND a.cancelled = false" +
+      " AND a.employee.serviceEndDate IS NULL" +
       " ORDER BY a.createdDate DESC")
   Collection<Absence> findAllPendingAuthorisation();
 
+  @Override
+  @Query("SELECT a FROM Absence a" +
+      " WHERE a.employee.serviceEndDate IS NULL")
+  Page<Absence> findAll(Pageable pageable);
 }

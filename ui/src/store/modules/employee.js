@@ -79,6 +79,9 @@ const actions = {
     return Vue.axios.post('/employee', payload).then((response) => {
       commit('setEmployee', response.data);
     });
+  },
+  leaveEmployee: ({commit}, payload) => {
+    return Vue.axios.post('/employee/leave', payload);
   }
 };
 

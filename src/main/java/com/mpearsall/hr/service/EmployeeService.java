@@ -6,6 +6,7 @@ import com.mpearsall.hr.entity.Company;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.employee.EmployeeDay;
 import com.mpearsall.hr.entity.employee.EmployeeWeek;
+import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.entity.user.Role;
 import com.mpearsall.hr.entity.user.User;
@@ -131,13 +132,37 @@ public class EmployeeService {
     employee.setUser(user);
     employee.setEmployeeWeek(company.getDefaultEmployeeWeek());
 
-    final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
-    holidayEntitlement.setCompanyYear(companyYearService.getCurrentCompanyYear());
-    holidayEntitlement.setHolidayEntitlementHours(company.getDefaultHolidayEntitlementHours());
-
-    employee.setHolidayEntitlements(new ArrayList<>(List.of(holidayEntitlement)));
+    addDefaultHolidayEntitlement(companyYearService.getCurrentCompanyYear(), company, employee);
 
     return save(employee);
+  }
+
+  @Transactional
+  public void addDefaultHolidayEntitlement(CompanyYear companyYear) {
+    final Company company = companyRepository.find();
+    final Iterable<Employee> employees = employeeRepository.findAll();
+
+    for (Employee employee : employees) {
+      addDefaultHolidayEntitlement(companyYear, company, employee);
+    }
+  }
+
+  private void addDefaultHolidayEntitlement(CompanyYear companyYear, Company company, Employee employee) {
+    final boolean exists = employee.getHolidayEntitlements().stream()
+        .anyMatch(holidayEntitlement -> holidayEntitlement.getCompanyYear().equals(companyYear));
+
+    if (!exists) {
+      final HolidayEntitlement holidayEntitlement = new HolidayEntitlement();
+      holidayEntitlement.setCompanyYear(companyYear);
+      holidayEntitlement.setHolidayEntitlementHours(company.getDefaultHolidayEntitlementHours());
+
+      employee.addHolidayEntitlement(holidayEntitlement);
+    }
+  }
+
+  @Transactional
+  public void leave(Employee employee, LocalDate leaveDate) {
+    employee.setServiceEndDate(leaveDate);
   }
 
   public boolean isManager(Employee employee) {

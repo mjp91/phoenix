@@ -63,6 +63,9 @@ public class User implements UserDetails {
   @JsonIgnore
   private String totpSecret;
 
+  @NotNull
+  private boolean enabled = true;
+
   @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -110,9 +113,8 @@ public class User implements UserDetails {
     return !credentialsExpired;
   }
 
-  @JsonIgnore
   @Override
   public boolean isEnabled() {
-    return true;
+    return enabled;
   }
 }

@@ -13,12 +13,7 @@
               label="Name"
           />
           <company-year-select @select="companyYearSelected"/>
-          <v-switch
-              :label="dateSelection ? 'Range' : 'Single Date'"
-              v-model="dateSelection">
-          </v-switch>
           <v-select
-              v-if="!dateSelection"
               v-model="holidayRequest.holidayPeriod"
               label="Duration"
               :items="types"
@@ -48,7 +43,6 @@
     components: {DateRange, FormHeader, CompanyYearSelect},
     data() {
       return {
-        dateSelection: false,
         holidayRequest: {
           startDate: null,
           endDate: null,
@@ -76,7 +70,7 @@
     },
     computed: {
       ...mapGetters({
-        companyYears: 'getCompanyYears'
+        companyYears: 'getCurrentAndFutureCompanyYears'
       }),
       getCompanyYearStart() {
         const companyYear = this.findCompanyYear();
@@ -113,10 +107,6 @@
           });
         }
 
-        if (this.dateSelection) {
-          this.holidayRequest.holidayPeriod = 'ALL_DAY';
-        }
-
         if (valid) {
           store.dispatch('saveHoliday', this.holidayRequest).then(() => {
             this.close();
@@ -132,7 +122,7 @@
         addAlert: 'addAlert',
       }),
       ...mapActions({
-        fetchCompanyYears: 'fetchCompanyYears',
+        fetchCompanyYears: 'fetchCurrentAndFutureCompanyYears',
       })
     },
     beforeMount() {

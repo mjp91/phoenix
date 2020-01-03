@@ -119,6 +119,13 @@
               :readonly="readOnly"
           />
         </v-menu>
+        <v-text-field
+            v-if="employee.serviceEndDate"
+            :value="employee.serviceEndDate"
+            label="Service End Date"
+            prepend-icon="mdi-calendar"
+            readonly
+        />
       </v-card>
     </v-col>
     <v-col sm="6">

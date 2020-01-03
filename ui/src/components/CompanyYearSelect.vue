@@ -24,7 +24,7 @@
     },
     computed: {
       ...mapGetters({
-        companyYears: 'getCompanyYears'
+        companyYears: 'getCurrentAndFutureCompanyYears'
       }),
     },
     methods: {
@@ -35,7 +35,7 @@
         this.$emit('select', e);
       },
       ...mapActions({
-        fetchCompanyYears: 'fetchCompanyYears',
+        fetchCompanyYears: 'fetchCurrentAndFutureCompanyYears',
       })
     },
     beforeMount() {

@@ -1,7 +1,10 @@
 <template>
   <v-row>
     <v-col>
-      <h1 class="headline">{{title}}</h1>
+      <h1 class="headline">
+        {{title}}
+        <slot name="chips"/>
+      </h1>
     </v-col>
     <v-col>
       <v-row align="end" justify="end">

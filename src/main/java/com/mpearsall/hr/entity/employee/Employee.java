@@ -62,6 +62,8 @@ public class Employee extends AbstractAuditable<User, Long> {
 
   private LocalDate serviceStartDate;
 
+  private LocalDate serviceEndDate;
+
   @JsonIgnore
   @OneToMany(mappedBy = "manager")
   private Collection<Employee> manages = new HashSet<>();
@@ -96,6 +98,12 @@ public class Employee extends AbstractAuditable<User, Long> {
     }
 
     this.holidayEntitlements = holidayEntitlements;
+  }
+
+  public void addHolidayEntitlement(HolidayEntitlement holidayEntitlement) {
+    holidayEntitlement.setEmployee(this);
+
+    this.holidayEntitlements.add(holidayEntitlement);
   }
 
   public Address getAddress() {
