@@ -72,7 +72,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     final HolidayRequest holidayRequest = new HolidayRequest();
     holidayRequest.setStartDate(LocalDate.now());
     holidayRequest.setEndDate(LocalDate.now().minusDays(1L));
-    holidayRequest.setCompanyYearId(companyYearService.getCurrentCompanyYear().getId());
+    holidayRequest.setCompanyYearId(companyYear.getId());
 
     holidayService.requestToHoliday(holidayRequest);
   }
@@ -83,7 +83,7 @@ public class HolidayServiceTest extends HrApplicationTests {
     final HolidayRequest holidayRequest = new HolidayRequest();
     holidayRequest.setStartDate(LocalDate.now().minusDays(2L));
     holidayRequest.setEndDate(LocalDate.now().plusDays(4L));
-    holidayRequest.setCompanyYearId(companyYearService.getCurrentCompanyYear().getId());
+    holidayRequest.setCompanyYearId(companyYear.getId());
 
     holidayService.requestToHoliday(holidayRequest);
   }

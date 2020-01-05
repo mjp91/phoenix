@@ -22,6 +22,7 @@ public class CompanyYearFactory {
 
     if (companyYear == null) {
       companyYear = new CompanyYear();
+      companyYear.setName(String.valueOf(now.getYear()));
       companyYear.setYearStart(now.with(TemporalAdjusters.firstDayOfYear()));
       companyYear.setYearEnd(now.with(TemporalAdjusters.lastDayOfYear()));
       companyYear = companyYearRepository.save(companyYear);
