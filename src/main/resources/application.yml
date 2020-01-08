@@ -16,13 +16,18 @@ spring:
     ansi:
       enabled: always
   mail:
-    host: smtp.eu.mailgun.org
-    username: noreply@mail.holibyte.co.uk
-    password: ba2381eb1f4238eabdb070fd379783b9-c50f4a19-8faf1131
+    host: smtp.sendgrid.net
+    username: apikey
+    password: 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
     port: 587
     properties:
       mail:
         debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    test-connection: true
   jackson:
     mapper:
       default-view-inclusion: true

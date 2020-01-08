@@ -13,7 +13,8 @@ VALUES (1, 'buzz', NULL, 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-40
         FALSE, TRUE),
        (2, 'matt', NULL, 'Matthew Pearsall', 'mjp91@live.co.uk', '85171ffc-a233-449b-8629-f6a020d010db', FALSE, TRUE,
         FALSE, TRUE),
-       (3, 'rick', '$2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou', 'Rick Sanchez', 'rick@example.com',
+       (3, 'rick', '$2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou', 'Rick Sanchez',
+        'pimp_pimp04@hotmail.co.uk',
         '10702fa0-74e6-4d17-851b-5c6ae06c917c', FALSE, FALSE, TRUE, TRUE);
 
 INSERT INTO user_roles
