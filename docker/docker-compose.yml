@@ -1,0 +1,16 @@
+version: '3'
+services:
+  proxy:
+    build: ./proxy
+    ports:
+      - 80:80
+    links:
+      - hr
+  hr:
+    build:
+      context: ../
+      dockerfile: ./docker/hr/Dockerfile
+    volumes:
+      - resources:/usr/hr
+volumes:
+  resources: {}

@@ -47,4 +47,4 @@ logging:
       springframework:
         security: info
 storage:
-  location: /home/matt/hr
+  location: /usr/hr
