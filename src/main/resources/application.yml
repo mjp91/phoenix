@@ -46,5 +46,8 @@ logging:
     org:
       springframework:
         security: info
-storage:
-  location: /usr/hr
+hr:
+  license:
+    url: http://localhost:8082/license
+  storage:
+    location: /usr/hr

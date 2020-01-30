@@ -1,3 +1,6 @@
+INSERT INTO config (id, license_authentication_token)
+VALUES (1, '4oep-5ccKh4asEG3lVoE7wWOpr7-m-DS');
+
 INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end, created_date,
                      last_modified_date, totp_required)
 VALUES (1, 'Holibyte', '200.0', '09:00', '17:00', NOW(), NOW(), TRUE);

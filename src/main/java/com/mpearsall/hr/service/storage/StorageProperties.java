@@ -2,7 +2,7 @@ package com.mpearsall.hr.service.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("storage")
+@ConfigurationProperties("hr.storage")
 public class StorageProperties {
   private String location;
 
