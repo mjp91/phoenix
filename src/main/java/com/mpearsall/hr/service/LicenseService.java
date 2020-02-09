@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -35,12 +34,6 @@ public class LicenseService {
   void init() {
     if (licenseUrl == null) {
       throw new IllegalStateException("hr.license.url is null");
-    }
-
-    try {
-      updateLicense();
-    } catch (RestClientException e) {
-      log.error("Unable to obtain license during init", e);
     }
   }
 
