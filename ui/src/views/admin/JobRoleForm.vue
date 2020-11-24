@@ -1,50 +1,39 @@
 <template>
-  <job-role
-      v-if="this.$route.params.id === 'new' || jobRole"
-      :title="title"
-      :populate-with="jobRole"
-      :close="close"
-      :save="save"
-  />
+  <div>
+    <form-header :title="title" :save="() => save(jobRole)" :cancel="close"/>
+    <v-form>
+      <v-row>
+        <v-col sm="6">
+          <v-text-field
+              label="Description"
+              v-model="jobRole.description"
+          />
+        </v-col>
+      </v-row>
+    </v-form>
+  </div>
 </template>
-
 <script>
-import store from "../../store";
-import JobRole from "@/views/admin/JobRole";
-import Vue from 'vue';
+import FormHeader from "../../components/FormHeader";
 
 export default {
-  name: "JobRoleForm",
+  name: 'JobRoleForm',
+  components: {FormHeader},
   data() {
     return {
-      jobRole: null
+      jobRole: {}
     };
   },
-  computed: {
-    title() {
-      return (this.$route.params.id !== 'new' ? "Edit" : "New") + " Job Role";
-    },
-  },
-  methods: {
-    save(jobRole) {
-      store.dispatch('saveJobRole', jobRole).then(() => {
-        this.close();
-      });
-    },
-    close() {
-      this.$router.push({
-        name: 'job-role-management',
-      });
-    },
+  props: {
+    title: {},
+    close: {},
+    populateWith: {},
+    save: {}
   },
   mounted() {
-    if (this.$route.params.id !== 'new') {
-      Vue.axios.get(`/job-role/${this.$route.params.id}`).then(response => {
-        this.jobRole = response.data;
-      });
+    if (this.populateWith) {
+      this.jobRole = this.populateWith;
     }
-  },
-  components: {JobRole},
+  }
 };
 </script>
-

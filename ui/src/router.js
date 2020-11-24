@@ -131,7 +131,7 @@ export default new Router({
     {
       path: '/admin/job-role/:id',
       name: 'job-role',
-      component: () => import('./views/admin/JobRoleForm'),
+      component: () => import('./views/admin/JobRoleFormView'),
       beforeEnter: isAdminBeforeEnter
     },
     {
