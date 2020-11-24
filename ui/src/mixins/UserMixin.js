@@ -1,7 +1,7 @@
 import store from "../store";
 import hasRole from "../lib/hasRole";
 import getBaseUrl from "../lib/getBaseUrl";
-import {Roles} from "../lib/Constants";
+import {Roles} from "@/lib/Constants";
 
 export default {
   methods: {

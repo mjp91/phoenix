@@ -2,6 +2,7 @@
   <v-data-table
       :headers="headers"
       :items="this.jobRoles"
+      @click:row="onRowClick"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -13,19 +14,19 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
-  export default {
-    name: "JobRoleManagement",
-    data: () => {
-      return {
-        headers: [
-          {
-            text: 'Description',
-            value: 'description'
-          }
-        ]
-      };
+export default {
+  name: "JobRoleManagement",
+  data: () => {
+    return {
+      headers: [
+        {
+          text: 'Description',
+          value: 'description'
+        }
+      ]
+    };
     },
     computed: {
       ...mapGetters({
@@ -35,7 +36,15 @@
     methods: {
       ...mapActions({
         fetchJobRoles: 'fetchJobRoles'
-      })
+      }),
+      onRowClick(item) {
+        this.$router.push({
+          name: 'job-role',
+          params: {
+            id: item.id
+          }
+        });
+      }
     },
     beforeMount() {
       this.fetchJobRoles();

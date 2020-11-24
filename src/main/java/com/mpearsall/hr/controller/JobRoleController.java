@@ -1,6 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.entity.employee.JobRole;
+import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.JobRoleRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,11 @@ public class JobRoleController {
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<JobRole> index() {
     return jobRoleRepository.findAll();
+  }
+
+  @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public JobRole byId(@PathVariable long id) {
+    return jobRoleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id, JobRole.class));
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
