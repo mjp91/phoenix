@@ -11,12 +11,12 @@ build:ui:
     - npm run build
 
 build:services:
-  image: openjdk:13
+  image: openjdk:14
   stage: build
   script: ./mvnw compile
 
 test:
-  image: openjdk:13
+  image: openjdk:14
   stage: test
   script: ./mvnw test
   artifacts:
