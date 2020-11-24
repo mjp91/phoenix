@@ -132,7 +132,7 @@ public class UserService {
       if (user.getTotpSecret() == null) {
         // need to register
         message = "Two factor authentication is required";
-        totpUrl = register2fa(user);
+        totpUrl = register2fa(user).getTotpUrl();
       } else {
         // validate code
         if (CustomDaoAuthenticationProvider.isValidCode(passwordReset.getTotpCode())) {
@@ -178,16 +178,17 @@ public class UserService {
       throw new InvalidDetailsException("TOTP already registered");
     }
 
-    return new TotpRegister(register2fa(user));
+    return register2fa(user);
   }
 
-  private String register2fa(User user) {
+  private TotpRegister register2fa(User user) {
     final GoogleAuthenticator gAuth = new GoogleAuthenticator();
 
     final GoogleAuthenticatorKey credentials = gAuth.createCredentials();
     user.setTotpSecret(credentials.getKey());
 
-    return GoogleAuthenticatorQRGenerator.getOtpAuthURL("Holibyte", user.getUsername(), credentials);
+    final String totpUrl = GoogleAuthenticatorQRGenerator.getOtpAuthURL("Holibyte", user.getUsername(), credentials);
+    return new TotpRegister(totpUrl, credentials.getVerificationCode(), credentials.getScratchCodes());
   }
 
   @Transactional
