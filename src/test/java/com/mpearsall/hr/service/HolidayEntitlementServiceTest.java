@@ -7,8 +7,8 @@ import com.mpearsall.hr.entity.employee.EmployeeWeek;
 import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
 import com.mpearsall.hr.factory.CompanyYearFactory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalTime;
@@ -45,6 +45,6 @@ public class HolidayEntitlementServiceTest extends HrApplicationTests {
     employee.setHolidayEntitlements(Collections.singletonList(holidayEntitlement));
 
     final Double entitlementInDays = HolidayEntitlementService.calculateHolidayEntitlementInDays(employee, companyYear);
-    Assert.assertEquals(Double.valueOf(entitlement), entitlementInDays);
+    Assertions.assertEquals(Double.valueOf(entitlement), entitlementInDays);
   }
 }

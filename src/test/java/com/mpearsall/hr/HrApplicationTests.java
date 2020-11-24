@@ -2,14 +2,14 @@ package com.mpearsall.hr;
 
 import com.mpearsall.hr.entity.holiday.CompanyYear;
 import com.mpearsall.hr.factory.CompanyYearFactory;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public abstract class HrApplicationTests {
@@ -18,7 +18,7 @@ public abstract class HrApplicationTests {
 
   protected CompanyYear companyYear;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     companyYear = companyYearFactory.generateForCurrentYear();
   }

@@ -4,8 +4,8 @@ import com.mpearsall.hr.HrApplicationTests;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.entity.user.User;
 import com.mpearsall.hr.repository.UserRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -23,8 +23,8 @@ public class EmployeeServiceTest extends HrApplicationTests {
     user = userRepository.save(user);
 
     final Employee employee = employeeService.createEmployee(user);
-    Assert.assertNotNull(employee);
-    Assert.assertNotNull(employee.getEmployeeWeek());
-    Assert.assertNotNull(employee.getHolidayEntitlements());
+    Assertions.assertNotNull(employee);
+    Assertions.assertNotNull(employee.getEmployeeWeek());
+    Assertions.assertNotNull(employee.getHolidayEntitlements());
   }
 }

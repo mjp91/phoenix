@@ -12,8 +12,8 @@ import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.factory.CompanyYearFactory;
 import com.mpearsall.hr.repository.EmployeeRepository;
 import com.mpearsall.hr.repository.HolidayRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -63,10 +63,10 @@ public class HolidayServiceTest extends HrApplicationTests {
     employee.setHolidays(Collections.singletonList(holiday));
 
     final Double holidayUsed = HolidayService.calculateHolidayUsed(employee, companyYear);
-    Assert.assertEquals(Double.valueOf(2.0), holidayUsed);
+    Assertions.assertEquals(Double.valueOf(2.0), holidayUsed);
   }
 
-  @Test(expected = InvalidDetailsException.class)
+  @Test
   @WithMockUser(username = "matt")
   public void requestToHolidayBackwardsDates() {
     final HolidayRequest holidayRequest = new HolidayRequest();
@@ -74,10 +74,10 @@ public class HolidayServiceTest extends HrApplicationTests {
     holidayRequest.setEndDate(LocalDate.now().minusDays(1L));
     holidayRequest.setCompanyYearId(companyYear.getId());
 
-    holidayService.requestToHoliday(holidayRequest);
+    Assertions.assertThrows(InvalidDetailsException.class, () -> holidayService.requestToHoliday(holidayRequest));
   }
 
-  @Test(expected = InvalidDetailsException.class)
+  @Test
   @WithMockUser(username = "matt")
   public void requestToHolidayPastDates() {
     final HolidayRequest holidayRequest = new HolidayRequest();
@@ -85,16 +85,16 @@ public class HolidayServiceTest extends HrApplicationTests {
     holidayRequest.setEndDate(LocalDate.now().plusDays(4L));
     holidayRequest.setCompanyYearId(companyYear.getId());
 
-    holidayService.requestToHoliday(holidayRequest);
+    Assertions.assertThrows(InvalidDetailsException.class, () -> holidayService.requestToHoliday(holidayRequest));
   }
 
-  @Test(expected = PermissionException.class)
+  @Test
   @WithMockUser(username = "matt")
   public void testApproveFromInvalidUser() {
     final Employee buzz = employeeRepository.findByUser_Username("buzz");
     final Holiday holiday = holidayRepository.findAllByEmployee(buzz, Pageable.unpaged()).stream()
         .findFirst().orElseThrow();
 
-    holidayService.approveHoliday(holiday.getId());
+    Assertions.assertThrows(PermissionException.class, () -> holidayService.approveHoliday(holiday.getId()));
   }
 }

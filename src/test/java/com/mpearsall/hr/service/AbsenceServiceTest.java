@@ -4,8 +4,8 @@ import com.mpearsall.hr.HrApplicationTests;
 import com.mpearsall.hr.entity.absence.Absence;
 import com.mpearsall.hr.entity.employee.Employee;
 import com.mpearsall.hr.exception.InvalidDetailsException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -26,24 +26,24 @@ public class AbsenceServiceTest extends HrApplicationTests {
     generateValidAbsence();
   }
 
-  @Test(expected = InvalidDetailsException.class)
+  @Test
   @WithMockUser(username = "matt")
   public void createWithBackwardDates() {
     final Absence absence = new Absence();
     absence.setStart(LocalDate.now());
     absence.setEnd(LocalDate.now().minusDays(1L));
 
-    absenceService.create(absence);
+    Assertions.assertThrows(InvalidDetailsException.class, () -> absenceService.create(absence));
   }
 
-  @Test(expected = InvalidDetailsException.class)
+  @Test
   @WithMockUser(username = "matt")
   public void createWithFutureDates() {
     final Absence absence = new Absence();
     absence.setStart(LocalDate.now().plusDays(1L));
     absence.setEnd(LocalDate.now().plusDays(2L));
 
-    absenceService.create(absence);
+    Assertions.assertThrows(InvalidDetailsException.class, () -> absenceService.create(absence));
   }
 
   @Test
@@ -54,7 +54,7 @@ public class AbsenceServiceTest extends HrApplicationTests {
     generateValidAbsence();
 
     final int bradfordScore = absenceService.calculateBradfordScore(currentUserEmployee, companyYear);
-    Assert.assertEquals(1, bradfordScore);
+    Assertions.assertEquals(1, bradfordScore);
   }
 
   private void generateValidAbsence() {
