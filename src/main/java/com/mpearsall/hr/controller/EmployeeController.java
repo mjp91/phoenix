@@ -1,6 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.EmployeeAnniversary;
+import com.mpearsall.hr.dto.EmployeeUser;
 import com.mpearsall.hr.dto.Leaver;
 import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.entity.primary.user.User;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -39,8 +39,14 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Optional<Employee> findById(@PathVariable Long id) {
-    return employeeRepository.findById(id);
+  public EmployeeUser findById(@PathVariable Long id) {
+    final Employee employee = employeeRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(id, Employee.class));
+
+    final User user = userRepository.findById(employee.getUser())
+        .orElseThrow(() -> new ResourceNotFoundException(employee.getUser(), User.class));
+
+    return new EmployeeUser(employee, user);
   }
 
   @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
