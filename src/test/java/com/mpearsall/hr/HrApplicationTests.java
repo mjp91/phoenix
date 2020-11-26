@@ -1,6 +1,6 @@
 package com.mpearsall.hr;
 
-import com.mpearsall.hr.entity.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
 import com.mpearsall.hr.factory.CompanyYearFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;

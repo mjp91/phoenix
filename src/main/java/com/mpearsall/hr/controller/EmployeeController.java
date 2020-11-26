@@ -2,12 +2,13 @@ package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.EmployeeAnniversary;
 import com.mpearsall.hr.dto.Leaver;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.user.Role;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
 import com.mpearsall.hr.exception.PermissionException;
-import com.mpearsall.hr.repository.EmployeeRepository;
-import com.mpearsall.hr.repository.UserRepository;
+import com.mpearsall.hr.exception.ResourceNotFoundException;
+import com.mpearsall.hr.repository.primary.UserRepository;
+import com.mpearsall.hr.repository.secondary.EmployeeRepository;
 import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,7 +45,7 @@ public class EmployeeController {
 
   @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Employee byUserId(@PathVariable Long id) {
-    return employeeRepository.findByUser_Id(id);
+    return employeeRepository.findByUser(id);
   }
 
   @GetMapping(value = "/upcoming-birthdays", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,7 +79,8 @@ public class EmployeeController {
 
     employeeService.leave(employee, leaver.getLeaveDate());
 
-    final User user = employee.getUser();
+    final User user = userRepository.findById(employee.getUser())
+        .orElseThrow(() -> new ResourceNotFoundException(employee.getUser(), User.class));
     user.setEnabled(false);
     userRepository.save(user);
   }

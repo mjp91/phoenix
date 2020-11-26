@@ -1,6 +1,6 @@
 package com.mpearsall.hr.config.security;
 
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.User;
 import com.mpearsall.hr.exception.TotpNotRegisteredException;
 import com.mpearsall.hr.exception.TotpRequiredException;
 import com.warrenstrange.googleauth.GoogleAuthenticator;

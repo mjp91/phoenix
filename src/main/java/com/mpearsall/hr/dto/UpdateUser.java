@@ -1,6 +1,6 @@
 package com.mpearsall.hr.dto;
 
-import com.mpearsall.hr.entity.user.Role;
+import com.mpearsall.hr.entity.primary.user.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

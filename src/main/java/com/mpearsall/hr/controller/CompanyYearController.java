@@ -1,8 +1,8 @@
 package com.mpearsall.hr.controller;
 
-import com.mpearsall.hr.entity.holiday.CompanyYear;
-import com.mpearsall.hr.entity.user.Role;
-import com.mpearsall.hr.repository.CompanyYearRepository;
+import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
+import com.mpearsall.hr.repository.secondary.CompanyYearRepository;
 import com.mpearsall.hr.service.CompanyYearService;
 import com.mpearsall.hr.service.EmployeeService;
 import org.springframework.http.MediaType;

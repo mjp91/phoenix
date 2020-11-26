@@ -1,7 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.License;
-import com.mpearsall.hr.entity.user.Role;
+import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.service.LicenseService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;

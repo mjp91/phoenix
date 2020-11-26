@@ -1,8 +1,8 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.dto.License;
-import com.mpearsall.hr.entity.Config;
-import com.mpearsall.hr.repository.ConfigRepository;
+import com.mpearsall.hr.entity.primary.Config;
+import com.mpearsall.hr.repository.primary.ConfigRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

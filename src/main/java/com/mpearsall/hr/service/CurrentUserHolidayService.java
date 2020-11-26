@@ -2,10 +2,10 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.dto.CurrentUserHoliday;
 import com.mpearsall.hr.dto.TodaysHolidays;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.holiday.CompanyYear;
-import com.mpearsall.hr.entity.holiday.Holiday;
-import com.mpearsall.hr.repository.HolidayRepository;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.Holiday;
+import com.mpearsall.hr.repository.secondary.HolidayRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

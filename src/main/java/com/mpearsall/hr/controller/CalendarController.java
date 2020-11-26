@@ -1,15 +1,15 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.DateRange;
-import com.mpearsall.hr.entity.absence.Absence;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.holiday.Holiday;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.entity.secondary.absence.Absence;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.holiday.Holiday;
 import com.mpearsall.hr.exception.PermissionException;
-import com.mpearsall.hr.repository.AbsenceRepository;
-import com.mpearsall.hr.repository.EmployeeRepository;
-import com.mpearsall.hr.repository.HolidayRepository;
-import com.mpearsall.hr.repository.UserRepository;
+import com.mpearsall.hr.repository.primary.UserRepository;
+import com.mpearsall.hr.repository.secondary.AbsenceRepository;
+import com.mpearsall.hr.repository.secondary.EmployeeRepository;
+import com.mpearsall.hr.repository.secondary.HolidayRepository;
 import com.mpearsall.hr.util.DateUtil;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -48,7 +48,7 @@ public class CalendarController {
     }
 
     // get user's employee record
-    final Employee employee = employeeRepository.findByUser(user);
+    final Employee employee = employeeRepository.findByUser(user.getId());
 
     final Calendar calendar = new Calendar();
     addHolidays(calendar, employee);

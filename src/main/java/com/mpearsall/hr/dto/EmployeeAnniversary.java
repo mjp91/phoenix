@@ -1,6 +1,6 @@
 package com.mpearsall.hr.dto;
 
-import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

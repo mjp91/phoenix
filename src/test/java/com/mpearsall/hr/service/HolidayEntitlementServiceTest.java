@@ -1,11 +1,11 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.HrApplicationTests;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.employee.EmployeeDay;
-import com.mpearsall.hr.entity.employee.EmployeeWeek;
-import com.mpearsall.hr.entity.holiday.CompanyYear;
-import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.employee.EmployeeDay;
+import com.mpearsall.hr.entity.secondary.employee.EmployeeWeek;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.HolidayEntitlement;
 import com.mpearsall.hr.factory.CompanyYearFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

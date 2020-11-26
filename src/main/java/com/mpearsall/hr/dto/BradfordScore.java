@@ -1,7 +1,7 @@
 package com.mpearsall.hr.dto;
 
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

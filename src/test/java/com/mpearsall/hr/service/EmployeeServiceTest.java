@@ -1,9 +1,9 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.HrApplicationTests;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.user.User;
-import com.mpearsall.hr.repository.UserRepository;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.repository.primary.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.mpearsall.hr.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mpearsall.hr.dto.ApplicationError;
 import com.mpearsall.hr.dto.Login;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.User;
 import com.mpearsall.hr.util.ApplicationErrorFactory;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,7 +25,9 @@ import java.util.Map;
 import static com.mpearsall.hr.config.security.SecurityConstants.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-  private AuthenticationManager authenticationManager;
+  public static final String CLAIM_TENANT_ID = "tenant";
+
+  private final AuthenticationManager authenticationManager;
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
@@ -54,6 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String token = Jwts.builder()
         .setSubject(user.getUsername())
         .claim("user", new ObjectMapper().convertValue(user, Map.class))
+        .claim(CLAIM_TENANT_ID, user.getClient().getName())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
         .compact();

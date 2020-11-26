@@ -1,6 +1,6 @@
 package com.mpearsall.hr.config;
 
-import com.mpearsall.hr.entity.employee.Employee;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
 import com.mpearsall.hr.service.EmployeeService;
 import com.mpearsall.hr.view.View;
 import org.springframework.core.MethodParameter;

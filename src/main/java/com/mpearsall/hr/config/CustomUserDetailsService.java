@@ -1,6 +1,6 @@
 package com.mpearsall.hr.config;
 
-import com.mpearsall.hr.repository.UserRepository;
+import com.mpearsall.hr.repository.primary.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -4,17 +4,18 @@ import com.mpearsall.hr.dto.CurrentUserHoliday;
 import com.mpearsall.hr.dto.Email;
 import com.mpearsall.hr.dto.EmailTemplate;
 import com.mpearsall.hr.dto.HolidayRequest;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.holiday.CompanyYear;
-import com.mpearsall.hr.entity.holiday.Holiday;
-import com.mpearsall.hr.entity.holiday.HolidayDate;
-import com.mpearsall.hr.entity.holiday.HolidayPeriod;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.Holiday;
+import com.mpearsall.hr.entity.secondary.holiday.HolidayDate;
+import com.mpearsall.hr.entity.secondary.holiday.HolidayPeriod;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
 import com.mpearsall.hr.exception.ResourceNotFoundException;
-import com.mpearsall.hr.repository.CompanyYearRepository;
-import com.mpearsall.hr.repository.HolidayRepository;
+import com.mpearsall.hr.repository.primary.UserRepository;
+import com.mpearsall.hr.repository.secondary.CompanyYearRepository;
+import com.mpearsall.hr.repository.secondary.HolidayRepository;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +33,17 @@ public class HolidayService {
   private final CurrentUserHolidayService currentUserHolidayService;
   private final HolidayRepository holidayRepository;
   private final EmailService emailService;
+  private final UserRepository userRepository;
 
   public HolidayService(CompanyYearRepository companyYearRepository, EmployeeService employeeService,
                         CurrentUserHolidayService currentUserHolidayService, HolidayRepository holidayRepository,
-                        EmailService emailService) {
+                        EmailService emailService, UserRepository userRepository) {
     this.companyYearRepository = companyYearRepository;
     this.employeeService = employeeService;
     this.currentUserHolidayService = currentUserHolidayService;
     this.holidayRepository = holidayRepository;
     this.emailService = emailService;
+    this.userRepository = userRepository;
   }
 
   static Double calculateHolidayUsed(Employee employee, CompanyYear companyYear) {
@@ -129,7 +132,9 @@ public class HolidayService {
   }
 
   private void sendApprovalEmail(Holiday holiday) {
-    final User user = holiday.getEmployee().getUser();
+    final Long userId = holiday.getEmployee().getUser();
+    final User user = userRepository.findById(userId)
+        .orElseThrow(() -> new ResourceNotFoundException(userId, User.class));
 
     final String to = user.getEmail();
     final Map<String, Object> args = Map.of("fullName", user.getFullName());

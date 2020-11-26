@@ -1,7 +1,7 @@
 package com.mpearsall.hr.controller;
 
-import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
-import com.mpearsall.hr.repository.HolidayEntitlementRepository;
+import com.mpearsall.hr.entity.secondary.holiday.HolidayEntitlement;
+import com.mpearsall.hr.repository.secondary.HolidayEntitlementRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

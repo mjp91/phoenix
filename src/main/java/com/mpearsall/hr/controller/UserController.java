@@ -2,9 +2,9 @@ package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.dto.*;
-import com.mpearsall.hr.entity.user.Role;
-import com.mpearsall.hr.entity.user.User;
-import com.mpearsall.hr.repository.UserRepository;
+import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.repository.primary.UserRepository;
 import com.mpearsall.hr.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

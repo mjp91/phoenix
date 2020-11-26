@@ -2,18 +2,20 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.dto.EmployeeAnniversary;
-import com.mpearsall.hr.entity.Company;
-import com.mpearsall.hr.entity.employee.Employee;
-import com.mpearsall.hr.entity.employee.EmployeeDay;
-import com.mpearsall.hr.entity.employee.EmployeeWeek;
-import com.mpearsall.hr.entity.holiday.CompanyYear;
-import com.mpearsall.hr.entity.holiday.HolidayEntitlement;
-import com.mpearsall.hr.entity.user.Role;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.primary.user.User;
+import com.mpearsall.hr.entity.secondary.Company;
+import com.mpearsall.hr.entity.secondary.employee.Employee;
+import com.mpearsall.hr.entity.secondary.employee.EmployeeDay;
+import com.mpearsall.hr.entity.secondary.employee.EmployeeWeek;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.HolidayEntitlement;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.exception.PermissionException;
-import com.mpearsall.hr.repository.CompanyRepository;
-import com.mpearsall.hr.repository.EmployeeRepository;
+import com.mpearsall.hr.exception.ResourceNotFoundException;
+import com.mpearsall.hr.repository.primary.UserRepository;
+import com.mpearsall.hr.repository.secondary.CompanyRepository;
+import com.mpearsall.hr.repository.secondary.EmployeeRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +34,15 @@ public class EmployeeService {
 
   private final EmployeeRepository employeeRepository;
   private final CompanyRepository companyRepository;
+  private final UserRepository userRepository;
   private final CustomUserDetailsService customUserDetailsService;
   private final CompanyYearService companyYearService;
 
   public EmployeeService(EmployeeRepository employeeRepository, CompanyRepository companyRepository,
-                         CustomUserDetailsService customUserDetailsService, CompanyYearService companyYearService) {
+                         UserRepository userRepository, CustomUserDetailsService customUserDetailsService, CompanyYearService companyYearService) {
     this.employeeRepository = employeeRepository;
     this.companyRepository = companyRepository;
+    this.userRepository = userRepository;
     this.customUserDetailsService = customUserDetailsService;
     this.companyYearService = companyYearService;
   }
@@ -58,7 +62,9 @@ public class EmployeeService {
 
     Employee employee = null;
     if (currentUser != null) {
-      employee = employeeRepository.findByUser_Username(currentUser.getUsername());
+      final User user = userRepository.findByUsername(currentUser.getUsername())
+          .orElseThrow(() -> new ResourceNotFoundException(currentUser.getUsername(), User.class));
+      employee = employeeRepository.findByUser(user.getId());
     }
 
     return employee;
@@ -124,12 +130,12 @@ public class EmployeeService {
   public Employee createEmployee(User user) {
     final Company company = companyRepository.find();
 
-    if (employeeRepository.existsByUser(user)) {
+    if (employeeRepository.existsByUser(user.getId())) {
       throw new InvalidDetailsException("User already has an employee associated with them");
     }
 
     final Employee employee = new Employee();
-    employee.setUser(user);
+    employee.setUser(user.getId());
     employee.setEmployeeWeek(company.getDefaultEmployeeWeek());
 
     addDefaultHolidayEntitlement(companyYearService.getCurrentCompanyYear(), company, employee);

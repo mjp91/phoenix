@@ -1,9 +1,9 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.dto.EmployeeSearchNode;
-import com.mpearsall.hr.entity.Department;
-import com.mpearsall.hr.entity.user.Role;
-import com.mpearsall.hr.repository.DepartmentRepository;
+import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.secondary.Department;
+import com.mpearsall.hr.repository.secondary.DepartmentRepository;
 import com.mpearsall.hr.service.DepartmentService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;

@@ -1,6 +1,6 @@
 package com.mpearsall.hr.dto;
 
-import com.mpearsall.hr.entity.holiday.Holiday;
+import com.mpearsall.hr.entity.secondary.holiday.Holiday;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;

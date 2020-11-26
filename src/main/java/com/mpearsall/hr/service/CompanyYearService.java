@@ -1,8 +1,8 @@
 package com.mpearsall.hr.service;
 
-import com.mpearsall.hr.entity.holiday.CompanyYear;
+import com.mpearsall.hr.entity.secondary.holiday.CompanyYear;
 import com.mpearsall.hr.exception.InvalidDetailsException;
-import com.mpearsall.hr.repository.CompanyYearRepository;
+import com.mpearsall.hr.repository.secondary.CompanyYearRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

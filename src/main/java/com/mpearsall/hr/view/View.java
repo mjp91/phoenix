@@ -1,6 +1,6 @@
 package com.mpearsall.hr.view;
 
-import com.mpearsall.hr.entity.user.Role;
+import com.mpearsall.hr.entity.primary.user.Role;
 
 import java.util.HashMap;
 import java.util.Map;

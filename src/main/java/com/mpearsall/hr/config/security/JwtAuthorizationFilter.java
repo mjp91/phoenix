@@ -1,7 +1,8 @@
 package com.mpearsall.hr.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mpearsall.hr.entity.user.User;
+import com.mpearsall.hr.config.tenancy.TenantContext;
+import com.mpearsall.hr.entity.primary.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -40,10 +41,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
       return;
     }
 
+    setTenant(claims);
     UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(claims);
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     chain.doFilter(request, response);
+  }
+
+  private void setTenant(Claims claims) {
+    if (claims != null) {
+      User user = new ObjectMapper().convertValue(claims.get("user"), User.class);
+
+      TenantContext.setTenantId(user.getClient().getName());
+    }
   }
 
   private UsernamePasswordAuthenticationToken getAuthentication(Claims claims) {
