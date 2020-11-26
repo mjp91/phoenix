@@ -20,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "\"user\"")
 @Data
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor

@@ -1,6 +1,7 @@
 package com.mpearsall.hr.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mpearsall.hr.config.tenancy.DataSourceBasedMultiTenantConnectionProviderImpl;
 import com.mpearsall.hr.dto.ApplicationError;
 import com.mpearsall.hr.dto.Login;
 import com.mpearsall.hr.entity.primary.user.User;
@@ -53,10 +54,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
     final User user = (User) authResult.getPrincipal();
 
-    String token = Jwts.builder()
+    final String client = user.getClient() != null ? user.getClient().getName()
+        : DataSourceBasedMultiTenantConnectionProviderImpl.DEFAULT_TENANT_ID;
+
+    final String token = Jwts.builder()
         .setSubject(user.getUsername())
         .claim("user", new ObjectMapper().convertValue(user, Map.class))
-        .claim(CLAIM_TENANT_ID, user.getClient().getName())
+        .claim(CLAIM_TENANT_ID, client)
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
         .compact();

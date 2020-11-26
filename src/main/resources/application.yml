@@ -42,6 +42,12 @@ logging:
     org:
       springframework:
         security: info
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 hr:
   license:
     url: http://localhost:8082/license

@@ -2,6 +2,7 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
 import com.mpearsall.hr.dto.EmployeeAnniversary;
+import com.mpearsall.hr.dto.EmployeeUser;
 import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.entity.primary.user.User;
 import com.mpearsall.hr.entity.secondary.Company;
@@ -220,7 +221,16 @@ public class EmployeeService {
           continue;
         }
 
-        results.add(new EmployeeAnniversary(date, employeeMap.get(dateKey)));
+        final List<Employee> employees = employeeMap.get(dateKey);
+
+        final List<EmployeeUser> employeeUsers = new ArrayList<>();
+        for (Employee employee : employees) {
+          final User user = userRepository.findById(employee.getUser())
+              .orElseThrow(() -> new ResourceNotFoundException(employee.getUser(), User.class));
+          employeeUsers.add(new EmployeeUser(employee, user));
+        }
+
+        results.add(new EmployeeAnniversary(date, employeeUsers));
       }
 
       now = now.plusYears(1);

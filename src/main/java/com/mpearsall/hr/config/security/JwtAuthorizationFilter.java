@@ -50,9 +50,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
   private void setTenant(Claims claims) {
     if (claims != null) {
-      User user = new ObjectMapper().convertValue(claims.get("user"), User.class);
+      final String tenantId = (String) claims.get(JwtAuthenticationFilter.CLAIM_TENANT_ID);
 
-      TenantContext.setTenantId(user.getClient().getName());
+      TenantContext.setTenantId(tenantId);
     }
   }
 

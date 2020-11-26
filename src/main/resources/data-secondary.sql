@@ -1,29 +1,6 @@
-INSERT INTO config (id, license_authentication_token)
-VALUES (1, '4oep-5ccKh4asEG3lVoE7wWOpr7-m-DS');
-
 INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end, created_date,
                      last_modified_date, totp_required)
 VALUES (1, 'Holibyte', '200.0', '09:00', '17:00', NOW(), NOW(), TRUE);
-
-INSERT INTO role (id, name)
-VALUES (1, 'ROLE_USER');
-INSERT INTO role (id, name)
-VALUES (2, 'ROLE_ADMIN');
-
-INSERT INTO user (id, username, password, full_name, email, calendar_token, credentials_expired, ldap, totp_enabled,
-                  enabled)
-VALUES (1, 'buzz', NULL, 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-4083-8671-2c9d9ddb2db3', FALSE, TRUE,
-        FALSE, TRUE),
-       (2, 'matt', NULL, 'Matthew Pearsall', 'mjp91@live.co.uk', '85171ffc-a233-449b-8629-f6a020d010db', FALSE, TRUE,
-        FALSE, TRUE),
-       (3, 'rick', '$2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou', 'Rick Sanchez',
-        'pimp_pimp04@hotmail.co.uk',
-        '10702fa0-74e6-4d17-851b-5c6ae06c917c', FALSE, FALSE, TRUE, TRUE);
-
-INSERT INTO user_roles
-VALUES (1, 2),
-       (2, 1),
-       (3, 1);
 
 INSERT INTO job_role (id, description, created_date, last_modified_date)
 VALUES (1, 'HR Assistant', NOW(), NOW()),
@@ -36,7 +13,7 @@ VALUES (1, 'Central Services', NULL, NOW(), NOW()),
        (3, 'Software', NULL, NOW(), NOW()),
        (4, 'Software Development', 3, NOW(), NOW());
 
-INSERT INTO employee (id, user_id, manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id,
+INSERT INTO employee (id, "user", manager_id, monday_start, monday_end, created_date, last_modified_date, job_role_id,
                       department_id, date_of_birth, service_start_date)
 VALUES (1, 1, NULL, '09:00', '17:00', NOW(), NOW(), 2, 3, '1976-09-05', '2018-03-04'),
        (2, 2, 1, '09:00', '17:00', NOW(), NOW(), 3, 4, '1991-12-01', '2015-11-23'),
@@ -60,7 +37,7 @@ VALUES (1, '2019-03-01', 'ALL_DAY', 1),
        (2, '2019-03-02', 'AM', 1),
        (3, '2019-05-29', 'ALL_DAY', 2);
 
-INSERT INTO absence (id, employee_id, company_year_id, start, end, reason, authorized, cancelled)
+INSERT INTO absence (id, employee_id, company_year_id, start, "end", reason, authorized, cancelled)
 VALUES (1, 1, 1, '2019-10-01', '2019-10-02', 'Flu', NULL, FALSE),
        (2, 2, 1, '2019-11-04', '2019-11-08', 'Cold', NULL, FALSE);
 

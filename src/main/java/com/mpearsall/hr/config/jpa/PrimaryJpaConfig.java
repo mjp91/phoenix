@@ -1,5 +1,6 @@
 package com.mpearsall.hr.config.jpa;
 
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
@@ -55,6 +56,7 @@ public class PrimaryJpaConfig {
     properties.setProperty("hibernate.physical_naming_strategy", SpringPhysicalNamingStrategy.class.getName());
     properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
     properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+    properties.setProperty(Environment.ENABLE_LAZY_LOAD_NO_TRANS, "true");
 
     return properties;
   }

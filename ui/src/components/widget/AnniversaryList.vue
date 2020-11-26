@@ -10,7 +10,7 @@
             <div :key="`employee-anniversary-${index}`">
               <v-icon small>{{icon ? icon : 'mdi-calendar'}}</v-icon>
               {{' ' + employee.user.fullName}}
-              <slot name="years" :date="item.date" :employee="employee"/>
+              <slot name="years" :date="item.date" :employee="employee.employee"/>
             </div>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -20,18 +20,18 @@
   </v-list>
 </template>
 <script>
-  import {formatDate} from "../../lib/formatDateTime";
+import {formatDate} from "@/lib/formatDateTime";
 
-  export default {
-    name: 'anniversary-list',
-    props: {
-      anniversaries: Array,
-      icon: String,
-    },
-    methods: {
-      formatDate(dateStr) {
-        return formatDate(dateStr);
-      }
+export default {
+  name: 'anniversary-list',
+  props: {
+    anniversaries: Array,
+    icon: String,
+  },
+  methods: {
+    formatDate(dateStr) {
+      return formatDate(dateStr);
     }
+  }
   };
 </script>

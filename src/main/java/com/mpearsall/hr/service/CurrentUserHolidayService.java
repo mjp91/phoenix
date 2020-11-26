@@ -16,7 +16,7 @@ public class CurrentUserHolidayService {
   private final EmployeeService employeeService;
   private final CompanyYearService companyYearService;
 
-  private HolidayRepository holidayRepository;
+  private final HolidayRepository holidayRepository;
 
   public CurrentUserHolidayService(EmployeeService employeeService, CompanyYearService companyYearService,
                                    HolidayRepository holidayRepository) {
