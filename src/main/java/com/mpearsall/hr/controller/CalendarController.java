@@ -6,6 +6,7 @@ import com.mpearsall.hr.entity.secondary.absence.Absence;
 import com.mpearsall.hr.entity.secondary.employee.Employee;
 import com.mpearsall.hr.entity.secondary.holiday.Holiday;
 import com.mpearsall.hr.exception.PermissionException;
+import com.mpearsall.hr.exception.ResourceNotFoundException;
 import com.mpearsall.hr.repository.primary.UserRepository;
 import com.mpearsall.hr.repository.secondary.AbsenceRepository;
 import com.mpearsall.hr.repository.secondary.EmployeeRepository;
@@ -48,7 +49,8 @@ public class CalendarController {
     }
 
     // get user's employee record
-    final Employee employee = employeeRepository.findByUser(user.getId());
+    final Employee employee = employeeRepository.findByUser(user.getId())
+        .orElseThrow(() -> new ResourceNotFoundException(user.getId(), Employee.class));
 
     final Calendar calendar = new Calendar();
     addHolidays(calendar, employee);

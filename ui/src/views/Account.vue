@@ -45,16 +45,16 @@
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          <user-employee :employee="this.employee" read-only/>
+          <user-employee :employee="this.employee.employee" read-only/>
         </v-tab-item>
         <v-tab-item>
-          <user-employee-contact-information :employee="this.employee"/>
+          <user-employee-contact-information :employee="this.employee.employee"/>
         </v-tab-item>
         <v-tab-item>
-          <employee-days-grid :employee-week="this.employee.employeeWeek"/>
+          <employee-days-grid :employee-week="this.employee.employee.employeeWeek"/>
         </v-tab-item>
         <v-tab-item>
-          <user-employee-entitlement :employee="this.employee" read-only/>
+          <user-employee-entitlement :employee="this.employee.employee" read-only/>
         </v-tab-item>
       </v-tabs>
     </v-form>
@@ -62,28 +62,28 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
-  import ClipboardInput from "../components/ClipboardInput";
-  import getBaseUrl from "../lib/getBaseUrl";
-  import store from "../store";
-  import ImageUpload from "../components/ImageUpload";
-  import FormHeader from "../components/FormHeader";
-  import UserEmployeeContactInformation from "./admin/user/UserEmployeeContactInformation";
-  import UserEmployee from "./admin/user/UserEmployee";
-  import UserEmployeeEntitlement from "./admin/user/UserEmployeeEntitlement";
-  import EmployeeDaysGrid from "../components/EmployeeDaysGrid";
+import {mapActions, mapGetters} from 'vuex';
+import ClipboardInput from "../components/ClipboardInput";
+import getBaseUrl from "../lib/getBaseUrl";
+import store from "../store";
+import ImageUpload from "../components/ImageUpload";
+import FormHeader from "../components/FormHeader";
+import UserEmployeeContactInformation from "./admin/user/UserEmployeeContactInformation";
+import UserEmployee from "./admin/user/UserEmployee";
+import UserEmployeeEntitlement from "./admin/user/UserEmployeeEntitlement";
+import EmployeeDaysGrid from "../components/EmployeeDaysGrid";
 
-  export default {
-    name: "Account",
-    components: {
-      EmployeeDaysGrid,
-      UserEmployeeEntitlement,
-      UserEmployee,
-      UserEmployeeContactInformation,
-      FormHeader,
-      ClipboardInput,
-      ImageUpload
-    },
+export default {
+  name: "Account",
+  components: {
+    EmployeeDaysGrid,
+    UserEmployeeEntitlement,
+    UserEmployee,
+    UserEmployeeContactInformation,
+    FormHeader,
+    ClipboardInput,
+    ImageUpload
+  },
     computed: {
       ...mapGetters({
         user: 'getAuthUser',

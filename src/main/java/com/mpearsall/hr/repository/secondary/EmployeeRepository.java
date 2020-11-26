@@ -7,9 +7,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Optional;
 
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
-  Employee findByUser(@NotNull Long user);
+  Optional<Employee> findByUser(@NotNull Long user);
 
   boolean existsByUser(@NotNull Long user);
 

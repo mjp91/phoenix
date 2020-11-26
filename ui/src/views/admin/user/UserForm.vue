@@ -26,7 +26,7 @@
       </v-dialog>
     </v-row>
     <form-header
-        :title="user.fullName"
+        :title="employee.user.fullName"
         :cancel="close"
         :save="save"
     >
@@ -36,7 +36,7 @@
       <template slot="actions">
         <template v-if="!employee.serviceEndDate">
           <v-btn
-              v-if="!user.ldap && user.totpEnabled"
+              v-if="!employee.user.ldap && employee.user.totpEnabled"
               class="mr-2"
               color="primary"
               @click="resetTwoFactorAuth">
@@ -61,27 +61,27 @@
         <v-tab>Holiday Entitlement</v-tab>
         <v-tab-item>
           <v-card flat class="pa-4">
-            <user-general :user="this.user"/>
+            <user-general :user="this.employee.user"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee :employee="this.employee"/>
+            <user-employee :employee="this.employee.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-contact-information :employee="this.employee"/>
+            <user-employee-contact-information :employee="this.employee.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-days :employee="this.employee"/>
+            <user-employee-days :employee="this.employee.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-entitlement :employee="this.employee"/>
+            <user-employee-entitlement :employee="this.employee.employee"/>
           </v-card>
         </v-tab-item>
       </v-tabs>
@@ -90,33 +90,31 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
-  import store from '../../../store';
-  import UserGeneral from "./UserGeneral";
-  import UserEmployee from "./UserEmployee";
-  import UserEmployeeDays from "./UserEmployeeDays";
-  import UserEmployeeEntitlement from "./UserEmployeeEntitlement";
-  import FormHeader from "../../../components/FormHeader";
-  import UserEmployeeContactInformation from "./UserEmployeeContactInformation";
-  import UserMixin from "../../../mixins/UserMixin";
+import {mapActions, mapGetters} from 'vuex';
+import store from '../../../store';
+import UserGeneral from "./UserGeneral";
+import UserEmployee from "./UserEmployee";
+import UserEmployeeDays from "./UserEmployeeDays";
+import UserEmployeeEntitlement from "./UserEmployeeEntitlement";
+import FormHeader from "../../../components/FormHeader";
+import UserEmployeeContactInformation from "./UserEmployeeContactInformation";
+import UserMixin from "../../../mixins/UserMixin";
 
-  export default {
-    name: "UserForm",
-    data: () => {
-      return {
-        dialog: false,
-        leaveDate: null
-      };
-    },
-    computed: {
-      ...mapGetters({
-        user: 'getUser',
-        employee: 'getEmployee',
+export default {
+  name: "UserForm",
+  data: () => {
+    return {
+      dialog: false,
+      leaveDate: null
+    };
+  },
+  computed: {
+    ...mapGetters({
+      employee: 'getEmployee',
       })
     },
     methods: {
       ...mapActions({
-        fetchUser: 'fetchUser',
         fetchEmployeeByUserId: 'fetchByUserId',
         reset2fa: 'reset2fa',
         leaveEmployee: 'leaveEmployee'
@@ -164,7 +162,6 @@
     },
     beforeMount() {
       const userId = this.$route.params.id;
-      this.fetchUser(userId);
       this.fetchEmployeeByUserId(userId);
     },
     components: {

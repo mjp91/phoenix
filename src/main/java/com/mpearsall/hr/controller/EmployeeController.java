@@ -17,7 +17,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -34,8 +39,17 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Iterable<Employee> index() {
-    return employeeRepository.findAll();
+  public Iterable<EmployeeUser> index() {
+    final Iterable<Employee> employees = employeeRepository.findAll();
+    final Map<Long, User> usersById = StreamSupport.stream(userRepository.findAll().spliterator(), false)
+        .collect(Collectors.toMap(User::getId, Function.identity()));
+
+    final List<EmployeeUser> employeeUsers = new ArrayList<>();
+    for (Employee employee : employees) {
+      employeeUsers.add(new EmployeeUser(employee, usersById.get(employee.getUser())));
+    }
+
+    return employeeUsers;
   }
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,8 +64,14 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Employee byUserId(@PathVariable Long id) {
-    return employeeRepository.findByUser(id);
+  public EmployeeUser byUserId(@PathVariable Long id) {
+    final Employee employee = employeeRepository.findByUser(id)
+        .orElseThrow(() -> new ResourceNotFoundException(id, Employee.class));
+
+    final User user = userRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(employee.getUser(), User.class));
+
+    return new EmployeeUser(employee, user);
   }
 
   @GetMapping(value = "/upcoming-birthdays", produces = MediaType.APPLICATION_JSON_VALUE)

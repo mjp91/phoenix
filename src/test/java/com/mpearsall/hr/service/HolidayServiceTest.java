@@ -91,7 +91,7 @@ public class HolidayServiceTest extends HrApplicationTests {
   @Test
   @WithMockUser(username = "matt")
   public void testApproveFromInvalidUser() {
-    final Employee buzz = employeeRepository.findByUser(1L);
+    final Employee buzz = employeeRepository.findByUser(1L).orElseThrow();
     final Holiday holiday = holidayRepository.findAllByEmployee(buzz, Pageable.unpaged()).stream()
         .findFirst().orElseThrow();
 

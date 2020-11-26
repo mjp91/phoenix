@@ -65,7 +65,8 @@ public class EmployeeService {
     if (currentUser != null) {
       final User user = userRepository.findByUsername(currentUser.getUsername())
           .orElseThrow(() -> new ResourceNotFoundException(currentUser.getUsername(), User.class));
-      employee = employeeRepository.findByUser(user.getId());
+      employee = employeeRepository.findByUser(user.getId())
+          .orElseThrow(() -> new ResourceNotFoundException(user.getId(), Employee.class));
     }
 
     return employee;
