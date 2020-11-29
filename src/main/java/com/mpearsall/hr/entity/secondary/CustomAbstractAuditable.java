@@ -41,4 +41,8 @@ public abstract class CustomAbstractAuditable<PK extends Serializable> extends A
   public Optional<LocalDateTime> getLastModifiedDate() {
     return null == this.lastModifiedDate ? Optional.empty() : Optional.of(this.lastModifiedDate);
   }
+
+  public void setId(PK id) {
+    super.setId(id);
+  }
 }

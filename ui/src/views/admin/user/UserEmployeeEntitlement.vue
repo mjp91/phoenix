@@ -1,7 +1,8 @@
 <template>
   <v-data-table
+      v-if="this.employee"
       :headers="headers"
-      :items="this.employee.holidayEntitlements"
+      :items="this.holidayEntitlements"
   >
     <template v-if="!readOnly" v-slot:top>
       <v-toolbar flat>
@@ -11,38 +12,53 @@
     </template>
     <template v-slot:items="props">
       <tr>
-        <td>{{props.item.companyYear.name}}</td>
-        <td>{{props.item.holidayEntitlementHours}}</td>
+        <td>{{ props.item.companyYear.name }}</td>
+        <td>{{ props.item.holidayEntitlementHours }}</td>
       </tr>
     </template>
   </v-data-table>
 </template>
 
 <script>
-  export default {
-    name: "UserEmployeeEntitlement",
-    data: () => {
-      return {
-        headers: [
-          {
-            text: 'Year',
-            value: 'companyYear.name'
-          },
-          {
-            text: 'Entitlement (Hours)',
-            value: 'holidayEntitlementHours'
-          }
-        ]
-      };
-    },
-    props: {
-      employee: Object,
-      readOnly: {
-        type: Boolean,
-        default: false
-      }
+import {mapActions, mapGetters} from 'vuex';
+
+export default {
+  name: "UserEmployeeEntitlement",
+  data: () => {
+    return {
+      headers: [
+        {
+          text: 'Year',
+          value: 'companyYear.name'
+        },
+        {
+          text: 'Entitlement (Hours)',
+          value: 'holidayEntitlementHours'
+        }
+      ]
+    };
+  },
+  props: {
+    employee: Object,
+    readOnly: {
+      type: Boolean,
+      default: false
     }
-  };
+  },
+  computed: {
+    ...mapGetters({
+      holidayEntitlements: 'getHolidayEntitlement'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchHolidayEntitlement: 'fetchHolidayEntitlement'
+    })
+  },
+  beforeMount() {
+    this.fetchHolidayEntitlement({employeeId: this.employee.id});
+  }
+};
 </script>
 
 <style scoped>

@@ -38,19 +38,19 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
-  export default {
-    name: "UserGeneral",
-    props: {
-      user: Object,
-      readOnly: {
-        type: Boolean,
-        default: true
-      }
-    },
-    computed: {
-      ...mapGetters({
+export default {
+  name: "UserGeneral",
+  props: {
+    user: Object,
+    readOnly: {
+      type: Boolean,
+      default: true
+    }
+  },
+  computed: {
+    ...mapGetters({
         roles: 'getRoles',
       })
     },
@@ -64,7 +64,7 @@
         return name.substr(5, name.length);
       },
       roleValue(role) {
-        return role;
+        return role.id;
       },
     },
     beforeMount() {

@@ -148,22 +148,22 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
-  import store from "../../../store";
-  import ImageUpload from "../../../components/ImageUpload";
-  import UserMixin from "../../../mixins/UserMixin";
+import {mapActions, mapGetters} from "vuex";
+import store from "../../../store";
+import ImageUpload from "../../../components/ImageUpload";
+import UserMixin from "../../../mixins/UserMixin";
 
-  export default {
-    name: "UserEmployee",
-    data: () => {
-      return {
-        dobMenu: false,
-        serviceStartMenu: false
-      };
-    },
-    components: {ImageUpload},
-    props: {
-      employee: Object,
+export default {
+  name: "UserEmployee",
+  data: () => {
+    return {
+      dobMenu: false,
+      serviceStartMenu: false
+    };
+  },
+  components: {ImageUpload},
+  props: {
+    employee: Object,
       readOnly: {
         type: Boolean,
         default: false
@@ -191,13 +191,13 @@
     },
     methods: {
       managerValue(employee) {
-        return employee;
+        return employee.id;
       },
       jobRoleValue(jobRole) {
-        return jobRole;
+        return jobRole.id;
       },
       departmentValue(department) {
-        return department;
+        return department.id;
       },
       ...mapActions({
         fetchEmployees: 'fetchEmployees',

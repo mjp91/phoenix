@@ -45,16 +45,16 @@
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          <user-employee :employee="this.employee.employee" read-only/>
+          <user-employee :employee="this.employee" read-only/>
         </v-tab-item>
         <v-tab-item>
-          <user-employee-contact-information :employee="this.employee.employee"/>
+          <user-employee-contact-information :employee="this.employee"/>
         </v-tab-item>
         <v-tab-item>
-          <employee-days-grid :employee-week="this.employee.employee.employeeWeek"/>
+          <employee-days-grid :employee-week="this.employee.employeeWeek"/>
         </v-tab-item>
         <v-tab-item>
-          <user-employee-entitlement :employee="this.employee.employee" read-only/>
+          <user-employee-entitlement v-if="this.employee" :employee="this.employee" read-only/>
         </v-tab-item>
       </v-tabs>
     </v-form>

@@ -52,12 +52,12 @@ const actions = {
   },
   fetchHolidays: ({commit}) => {
     Vue.axios.get('/holiday').then(response => {
-      commit('setHolidays', response.data.content);
+      commit('setHolidays', response.data);
     });
   },
   fetchAllHolidays: ({commit}) => {
     Vue.axios.get('/holiday/all').then(response => {
-      commit('setHolidays', response.data.content);
+      commit('setHolidays', response.data);
     });
   },
   fetchHolidayRequests: ({commit}) => {
@@ -67,7 +67,7 @@ const actions = {
   },
   fetchMostRecentHolidayRequests: ({commit}) => {
     Vue.axios.get('/holiday/requests/page?page=0&size=5').then(response => {
-      commit('setMostRecentHolidayRequests', response.data.content);
+      commit('setMostRecentHolidayRequests', response.data);
     });
   },
   fetchTodaysHolidays: ({commit}) => {

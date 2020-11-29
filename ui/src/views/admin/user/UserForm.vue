@@ -66,22 +66,22 @@
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee :employee="this.employee.employee"/>
+            <user-employee :employee="this.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-contact-information :employee="this.employee.employee"/>
+            <user-employee-contact-information :employee="this.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-days :employee="this.employee.employee"/>
+            <user-employee-days :employee="this.employee"/>
           </v-card>
         </v-tab-item>
         <v-tab-item v-if="this.employee">
           <v-card flat>
-            <user-employee-entitlement :employee="this.employee.employee"/>
+            <user-employee-entitlement :employee="this.employee"/>
           </v-card>
         </v-tab-item>
       </v-tabs>

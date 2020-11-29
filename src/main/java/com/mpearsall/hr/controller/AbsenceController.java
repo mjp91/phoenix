@@ -1,9 +1,7 @@
 package com.mpearsall.hr.controller;
 
 import com.mpearsall.hr.config.CustomUserDetailsService;
-import com.mpearsall.hr.dto.AbsenceUpdate;
-import com.mpearsall.hr.dto.BradfordScore;
-import com.mpearsall.hr.dto.DaysAbsent;
+import com.mpearsall.hr.dto.*;
 import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.entity.secondary.absence.Absence;
 import com.mpearsall.hr.entity.secondary.employee.Employee;
@@ -13,7 +11,6 @@ import com.mpearsall.hr.repository.secondary.EmployeeRepository;
 import com.mpearsall.hr.service.AbsenceService;
 import com.mpearsall.hr.service.CompanyYearService;
 import com.mpearsall.hr.service.EmployeeService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +18,10 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/absence")
@@ -32,34 +32,36 @@ public class AbsenceController {
   private final CompanyYearService companyYearService;
   private final AbsenceService absenceService;
   private final CustomUserDetailsService customUserDetailsService;
+  private final DtoMapper dtoMapper;
 
   public AbsenceController(AbsenceRepository absenceRepository, EmployeeRepository employeeRepository,
                            EmployeeService employeeService, CompanyYearService companyYearService,
-                           AbsenceService absenceService, CustomUserDetailsService customUserDetailsService) {
+                           AbsenceService absenceService, CustomUserDetailsService customUserDetailsService, DtoMapper dtoMapper) {
     this.absenceRepository = absenceRepository;
     this.employeeRepository = employeeRepository;
     this.companyYearService = companyYearService;
     this.employeeService = employeeService;
     this.absenceService = absenceService;
     this.customUserDetailsService = customUserDetailsService;
+    this.dtoMapper = dtoMapper;
   }
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Page<Absence> getAbsences() {
+  public Iterable<AbsenceDto> getAbsences() {
     final Employee employee = employeeService.getCurrentUserEmployee();
 
-    return absenceRepository.findAllByEmployee(employee, Pageable.unpaged());
+    return toDto(absenceRepository.findAllByEmployee(employee, Pageable.unpaged()));
   }
 
   @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
-  public Page<Absence> getAllAbsences() {
-    return absenceRepository.findAll(Pageable.unpaged());
+  public Iterable<AbsenceDto> getAllAbsences() {
+    return toDto(absenceRepository.findAll(Pageable.unpaged()));
   }
 
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence getAbsence(@PathVariable Long id) {
-    return absenceRepository.findById(id).orElseThrow();
+  public AbsenceDto getAbsence(@PathVariable Long id) {
+    return dtoMapper.toAbsenceDto(absenceRepository.findById(id).orElseThrow());
   }
 
   @GetMapping(path = "/days", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +75,7 @@ public class AbsenceController {
   }
 
   @GetMapping(path = "/authorisation", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Collection<Absence> getPendingAuthorisation() {
+  public Collection<AbsenceDto> getPendingAuthorisation() {
     Collection<Absence> result;
 
     // get user's employee record
@@ -85,33 +87,33 @@ public class AbsenceController {
       result = absenceRepository.findAllPendingAuthorisationForManager(employee);
     }
 
-    return result;
+    return toDto(result);
   }
 
   @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public Absence create(@RequestBody Absence absence) {
-    return absenceService.create(absence);
+  public AbsenceDto create(@RequestBody AbsenceDto absence) {
+    return dtoMapper.toAbsenceDto(absenceService.create(dtoMapper.toAbsence(absence)));
   }
 
   @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence update(@PathVariable Long id, @RequestBody AbsenceUpdate absenceUpdate) {
-    return absenceService.update(id, absenceUpdate);
+  public AbsenceDto update(@PathVariable Long id, @RequestBody AbsenceUpdate absenceUpdate) {
+    return dtoMapper.toAbsenceDto(absenceService.update(id, absenceUpdate));
   }
 
   @PatchMapping(path = "/authorise/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence authorise(@PathVariable Long id) {
-    return absenceService.authorise(id);
+  public AbsenceDto authorise(@PathVariable Long id) {
+    return dtoMapper.toAbsenceDto(absenceService.authorise(id));
   }
 
   @PatchMapping(path = "/unauthorise/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence unauthorise(@PathVariable Long id, @RequestBody Map<String, Object> body) {
-    return absenceService.unauthorise(id, (String) body.get("reason"));
+  public AbsenceDto unauthorise(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+    return dtoMapper.toAbsenceDto(absenceService.unauthorise(id, (String) body.get("reason")));
   }
 
   @PatchMapping(path = "/cancel/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Absence cancel(@PathVariable Long id) {
-    return absenceService.cancel(id);
+  public AbsenceDto cancel(@PathVariable Long id) {
+    return dtoMapper.toAbsenceDto(absenceService.cancel(id));
   }
 
   @GetMapping(path = "/bradford-score/{employeeId}")
@@ -123,5 +125,11 @@ public class AbsenceController {
     final int bradfordScore = absenceService.calculateBradfordScore(employee, currentCompanyYear);
 
     return new BradfordScore(employee, currentCompanyYear, bradfordScore);
+  }
+
+  private List<AbsenceDto> toDto(Iterable<Absence> absences) {
+    return StreamSupport.stream(absences.spliterator(), false)
+        .map(dtoMapper::toAbsenceDto)
+        .collect(Collectors.toList());
   }
 }

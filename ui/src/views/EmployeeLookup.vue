@@ -51,14 +51,14 @@
                     {{ this.employee.user.fullName }}
                   </template>
                 </h3>
-                <div class="font-weight-light">{{ this.employee.employee.jobRole.description }}</div>
+                <div class="font-weight-light">{{ this.employee.jobRole.description }}</div>
                 <div>
                   <v-icon>mdi-email</v-icon>&nbsp;
                   <a :href="`mailto:${this.employee.user.email}`">{{this.employee.user.email}}</a>
                 </div>
                 <div v-if="this.employee.extensionNumber">
                   <v-icon>mdi-phone</v-icon>&nbsp;
-                  {{ this.employee.employee.extensionNumber }}
+                  {{ this.employee.extensionNumber }}
                 </div>
               </v-card-text>
             </v-card>
