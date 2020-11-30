@@ -33,7 +33,11 @@ public class CustomUserDetailsService implements UserDetailsService {
   }
 
   public boolean currentUserHasRole(String role) {
-    return getCurrentUserDetails(false).getAuthorities().stream()
+    return hasRole(getCurrentUserDetails(false), role);
+  }
+
+  public static boolean hasRole(UserDetails userDetails, String role) {
+    return userDetails.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .anyMatch(s -> s.equals(role));
   }

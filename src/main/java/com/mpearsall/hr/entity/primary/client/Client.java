@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -32,4 +34,7 @@ public class Client {
 
   @OneToMany(mappedBy = "client")
   private Set<User> users;
+
+  @NotNull
+  private LocalDateTime expiry;
 }

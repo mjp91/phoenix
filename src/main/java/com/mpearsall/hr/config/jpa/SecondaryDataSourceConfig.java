@@ -12,6 +12,9 @@ public class SecondaryDataSourceConfig {
   @Value("${hr.datasource.url}")
   private String defaultUrl;
 
+  @Value("${hr.datasource.default-db-name}")
+  private String defaultDbName;
+
   @Value("${hr.datasource.username}")
   private String defaultUsername;
 
@@ -20,6 +23,6 @@ public class SecondaryDataSourceConfig {
 
   @Bean(name = "secondaryDataSource")
   public DataSource dataSource() {
-    return DataSourceUtil.buildDataSource(defaultUrl, defaultUsername, defaultPassword);
+    return DataSourceUtil.buildDataSource(String.format("%s/%s", defaultUrl, defaultDbName), defaultUsername, defaultPassword);
   }
 }

@@ -54,6 +54,7 @@ hr:
   storage:
     location: /usr/hr
   datasource:
-    url: jdbc:postgresql://localhost:5432/holibyte_demo
+    url: jdbc:postgresql://localhost:5432
+    default-db-name: holibyte_demo
     username: matt
     password: matt

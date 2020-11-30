@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class Employee extends CustomAbstractAuditable<Long> {
   @NotNull
+  @Column(name = "\"user\"")
   private Long user;
 
   @ManyToOne

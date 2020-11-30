@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class User implements UserDetails {
   private final String fullName;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  private Collection<Role> roles;
+  private Collection<Role> roles = new ArrayList<>();
 
   @NotEmpty
   private String calendarToken = UUID.randomUUID().toString();
@@ -123,5 +124,9 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return enabled;
+  }
+
+  public void addRole(Role role) {
+    this.roles.add(role);
   }
 }

@@ -108,7 +108,10 @@ public class EmployeeService {
 
   @Transactional
   public Employee save(Employee employee) {
-    if (!customUserDetailsService.currentUserHasRole(Role.ADMIN) && !employee.equals(getCurrentUserEmployee())) {
+    final boolean admin = customUserDetailsService.currentUserHasRole(Role.ADMIN) ||
+        customUserDetailsService.currentUserHasRole(Role.SUPER_ADMIN);
+
+    if (!admin && !employee.equals(getCurrentUserEmployee())) {
       throw new PermissionException("User must be admin to update other employees");
     }
 

@@ -1,5 +1,6 @@
 package com.mpearsall.hr.dto;
 
+import com.mpearsall.hr.entity.primary.client.Client;
 import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.entity.secondary.Department;
 import com.mpearsall.hr.entity.secondary.absence.Absence;
@@ -63,4 +64,6 @@ public interface DtoMapper {
   RoleDto toRoleDto(Role role);
 
   Role toRole(RoleDto roleDto);
+
+  ClientDto toClientDto(Client client);
 }

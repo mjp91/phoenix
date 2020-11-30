@@ -5,6 +5,8 @@ INSERT INTO role (id, name)
 VALUES (1, 'ROLE_USER');
 INSERT INTO role (id, name)
 VALUES (2, 'ROLE_ADMIN');
+INSERT INTO role (id, name)
+VALUES (3, 'ROLE_SUPER_ADMIN');
 
 INSERT INTO "user" (id, username, password, full_name, email, calendar_token, credentials_expired, ldap, totp_enabled,
                     enabled)
@@ -19,6 +21,6 @@ VALUES (1, 'buzz', NULL, 'Buzz Lightyear', 'buzz@example.com', '6753a413-2c05-40
 INSERT INTO user_roles
 VALUES (1, 2),
        (2, 1),
-       (3, 1);
+       (3, 3);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 5;

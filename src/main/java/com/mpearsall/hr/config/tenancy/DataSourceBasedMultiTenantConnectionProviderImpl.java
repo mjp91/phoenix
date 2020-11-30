@@ -38,6 +38,13 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
 
   @Override
   public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+    refresh();
+  }
+
+  public void refresh() {
+    this.dataSources.clear();
+
+    dataSources.put(DEFAULT_TENANT_ID, defaultDataSource);
     for (Client client : clientRepository.findAll()) {
       if (!dataSources.containsKey(client.getName())) {
         dataSources.put(client.getName(), DataSourceUtil.buildDataSource(client));

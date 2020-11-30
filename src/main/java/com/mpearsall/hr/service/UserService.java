@@ -2,6 +2,7 @@ package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.security.CustomDaoAuthenticationProvider;
 import com.mpearsall.hr.dto.*;
+import com.mpearsall.hr.entity.primary.client.Client;
 import com.mpearsall.hr.entity.primary.user.Role;
 import com.mpearsall.hr.entity.primary.user.User;
 import com.mpearsall.hr.entity.secondary.Company;
@@ -14,16 +15,14 @@ import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.mpearsall.hr.dto.EmailTemplate.PASSWORD_RESET_COMPLETE_TEMPLATE;
 import static com.mpearsall.hr.dto.EmailTemplate.PASSWORD_RESET_TEMPLATE;
@@ -56,7 +55,7 @@ public class UserService {
   public User createLocalUserFromLdap(DirContextOperations ctx, String username) {
     // create user
     User user = new User(username, ctx.getStringAttribute("mail"), ctx.getStringAttribute("cn"));
-    user.setRoles(getDefaultRoles());
+    user.setRoles(getRoles(getDefaultRoles()));
     user.setLdap(true);
     user = userRepository.save(user);
 
@@ -68,11 +67,17 @@ public class UserService {
 
   @Transactional
   public User createUser(CreateUser createUser) {
+    return createUser(createUser, null, getDefaultRoles());
+  }
+
+  @Transactional
+  public User createUser(CreateUser createUser, @Nullable Client client, List<String> roleNames) {
     final Company company = companyRepository.find();
 
     // create user
     User user = new User(createUser.getUsername(), createUser.getEmail(), createUser.getFullName());
-    user.setRoles(getDefaultRoles());
+    user.setClient(client);
+    user.setRoles(getRoles(roleNames));
     user.setCredentialsExpired(true);
     user.setTotpEnabled(company.isTotpRequired());
     user = userRepository.save(user);
@@ -86,11 +91,18 @@ public class UserService {
     return user;
   }
 
-  private List<Role> getDefaultRoles() {
-    final List<Role> defaultRoles = new ArrayList<>();
-    defaultRoles.add(roleRepository.findRoleByName(Role.USER).orElseThrow());
+  private List<Role> getRoles(List<String> roleNames) {
+    final List<Role> roles = new ArrayList<>();
 
-    return defaultRoles;
+    for (String roleName : roleNames) {
+      roles.add(roleRepository.findRoleByName(roleName).orElseThrow());
+    }
+
+    return roles;
+  }
+
+  private List<String> getDefaultRoles() {
+    return Collections.singletonList(Role.USER);
   }
 
   @Transactional
