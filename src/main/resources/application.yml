@@ -12,7 +12,7 @@ spring:
   mail:
     host: smtp.sendgrid.net
     username: apikey
-    password: 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
+    password: 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
     port: 587
     properties:
       mail:
@@ -21,7 +21,7 @@ spring:
           auth: true
           starttls:
             enable: true
-    test-connection: false
+    test-connection: true
   jackson:
     mapper:
       default-view-inclusion: true
@@ -49,8 +49,6 @@ logging:
             sql:
               BasicBinder: TRACE
 hr:
-  license:
-    url: http://localhost:8082/license
   storage:
     location: /usr/hr
   datasource:
