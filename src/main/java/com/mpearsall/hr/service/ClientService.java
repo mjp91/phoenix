@@ -1,10 +1,13 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.tenancy.DataSourceBasedMultiTenantConnectionProviderImpl;
+import com.mpearsall.hr.dto.CreateUser;
 import com.mpearsall.hr.dto.NewClient;
 import com.mpearsall.hr.entity.primary.client.Client;
 import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.primary.ClientRepository;
+import com.mpearsall.hr.repository.primary.UserRepository;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +21,7 @@ import java.util.Collections;
 @Service
 public class ClientService {
   private final ClientRepository clientRepository;
+  private final UserRepository userRepository;
   private final UserService userService;
   private final DataSourceBasedMultiTenantConnectionProviderImpl dataSourceBasedMultiTenantConnectionProvider;
 
@@ -30,9 +34,11 @@ public class ClientService {
   @Value("${hr.datasource.password}")
   private String password;
 
-  public ClientService(ClientRepository clientRepository, UserService userService,
+
+  public ClientService(ClientRepository clientRepository, UserRepository userRepository, UserService userService,
                        DataSourceBasedMultiTenantConnectionProviderImpl dataSourceBasedMultiTenantConnectionProvider) {
     this.clientRepository = clientRepository;
+    this.userRepository = userRepository;
     this.userService = userService;
     this.dataSourceBasedMultiTenantConnectionProvider = dataSourceBasedMultiTenantConnectionProvider;
   }
@@ -40,9 +46,18 @@ public class ClientService {
   @Transactional
   public Client create(NewClient newClient) {
     final String name = newClient.getName();
+    final CreateUser adminUser = newClient.getUser();
 
-    // todo - check existing
+    // validate
+    if (clientRepository.existsByName(name)) {
+      throw new InvalidDetailsException("Client already exists");
+    }
 
+    if (userRepository.existsByUsername(adminUser.getUsername())) {
+      throw new InvalidDetailsException("User already exists");
+    }
+
+    // create new client
     Client client = new Client();
     client.setName(name);
     client.setExpiry(newClient.getExpiry());
@@ -78,7 +93,7 @@ public class ClientService {
     migrate(dataSourceBasedMultiTenantConnectionProvider.getDataSources().get(client.getName()));
 
     // client admin user
-    userService.createUser(newClient.getUser(), client, Collections.singletonList(Role.ADMIN));
+    userService.createUser(adminUser, client, Collections.singletonList(Role.ADMIN));
 
     return client;
   }

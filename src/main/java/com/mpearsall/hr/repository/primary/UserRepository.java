@@ -9,4 +9,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
   Optional<User> findByPasswordResetToken(String passwordResetToken);
+
+  boolean existsByUsername(String username);
 }
