@@ -186,6 +186,7 @@ public class EmployeeService {
   public List<EmployeeAnniversary> findAllWithUpcomingBirthdays() {
     // group by unique birthday
     final Map<LocalDate, List<Employee>> employeeMap = StreamSupport.stream(employeeRepository.findAll().spliterator(), false)
+        .filter(employee -> employee.getDateOfBirth() != null)
         .collect(Collectors.groupingBy(employee -> employee.getDateOfBirth().withYear(LocalDate.now().getYear())));
 
     return getEmployeeAnniversaries(employeeMap, BIRTHDAYS);
@@ -193,6 +194,7 @@ public class EmployeeService {
 
   public List<EmployeeAnniversary> findAllWithUpcomingServiceAnniversaries() {
     final Map<LocalDate, List<Employee>> employeeMap = StreamSupport.stream(employeeRepository.findAll().spliterator(), false)
+        .filter(employee -> employee.getServiceStartDate() != null)
         .collect(Collectors.groupingBy(employee -> employee.getServiceStartDate().withYear(LocalDate.now().getYear())));
 
     return getEmployeeAnniversaries(employeeMap, BIRTHDAYS);
