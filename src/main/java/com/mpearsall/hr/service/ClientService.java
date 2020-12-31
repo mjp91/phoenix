@@ -95,6 +95,10 @@ public class ClientService {
     // client admin user
     userService.createUser(adminUser, client, Collections.singletonList(Role.ADMIN));
 
+    // todo - create company
+
+    // todo - create employee
+
     return client;
   }
 

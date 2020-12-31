@@ -30,7 +30,7 @@ public class UserController {
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public Iterable<User> index() {
-    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+    final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
     return userRepository.findAllByClient(user.getClient());
   }
@@ -38,7 +38,7 @@ public class UserController {
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public User byId(@PathVariable Long id) {
-    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+    final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
     return userRepository.findByIdAndClient(id, user.getClient()).orElseThrow();
   }
@@ -46,7 +46,7 @@ public class UserController {
   @PutMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public User registerUser(@Valid @RequestBody CreateUser createUser) {
-    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+    final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
     return userService.createUser(createUser, user.getClient());
   }
@@ -79,7 +79,7 @@ public class UserController {
   @PatchMapping(path = "/2fa-reset/{username}")
   @Secured(Role.ADMIN)
   public void reset2fa(@PathVariable String username) {
-    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+    final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
     userRepository.findByUsernameAndClient(username, user.getClient())
         .ifPresent(userService::reset2fa);
