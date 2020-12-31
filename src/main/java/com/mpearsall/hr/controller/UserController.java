@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-  private CustomUserDetailsService customUserDetailsService;
+  private final CustomUserDetailsService customUserDetailsService;
   private final UserService userService;
   private final UserRepository userRepository;
 
@@ -30,19 +30,25 @@ public class UserController {
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public Iterable<User> index() {
-    return userRepository.findAll();
+    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+
+    return userRepository.findAllByClient(user.getClient());
   }
 
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public User byId(@PathVariable Long id) {
-    return userRepository.findById(id).orElseThrow();
+    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+
+    return userRepository.findByIdAndClient(id, user.getClient()).orElseThrow();
   }
 
   @PutMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public User registerUser(@Valid @RequestBody CreateUser createUser) {
-    return userService.createUser(createUser);
+    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+
+    return userService.createUser(createUser, user.getClient());
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +79,9 @@ public class UserController {
   @PatchMapping(path = "/2fa-reset/{username}")
   @Secured(Role.ADMIN)
   public void reset2fa(@PathVariable String username) {
-    userRepository.findByUsername(username)
+    final User user = (User) CustomUserDetailsService.getCurrentUserDetails();
+
+    userRepository.findByUsernameAndClient(username, user.getClient())
         .ifPresent(userService::reset2fa);
   }
 

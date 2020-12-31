@@ -106,7 +106,7 @@ public class ClientService {
 
   private void migrate(DataSource dataSource) {
     // run migrations
-    FluentConfiguration configuration = Flyway.configure()
+    final FluentConfiguration configuration = Flyway.configure()
         .locations("classpath:db/migration/secondary")
         .dataSource(dataSource);
 

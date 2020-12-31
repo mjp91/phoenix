@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "\"user\"", indexes = {@Index(columnList = "client_id")})
 @Data
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor

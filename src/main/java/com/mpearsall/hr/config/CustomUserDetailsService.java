@@ -22,6 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
+  public static UserDetails getCurrentUserDetails() {
+    return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
+
   public UserDetails getCurrentUserDetails(boolean reload) {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

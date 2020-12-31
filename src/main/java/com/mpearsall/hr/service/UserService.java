@@ -66,8 +66,8 @@ public class UserService {
   }
 
   @Transactional
-  public User createUser(CreateUser createUser) {
-    return createUser(createUser, null, getDefaultRoles());
+  public User createUser(CreateUser createUser, @Nullable Client client) {
+    return createUser(createUser, client, getDefaultRoles());
   }
 
   @Transactional
