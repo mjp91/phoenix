@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @RestController
 @RequestMapping("/api/roles")
 public class RoleController {
@@ -18,6 +21,8 @@ public class RoleController {
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Role> index() {
-    return roleRepository.findAll();
+    return StreamSupport.stream(roleRepository.findAll().spliterator(), false)
+        .filter(role -> !role.getName().equals(Role.SUPER_ADMIN))
+        .collect(Collectors.toSet());
   }
 }

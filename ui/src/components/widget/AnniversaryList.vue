@@ -18,6 +18,7 @@
       <v-divider v-if="index !== anniversaries.length - 1"/>
     </template>
   </v-list>
+  <div v-else>None to display</div>
 </template>
 <script>
 import {formatDate} from "@/lib/formatDateTime";

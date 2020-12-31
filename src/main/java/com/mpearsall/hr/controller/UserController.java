@@ -54,6 +54,9 @@ public class UserController {
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(Role.ADMIN)
   public User save(@RequestBody UpdateUser updateUser) {
+    // prevent adding of super admin role via this method
+    updateUser.getRoles().removeIf(role -> role.getName().equals(Role.SUPER_ADMIN));
+
     return userService.updateUser(updateUser);
   }
 

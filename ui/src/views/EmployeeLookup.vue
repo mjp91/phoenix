@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="this.departmentEmployees.length > 0">
     <v-sheet class="pl-4 pr-4 pt-4">
       <v-text-field
           v-model="search"
@@ -67,6 +67,9 @@
       </v-row>
     </v-card-text>
   </v-card>
+  <div v-else>
+    No data to display
+  </div>
 </template>
 
 <script>
