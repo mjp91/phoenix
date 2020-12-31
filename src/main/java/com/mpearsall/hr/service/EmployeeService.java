@@ -131,7 +131,7 @@ public class EmployeeService {
     return employeeRepository.save(employee);
   }
 
-  @Transactional
+  @Transactional("secondaryTransactionManager")
   public Employee createEmployee(User user) {
     final Company company = companyRepository.find();
 
@@ -143,7 +143,11 @@ public class EmployeeService {
     employee.setUser(user.getId());
     employee.setEmployeeWeek(company.getDefaultEmployeeWeek());
 
-    addDefaultHolidayEntitlement(companyYearService.getCurrentCompanyYear(), company, employee);
+    final CompanyYear currentCompanyYear = companyYearService.getCurrentCompanyYear();
+
+    if (currentCompanyYear != null) {
+      addDefaultHolidayEntitlement(currentCompanyYear, company, employee);
+    }
 
     return save(employee);
   }

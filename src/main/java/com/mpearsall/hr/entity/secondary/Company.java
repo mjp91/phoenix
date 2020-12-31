@@ -34,5 +34,5 @@ public class Company extends CustomAbstractAuditable<Long> {
   private double defaultHolidayEntitlementHours = 0.0;
 
   @NotNull
-  private boolean totpRequired = false;
+  private boolean totpRequired = true;
 }

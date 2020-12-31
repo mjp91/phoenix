@@ -1,13 +1,16 @@
 package com.mpearsall.hr.service;
 
 import com.mpearsall.hr.config.tenancy.DataSourceBasedMultiTenantConnectionProviderImpl;
+import com.mpearsall.hr.config.tenancy.TenantContext;
 import com.mpearsall.hr.dto.CreateUser;
 import com.mpearsall.hr.dto.NewClient;
 import com.mpearsall.hr.entity.primary.client.Client;
 import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.secondary.Company;
 import com.mpearsall.hr.exception.InvalidDetailsException;
 import com.mpearsall.hr.repository.primary.ClientRepository;
 import com.mpearsall.hr.repository.primary.UserRepository;
+import com.mpearsall.hr.repository.secondary.CompanyRepository;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,7 @@ import java.util.Collections;
 public class ClientService {
   private final ClientRepository clientRepository;
   private final UserRepository userRepository;
+  private final CompanyRepository companyRepository;
   private final UserService userService;
   private final DataSourceBasedMultiTenantConnectionProviderImpl dataSourceBasedMultiTenantConnectionProvider;
 
@@ -35,10 +39,11 @@ public class ClientService {
   private String password;
 
 
-  public ClientService(ClientRepository clientRepository, UserRepository userRepository, UserService userService,
-                       DataSourceBasedMultiTenantConnectionProviderImpl dataSourceBasedMultiTenantConnectionProvider) {
+  public ClientService(ClientRepository clientRepository, UserRepository userRepository, CompanyRepository companyRepository,
+                       UserService userService, DataSourceBasedMultiTenantConnectionProviderImpl dataSourceBasedMultiTenantConnectionProvider) {
     this.clientRepository = clientRepository;
     this.userRepository = userRepository;
+    this.companyRepository = companyRepository;
     this.userService = userService;
     this.dataSourceBasedMultiTenantConnectionProvider = dataSourceBasedMultiTenantConnectionProvider;
   }
@@ -92,12 +97,23 @@ public class ClientService {
     // migrate
     migrate(dataSourceBasedMultiTenantConnectionProvider.getDataSources().get(client.getName()));
 
-    // client admin user
-    userService.createUser(adminUser, client, Collections.singletonList(Role.ADMIN));
+    // record tenant id to revert back to
+    final String currentTenantId = TenantContext.getTenantId();
+    try {
+      // switch to new client tenant
+      TenantContext.setTenantId(client.getName());
 
-    // todo - create company
+      // create company
+      final Company company = new Company();
+      company.setName(name);
+      companyRepository.save(company);
 
-    // todo - create employee
+      // client admin user
+      userService.createUser(adminUser, client, Collections.singletonList(Role.ADMIN));
+    } finally {
+      // revert back
+      TenantContext.setTenantId(currentTenantId);
+    }
 
     return client;
   }
