@@ -1,58 +1,21 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/holibyte
-    data-password: matt
-    data-username: matt
   flyway:
     enabled: true
     locations: classpath:db/migration/primary
   output:
     ansi:
       enabled: always
-  mail:
-    host: smtp.sendgrid.net
-    username: apikey
-    password: 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
-    port: 587
-    properties:
-      mail:
-        debug: true
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-    test-connection: true
   jackson:
     mapper:
       default-view-inclusion: true
-  ldap:
-    embedded:
-      port: 8389
-      ldif: "classpath:users.ldif"
-      base-dn: "dc=hr,dc=com"
-    urls: "ldap://localhost:8389/dc=hr,dc=com"
 management:
   health:
     ldap:
       enabled: false
     mail:
       enabled: false
-logging:
-  level:
-    org:
-      springframework:
-        security: info
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
 hr:
   storage:
     location: /usr/hr
   datasource:
-    url: jdbc:postgresql://localhost:5432
     default-db-name: holibyte_demo
-    username: matt
-    password: matt
