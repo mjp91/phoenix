@@ -215,7 +215,7 @@ public class UserService {
     final GoogleAuthenticatorKey credentials = gAuth.createCredentials();
     user.setTotpSecret(credentials.getKey());
 
-    final String totpUrl = GoogleAuthenticatorQRGenerator.getOtpAuthURL("Holibyte", user.getUsername(), credentials);
+    final String totpUrl = GoogleAuthenticatorQRGenerator.getOtpAuthURL("Phoenix", user.getUsername(), credentials);
     return new TotpRegister(totpUrl, credentials.getVerificationCode(), credentials.getScratchCodes());
   }
 

@@ -50,7 +50,7 @@
     <v-app-bar app clipped-left class="grey darken-4">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Holibyte</span>
+        <span>Phoenix</span>
       </v-toolbar-title>
       <v-spacer/>
       {{user.fullName}}

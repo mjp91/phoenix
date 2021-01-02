@@ -9,7 +9,7 @@
               dark
               flat
           >
-            <v-toolbar-title>Holibyte</v-toolbar-title>
+            <v-toolbar-title>Phoenix</v-toolbar-title>
             <div class="flex-grow-1"></div>
             <v-subheader>{{this.title}}</v-subheader>
           </v-toolbar>

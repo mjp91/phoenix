@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/holibyte
+    url: jdbc:postgresql://localhost:5432/phoenix
   mail:
     host: smtp.sendgrid.net
     username: apikey

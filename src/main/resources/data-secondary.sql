@@ -1,6 +1,6 @@
 INSERT INTO company (id, name, default_holiday_entitlement_hours, monday_start, monday_end, created_date,
                      last_modified_date, totp_required)
-VALUES (1, 'Holibyte', '200.0', '09:00', '17:00', NOW(), NOW(), TRUE);
+VALUES (1, 'Phoenix', '200.0', '09:00', '17:00', NOW(), NOW(), TRUE);
 
 INSERT INTO job_role (id, description, created_date, last_modified_date)
 VALUES (1, 'HR Assistant', NOW(), NOW()),

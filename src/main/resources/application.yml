@@ -18,4 +18,4 @@ hr:
   storage:
     location: /usr/hr
   datasource:
-    default-db-name: holibyte_demo
+    default-db-name: phoenix_demo

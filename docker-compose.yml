@@ -10,14 +10,14 @@ services:
     image: postgres:13
     environment:
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=holibyte
+      - POSTGRES_DB=phoenix
     volumes:
       - primary-db:/var/lib/postgresql/data
   secondary-db:
     image: postgres:13
     environment:
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=holibyte_demo
+      - POSTGRES_DB=phoenix_demo
     volumes:
       - secondary-db:/var/lib/postgresql/data
   hr:
@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://primary-db:5432/holibyte
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://primary-db:5432/phoenix
       - SPRING_DATASOURCE_DATA_USERNAME=postgres
       - SPRING_DATASOURCE_DATA_PASSWORD=postgres
       - HR_DATASOURCE_URL=jdbc:postgresql://secondary-db:5432
