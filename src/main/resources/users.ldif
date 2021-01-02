@@ -1,0 +1,37 @@
+dn: dc=hr,dc=com
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: hr
+
+dn: ou=groups,dc=hr,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=hr,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: uid=buzz,ou=people,dc=hr,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Buzz Lightyear
+sn: Lightyear
+mail: buzz@example.com
+uid: buzz
+userPassword: $2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou
+
+dn: uid=matt,ou=people,dc=hr,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Matthew Damon
+sn: Damon
+mail: matt@example.com
+uid: matt
+userPassword: $2a$10$uWk/CVVsNl1xSUUToSHGA.0DImPXfyG5ZH7NG3mvCf4mFGRX4Q.Ou

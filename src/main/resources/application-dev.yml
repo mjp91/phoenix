@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/holibyte
+  mail:
+    host: smtp.sendgrid.net
+    username: apikey
+    port: 587
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    test-connection: false
+  ldap:
+    embedded:
+      port: 8389
+      ldif: "classpath:users.ldif"
+      base-dn: "dc=hr,dc=com"
+    urls: "ldap://localhost:8389/dc=hr,dc=com"
+logging:
+  level:
+    org:
+      springframework:
+        security: info
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+hr:
+  datasource:
+    url: jdbc:postgresql://localhost:5432
+  jwt:
+    secret: "?D(G+KbPeShVmYq3s6v9y$B&E)H@McQfTjWnZr4u7w!z%C*F-JaNdRgUkXp2s5v8"
+  admin:
+    password: phoenix

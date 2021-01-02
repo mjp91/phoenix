@@ -1,0 +1,44 @@
+version: '3'
+services:
+  proxy:
+    build: docker/proxy
+    ports:
+      - 80:80
+    depends_on:
+      - hr
+  primary-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=holibyte
+    volumes:
+      - primary-db:/var/lib/postgresql/data
+  secondary-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=holibyte_demo
+    volumes:
+      - secondary-db:/var/lib/postgresql/data
+  hr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://primary-db:5432/holibyte
+      - SPRING_DATASOURCE_DATA_USERNAME=postgres
+      - SPRING_DATASOURCE_DATA_PASSWORD=postgres
+      - HR_DATASOURCE_URL=jdbc:postgresql://secondary-db:5432
+      - HR_DATASOURCE_USERNAME=postgres
+      - HR_DATASOURCE_PASSWORD=postgres
+      - HR_ADMIN_PASSWORD=phoenix
+      - HR_JWT_SECRET=?D(G+KbPeShVmYq3s6v9y$$B&E)H@McQfTjWnZr4u7w!z%C*F-JaNdRgUkXp2s5v8
+    volumes:
+      - resources:/usr/hr
+    depends_on:
+      - primary-db
+      - secondary-db
+volumes:
+  primary-db: { }
+  secondary-db: { }
+  resources: { }

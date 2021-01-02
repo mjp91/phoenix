@@ -1,0 +1,21 @@
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/primary
+  output:
+    ansi:
+      enabled: always
+  jackson:
+    mapper:
+      default-view-inclusion: true
+management:
+  health:
+    ldap:
+      enabled: false
+    mail:
+      enabled: false
+hr:
+  storage:
+    location: /usr/hr
+  datasource:
+    default-db-name: holibyte_demo

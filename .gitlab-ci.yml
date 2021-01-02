@@ -1,0 +1,25 @@
+stages:
+  - build
+  - test
+
+build:ui:
+  image: node:8
+  stage: build
+  script:
+    - cd ui
+    - npm install --progress=false
+    - npm run build
+
+build:services:
+  image: openjdk:14
+  stage: build
+  script: ./mvnw compile
+
+test:
+  image: openjdk:14
+  stage: test
+  script: ./mvnw test
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
