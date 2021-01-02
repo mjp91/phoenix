@@ -7,6 +7,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,13 +28,17 @@ public class EmailService {
   private final JavaMailSender javaMailSender;
   private final VelocityEngine velocityEngine;
 
-  public EmailService(JavaMailSender javaMailSender, VelocityEngine velocityEngine) {
+  public EmailService(@Autowired(required = false) JavaMailSender javaMailSender, VelocityEngine velocityEngine) {
     this.javaMailSender = javaMailSender;
     this.velocityEngine = velocityEngine;
   }
 
   @Async
   public void sendText(Email email) {
+    if (javaMailSender == null) {
+      return;
+    }
+
     final SimpleMailMessage message = new SimpleMailMessage();
     message.setFrom(FROM_ADDRESS);
     message.setTo(email.getToAddresses().toArray(new String[0]));
@@ -62,6 +67,10 @@ public class EmailService {
 
   @Async
   public void sendHtml(Email email) throws MessagingException {
+    if (javaMailSender == null) {
+      return;
+    }
+
     final MimeMessage message = javaMailSender.createMimeMessage();
     message.setFrom(FROM_ADDRESS);
     message.setRecipients(Message.RecipientType.TO, String.join(",", email.getToAddresses()));

@@ -28,13 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final CustomUserDetailsService customUserDetailsService;
   private final PasswordEncoder passwordEncoder;
 
-  @Value("${hr.ldap.enabled:true}")
+  @Value("${hr.ldap.enabled:false}")
   private boolean ldapEnabled;
 
   @Value("${hr.base-url:#{null}}")
   private String baseUrl;
 
-  @Value("${spring.ldap.urls}")
+  @Value("${spring.ldap.urls:#{null}}")
   private String ldapUrl;
 
   public SecurityConfig(CustomUserDetailsMapper customUserDetailsMapper, CustomUserDetailsService customUserDetailsService,
