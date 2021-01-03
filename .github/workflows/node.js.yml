@@ -6,10 +6,10 @@ name: Node.js CI
 on:
   push:
     branches: [ develop ]
-    paths: "ui"
+    paths: "ui/**"
   pull_request:
     branches: [ develop ]
-    paths: "ui"
+    paths: "ui/**"
 
 jobs:
   build:
