@@ -39,8 +39,7 @@ Support for multiple clients served by one instance of the application.
 
 The easiest way to deploy the application is with Docker Compose.  
 There is a sample `docker-compose.yml` file included in the project which is configured to build and deploy the
-application.  
-**The default passwords should be changed for production environments.**
+application.
 
 ```shell
 git clone https://github.com/mjp91/phoenix.git
@@ -48,6 +47,11 @@ cd phoenix
 
 docker-compose up -d
 ```
+
+### Production
+
+The default passwords included in the `docker-compose.yml` file should be changed.  
+The NGINX proxy container should be configured to use TLS.
 
 ### Configuration
 
