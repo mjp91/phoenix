@@ -6,8 +6,10 @@ name: Java CI with Maven
 on:
   push:
     branches: [ develop ]
+    paths-ignore: "ui/**"
   pull_request:
     branches: [ develop ]
+    paths-ignore: "ui/**"
 
 jobs:
   build:
