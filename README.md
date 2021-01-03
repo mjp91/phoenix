@@ -3,6 +3,7 @@
 Web based Human Resource Management System
 
 ![build](https://github.com/mjp91/phoenix/workflows/Java%20CI%20with%20Maven/badge.svg)
+![Node.js CI](https://github.com/mjp91/phoenix/workflows/Node.js%20CI/badge.svg)
 
 ## Overview
 
