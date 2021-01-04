@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   create:
     tags:
-      - v*
+      - "*"
 
 jobs:
 
@@ -17,5 +17,16 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mjp91/phoenix:$RELEASE_VERSION
+    - name: Docker Login
+      # You may pin to the exact commit or the version.
+      # uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
+      uses: docker/login-action@v1.8.0
+      with:
+        # Username used to log against the Docker registry
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        # Log out from the Docker registry at the end of a job
+        logout: true
     - name: Push the Docker image
       run: docker push mjp91/phoenix:$RELEASE_VERSION
