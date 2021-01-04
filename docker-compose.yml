@@ -1,7 +1,7 @@
 version: '3'
 services:
   proxy:
-    build: docker/proxy
+    image: mjp91/phoenix-proxy:latest
     ports:
       - 80:80
     depends_on:
@@ -21,9 +21,7 @@ services:
     volumes:
       - secondary-db:/var/lib/postgresql/data
   hr:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mjp91/phoenix:latest
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://primary-db:5432/phoenix
       - SPRING_DATASOURCE_DATA_USERNAME=postgres
