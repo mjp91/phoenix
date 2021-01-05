@@ -28,7 +28,7 @@ public class UserController {
   }
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public Iterable<User> index() {
     final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
@@ -36,7 +36,7 @@ public class UserController {
   }
 
   @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public User byId(@PathVariable Long id) {
     final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
@@ -44,7 +44,7 @@ public class UserController {
   }
 
   @PutMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public User registerUser(@Valid @RequestBody CreateUser createUser) {
     final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 
@@ -52,7 +52,7 @@ public class UserController {
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public User save(@RequestBody UpdateUser updateUser) {
     // prevent adding of super admin role via this method
     updateUser.getRoles().removeIf(role -> role.getName().equals(Role.SUPER_ADMIN));
@@ -80,7 +80,7 @@ public class UserController {
   }
 
   @PatchMapping(path = "/2fa-reset/{username}")
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public void reset2fa(@PathVariable String username) {
     final User user = (User) customUserDetailsService.getCurrentUserDetails(true);
 

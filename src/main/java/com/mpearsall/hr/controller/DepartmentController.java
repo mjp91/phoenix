@@ -31,7 +31,7 @@ public class DepartmentController {
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public Department save(@RequestBody Department department) {
     return departmentRepository.save(department);
   }

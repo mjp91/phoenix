@@ -58,7 +58,7 @@ public class HolidayController {
   }
 
   @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public Iterable<HolidayDto> getAllHolidays() {
     return toDto(holidayRepository.findAll(Pageable.unpaged()));
   }

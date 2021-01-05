@@ -7,9 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/api/company")
-@Secured(Role.ADMIN)
+@Secured({Role.ADMIN, Role.SUPER_ADMIN})
 public class CompanyController {
   private final CompanyRepository companyRepository;
 
@@ -19,7 +21,7 @@ public class CompanyController {
 
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public Company find() {
-    return companyRepository.find();
+    return Optional.ofNullable(companyRepository.find()).orElse(new Company());
   }
 
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

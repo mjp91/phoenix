@@ -1,6 +1,7 @@
 export const Roles = {
   user: "ROLE_USER",
-  admin: "ROLE_ADMIN"
+  admin: "ROLE_ADMIN",
+  superAdmin: "ROLE_SUPER_ADMIN"
 };
 
 export const ApplicationErrorType = {

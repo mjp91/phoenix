@@ -72,7 +72,7 @@ public class EmployeeController {
 
   @PostMapping(value = "/leave", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public void leaver(@Valid @RequestBody Leaver leaver) {
     leave(leaver);
   }

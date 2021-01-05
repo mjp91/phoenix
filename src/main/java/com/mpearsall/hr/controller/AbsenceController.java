@@ -54,7 +54,7 @@ public class AbsenceController {
   }
 
   @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public Iterable<AbsenceDto> getAllAbsences() {
     return toDto(absenceRepository.findAll(Pageable.unpaged()));
   }
@@ -117,7 +117,7 @@ public class AbsenceController {
   }
 
   @GetMapping(path = "/bradford-score/{employeeId}")
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   public BradfordScore bradfordScore(@PathVariable Long employeeId) {
     final Employee employee = employeeRepository.findById(employeeId).orElseThrow();
     final CompanyYear currentCompanyYear = companyYearService.getCurrentCompanyYear();

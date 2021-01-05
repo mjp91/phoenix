@@ -33,7 +33,7 @@ public class CompanyYearController {
     return companyYearRepository.findAllCurrentAndFuture();
   }
 
-  @Secured(Role.ADMIN)
+  @Secured({Role.ADMIN, Role.SUPER_ADMIN})
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public CompanyYear save(@RequestBody CompanyYear companyYear) {
     companyYear = companyYearService.save(companyYear);

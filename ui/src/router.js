@@ -2,15 +2,14 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import store from './store';
-import hasRole from "./lib/hasRole";
-import {Roles} from "./lib/Constants";
+import {hasAdmin} from "@/lib/hasAdmin";
 
 Vue.use(Router);
 
 const isAdminBeforeEnter = (to, from, next) => {
   const user = store.getters.getAuthUser;
 
-  next(hasRole(user, Roles.admin));
+  next(hasAdmin(user));
 };
 
 export default new Router({
