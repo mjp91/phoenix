@@ -42,14 +42,20 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
   }
 
   public void refresh() {
-    this.dataSources.clear();
+    final Map<String, DataSource> newDataSources = new HashMap<>();
+    newDataSources.put(DEFAULT_TENANT_ID, defaultDataSource);
 
-    dataSources.put(DEFAULT_TENANT_ID, defaultDataSource);
+    // source from old map first to avoid creating new DataSources
     for (Client client : clientRepository.findAll()) {
-      if (!dataSources.containsKey(client.getName())) {
-        dataSources.put(client.getName(), DataSourceUtil.buildDataSource(client));
+      final String clientName = client.getName();
+      if (dataSources.containsKey(clientName)) {
+        newDataSources.put(clientName, dataSources.get(clientName));
+      } else {
+        dataSources.put(clientName, DataSourceUtil.buildDataSource(client));
       }
     }
+
+    dataSources = newDataSources;
   }
 
   @Override
