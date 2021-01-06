@@ -66,8 +66,8 @@ public class EmployeeController {
   }
 
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public EmployeeDto save(@RequestBody Employee employee) {
-    return dtoMapper.toEmployeeDto(employeeService.save(employee));
+  public EmployeeDto save(@RequestBody EmployeeDto employee) {
+    return dtoMapper.toEmployeeDto(employeeService.save(dtoMapper.toEmployee(employee)));
   }
 
   @PostMapping(value = "/leave", consumes = MediaType.APPLICATION_JSON_VALUE)

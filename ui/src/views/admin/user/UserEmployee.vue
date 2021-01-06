@@ -164,61 +164,61 @@ export default {
   components: {ImageUpload},
   props: {
     employee: Object,
-      readOnly: {
-        type: Boolean,
-        default: false
-      },
-      watch: {
-        dobMenu(val) {
-          val && setTimeout(() => (this.$refs.dobPicker.activePicker = 'YEAR'));
-        },
-        serviceStartMenu(val) {
-          val && setTimeout(() => (this.$refs.serviceStartPicker.activePicker = 'YEAR'));
-        }
-      },
+    readOnly: {
+      type: Boolean,
+      default: false
     },
-    computed: {
-      employees: function () {
-        return store.getters.getEmployees.filter((employee) => {
-          return this.employee.id !== employee.id;
-        });
+    watch: {
+      dobMenu(val) {
+        val && setTimeout(() => (this.$refs.dobPicker.activePicker = 'YEAR'));
       },
-      ...mapGetters({
-        jobRoles: 'getJobRoles',
-        departments: 'getDepartments',
-        bradfordScore: 'getBradfordScore'
-      })
-    },
-    methods: {
-      managerValue(employee) {
-        return employee.id;
-      },
-      jobRoleValue(jobRole) {
-        return jobRole.id;
-      },
-      departmentValue(department) {
-        return department.id;
-      },
-      ...mapActions({
-        fetchEmployees: 'fetchEmployees',
-        fetchJobRoles: 'fetchJobRoles',
-        fetchDepartments: 'fetchDepartments',
-        fetchBradfordScore: 'fetchBradfordScore'
-      }),
-    },
-    beforeMount() {
-      if (this.hasAdmin()) {
-        this.fetchBradfordScore(this.employee.id);
+      serviceStartMenu(val) {
+        val && setTimeout(() => (this.$refs.serviceStartPicker.activePicker = 'YEAR'));
       }
+    },
+  },
+  computed: {
+    employees: function () {
+      return store.getters.getEmployees.filter((employee) => {
+        return this.employee.id !== employee.id;
+      });
+    },
+    ...mapGetters({
+      jobRoles: 'getJobRoles',
+      departments: 'getDepartments',
+      bradfordScore: 'getBradfordScore'
+    })
+  },
+  methods: {
+    managerValue(employee) {
+      return {id: employee.id};
+    },
+    jobRoleValue(jobRole) {
+      return {id: jobRole.id};
+    },
+    departmentValue(department) {
+      return {id: department.id};
+    },
+    ...mapActions({
+      fetchEmployees: 'fetchEmployees',
+      fetchJobRoles: 'fetchJobRoles',
+      fetchDepartments: 'fetchDepartments',
+      fetchBradfordScore: 'fetchBradfordScore'
+    }),
+  },
+  beforeMount() {
+    if (this.hasAdmin()) {
+      this.fetchBradfordScore(this.employee.id);
+    }
 
-      if (!this.readOnly) {
-        this.fetchEmployees();
-        this.fetchJobRoles();
-        this.fetchDepartments();
-      }
-    },
-    mixins: [UserMixin],
-  };
+    if (!this.readOnly) {
+      this.fetchEmployees();
+      this.fetchJobRoles();
+      this.fetchDepartments();
+    }
+  },
+  mixins: [UserMixin],
+};
 </script>
 
 <style scoped>

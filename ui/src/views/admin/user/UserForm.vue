@@ -121,7 +121,7 @@ export default {
       }),
       save() {
         Promise.all([
-          store.dispatch('saveUser', this.user),
+          store.dispatch('saveUser', this.employee.user),
           store.dispatch('saveEmployee', this.employee)
         ]).then(() => {
           store.commit('addAlert', {

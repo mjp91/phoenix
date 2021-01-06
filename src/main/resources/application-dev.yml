@@ -1,18 +1,6 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/phoenix
-  mail:
-    host: smtp.sendgrid.net
-    username: apikey
-    port: 587
-    properties:
-      mail:
-        debug: true
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-    test-connection: false
   ldap:
     embedded:
       port: 8389
