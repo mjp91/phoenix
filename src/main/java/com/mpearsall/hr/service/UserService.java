@@ -67,16 +67,11 @@ public class UserService {
 
   @Transactional
   public User createUser(CreateUser createUser, @Nullable Client client) {
-    return createUser(createUser, client, getDefaultRoles(), true);
+    return createUser(createUser, client, getDefaultRoles());
   }
 
   @Transactional
   public User createUser(CreateUser createUser, @Nullable Client client, List<String> roleNames) {
-    return createUser(createUser, client, roleNames, true);
-  }
-
-  @Transactional
-  public User createUser(CreateUser createUser, @Nullable Client client, List<String> roleNames, boolean createEmployee) {
     final Company company = companyRepository.find();
 
     // create user
@@ -94,10 +89,8 @@ public class UserService {
     user.setTotpEnabled(company == null || company.isTotpRequired());
     user = userRepository.save(user);
 
-    if (createEmployee) {
-      // create employee
-      employeeService.createEmployee(user);
-    }
+    // create employee
+    employeeService.createEmployee(user);
 
     if (password == null) {
       // require password

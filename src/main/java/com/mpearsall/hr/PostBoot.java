@@ -34,7 +34,7 @@ public class PostBoot implements CommandLineRunner {
 
       final CreateUser createUser = new CreateUser("admin", adminPassword, "admin@example.com", "Admin");
 
-      userService.createUser(createUser, null, Collections.singletonList(Role.SUPER_ADMIN), false);
+      userService.createUser(createUser, null, Collections.singletonList(Role.SUPER_ADMIN));
     }
   }
 }

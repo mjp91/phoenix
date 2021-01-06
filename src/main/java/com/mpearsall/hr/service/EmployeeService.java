@@ -108,14 +108,21 @@ public class EmployeeService {
 
   @Transactional
   public Employee save(Employee employee) {
-    final boolean admin = customUserDetailsService.currentUserHasRole(Role.ADMIN) ||
-        customUserDetailsService.currentUserHasRole(Role.SUPER_ADMIN);
+    return save(employee, true);
+  }
 
-    if (!admin && !employee.equals(getCurrentUserEmployee())) {
-      throw new PermissionException("User must be admin to update other employees");
+  @Transactional
+  public Employee save(Employee employee, boolean authorize) {
+    if (authorize) {
+      final boolean admin = customUserDetailsService.currentUserHasRole(Role.ADMIN) ||
+          customUserDetailsService.currentUserHasRole(Role.SUPER_ADMIN);
+
+      if (!admin && !employee.equals(getCurrentUserEmployee())) {
+        throw new PermissionException("User must be admin to update other employees");
+      }
     }
 
-    final Employee manager = employee.getManager() != null
+    final Employee manager = employee.getManager() != null && employee.getManager().getId() != null
         ? employeeRepository.findById(employee.getManager().getId()).orElseThrow() : null;
 
     if (manager != null) {
@@ -133,7 +140,7 @@ public class EmployeeService {
 
   @Transactional("secondaryTransactionManager")
   public Employee createEmployee(User user) {
-    final Company company = companyRepository.find();
+    final Company company = Optional.ofNullable(companyRepository.find()).orElse(new Company());
 
     if (employeeRepository.existsByUser(user.getId())) {
       throw new InvalidDetailsException("User already has an employee associated with them");
@@ -149,7 +156,7 @@ public class EmployeeService {
       addDefaultHolidayEntitlement(currentCompanyYear, company, employee);
     }
 
-    return save(employee);
+    return save(employee, false);
   }
 
   @Transactional
