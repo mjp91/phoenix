@@ -24,6 +24,10 @@ Quick search displaying contact details including email address and telephone.
 
 Employees can request holiday up to their entitlement, requests can be approved or declined by managers.
 
+### Calendar Feeds
+
+Each user has their own personal iCal URL to import holiday into mail clients such as Outlook.
+
 ### Absence Reporting
 
 Employees can report absence, absences can be authorized/unauthorized by managers.
