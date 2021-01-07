@@ -11,6 +11,20 @@ Phoenix is a web application to support common human resource requirements.
 The application tier uses Spring Boot including Spring Web MVC, Security and Data JPA.  
 The front-end uses VueJS.
 
+## Screenshots
+
+### Dashboard
+
+![](docs/images/dashboard.png)
+
+### User Lookup
+
+![](docs/images/lookup.png)
+
+### Employee Record
+
+![](docs/images/user.png)
+
 ## Features
 
 The following is a list of the main features.
