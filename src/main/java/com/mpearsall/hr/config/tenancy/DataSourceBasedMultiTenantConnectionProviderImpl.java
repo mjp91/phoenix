@@ -51,7 +51,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
       if (dataSources.containsKey(clientName)) {
         newDataSources.put(clientName, dataSources.get(clientName));
       } else {
-        dataSources.put(clientName, DataSourceUtil.buildDataSource(client));
+        newDataSources.put(clientName, DataSourceUtil.buildDataSource(client));
       }
     }
 
