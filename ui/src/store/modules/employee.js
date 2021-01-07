@@ -31,6 +31,16 @@ const mutations = {
     state.employees = payload;
   },
   setEmployee: (state, payload) => {
+    if (!payload.address) {
+      payload.address = {
+        line: null,
+        city: null,
+        province: null,
+        postalCode: null,
+        county: null
+      };
+    }
+
     state.employee = payload;
   },
   setBradfordScore: (state, payload) => {
