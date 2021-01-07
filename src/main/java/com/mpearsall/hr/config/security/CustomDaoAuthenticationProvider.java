@@ -53,7 +53,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
   }
 
   private boolean isClientValid(Client client) {
-    return client != null && client.getExpiry().isAfter(LocalDateTime.now());
+    return client == null || client.getExpiry().isAfter(LocalDateTime.now());
   }
 
   public static boolean isValidCode(String totpCode) {
