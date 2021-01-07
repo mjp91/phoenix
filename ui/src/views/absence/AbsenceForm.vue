@@ -34,43 +34,47 @@ import DateRange from "../../components/DateRange";
 import store from "../../store";
 
 export default {
-    name: "AbsenceForm",
-    data: () => {
-      return {
-        absence: {
-          start: null,
-          end: null,
-          reason: null,
-          attachments: []
-        },
-        files: []
-      };
+  name: "AbsenceForm",
+  data: () => {
+    return {
+      absence: {
+        start: null,
+        end: null,
+        reason: null,
+        attachments: []
+      },
+      files: []
+    };
+  },
+  methods: {
+    rangeSet(range) {
+      this.absence.start = range.startDate;
+      this.absence.end = range.endDate;
     },
-    methods: {
-      rangeSet(range) {
-        this.absence.start = range.startDate;
-        this.absence.end = range.endDate;
-      },
-      close() {
-        this.$router.push({
-          name: 'absence',
-        });
-      },
-      save() {
-        store.dispatch('uploadResource', this.files).then((fileNames) => {
+    close() {
+      this.$router.push({
+        name: 'absence',
+      });
+    },
+    save() {
+      let uploadPromise = Promise.resolve();
+      if (this.files.length > 0) {
+        uploadPromise = store.dispatch('uploadResource', this.files).then((fileNames) => {
           fileNames.forEach((fileName) => {
             this.absence.attachments.push({
               fileName
             });
           });
-          store.dispatch('createAbsence', this.absence).then(() => {
-            this.close();
-          });
         });
       }
-    },
-    components: {DateRange, FormHeader}
-  };
+
+      uploadPromise.then(() => {
+        store.dispatch('createAbsence', this.absence);
+      }).then(this.close);
+    }
+  },
+  components: {DateRange, FormHeader}
+};
 </script>
 
 <style scoped>

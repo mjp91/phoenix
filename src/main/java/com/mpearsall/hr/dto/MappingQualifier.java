@@ -19,8 +19,8 @@ public class MappingQualifier {
   }
 
   @Named("userToUserId")
-  long userToUserId(UserDto user) {
-    return user.getId();
+  Long userToUserId(UserDto user) {
+    return user != null ? user.getId() : null;
   }
 
   @Named("userIdToUser")

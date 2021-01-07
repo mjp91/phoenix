@@ -2,6 +2,7 @@ package com.mpearsall.hr.dto;
 
 import com.mpearsall.hr.entity.primary.client.Client;
 import com.mpearsall.hr.entity.primary.user.Role;
+import com.mpearsall.hr.entity.secondary.Attachment;
 import com.mpearsall.hr.entity.secondary.Department;
 import com.mpearsall.hr.entity.secondary.absence.Absence;
 import com.mpearsall.hr.entity.secondary.employee.Employee;
@@ -20,6 +21,11 @@ public interface DtoMapper {
   AbsenceDto toAbsenceDto(Absence absence);
 
   Absence toAbsence(AbsenceDto absenceDto);
+
+  @Mapping(target = "createdDate", qualifiedByName = "unwrap")
+  AttachmentDto toAttachmentDto(Attachment attachment);
+
+  Attachment toAttachment(AttachmentDto attachmentDto);
 
   @Mapping(target = "user", qualifiedByName = "userIdToUser")
   @Mapping(target = "createdDate", qualifiedByName = "unwrap")

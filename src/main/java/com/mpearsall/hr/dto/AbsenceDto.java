@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,4 +19,5 @@ public class AbsenceDto extends EntityDto {
   private Boolean authorized;
   private String unauthorizeReason;
   private boolean cancelled = false;
+  private List<AttachmentDto> attachments;
 }

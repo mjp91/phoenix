@@ -36,6 +36,7 @@ public class Absence extends CustomAbstractAuditable<Long> {
   private LocalDate start;
 
   @NotNull
+  @Column(name = "\"end\"")
   private LocalDate end;
 
   private Boolean authorized;
