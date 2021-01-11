@@ -94,6 +94,12 @@ Name | Description
 `HR_DATASOURCE_PASSWORD` | Database password of secondary database
 `HR_ADMIN_PASSWORD` | Password of administrator user created on first run
 `HR_JWT_SECRET` | Secret used to sign JWTs
+`SPRING_MAIL_HOST` | (Optional) SMTP host for email
+`SPRING_MAIL_PORT` | (Optional) SMTP port
+`SPRING_MAIL_USERNAME` | (Optional) SMTP username
+`SPRING_MAIL_PASSWORD` | (Optional) SMTP password
+`SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH` | (Optional) SMTP authentication
+`SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE` | (Optional) SMTP TLS
 
 ## Contributing
 
