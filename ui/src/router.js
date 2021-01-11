@@ -140,9 +140,9 @@ export default new Router({
       beforeEnter: isAdminBeforeEnter
     },
     {
-      path: '/admin/department/new',
+      path: '/admin/department/:id',
       name: 'department',
-      component: () => import('./views/admin/DepartmentForm'),
+      component: () => import('./views/admin/DepartmentFormView'),
       beforeEnter: isAdminBeforeEnter
     },
     {

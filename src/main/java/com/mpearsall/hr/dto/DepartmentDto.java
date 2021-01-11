@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DepartmentDto extends EntityDto {
   private String title;
+  private DepartmentDto parent;
 }

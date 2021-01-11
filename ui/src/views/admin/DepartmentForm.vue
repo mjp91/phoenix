@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form-header title="New Department" :save="save" :cancel="close"/>
+    <form-header :title="title" :save="() => save(department)" :cancel="close"/>
     <v-form>
       <v-row>
         <v-col sm="6">
@@ -25,46 +25,46 @@
 <script>
 import FormHeader from "../../components/FormHeader";
 import {mapActions, mapGetters} from "vuex";
-import store from "../../store";
 
 export default {
-    name: "DepartmentForm",
-    data: () => {
-      return {
-        department: {
-          title: null,
-          parent: null
-        }
-      };
-    },
-    computed: {
-      ...mapGetters({
-        departments: 'getDepartments'
-      })
-    },
-    methods: {
-      ...mapActions({
-        fetchDepartments: 'fetchDepartments'
-      }),
-      parentValue(department) {
-        return department;
-      },
-      save() {
-        store.dispatch('saveDepartment', this.department).then(() => {
-          this.close();
-        });
-      },
-      close() {
-        this.$router.push({
-          name: 'department-management',
-        });
+  name: "DepartmentForm",
+  data: () => {
+    return {
+      department: {
+        title: null,
+        parent: null
       }
+    };
+  },
+  props: {
+    title: {},
+    close: {},
+    populateWith: {},
+    save: {}
+  },
+  computed: {
+    ...mapGetters({
+      departments: 'getDepartments'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchDepartments: 'fetchDepartments'
+    }),
+    parentValue(department) {
+      return department;
     },
-    beforeMount() {
-      this.fetchDepartments();
-    },
-    components: {FormHeader}
-  };
+  },
+  beforeMount() {
+    this.fetchDepartments();
+  },
+  mounted() {
+    if (this.populateWith) {
+      this.department = this.populateWith;
+    }
+  },
+  components: {FormHeader}
+};
 </script>
 
 <style scoped>

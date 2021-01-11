@@ -39,6 +39,8 @@ public interface DtoMapper {
 
   Department toDepartment(DepartmentDto departmentDto);
 
+  Iterable<DepartmentDto> toDepartmentDtos(Iterable<Department> departments);
+
   @Mapping(target = "createdDate", qualifiedByName = "unwrap")
   JobRoleDto toJobRoleDto(JobRole jobRole);
 

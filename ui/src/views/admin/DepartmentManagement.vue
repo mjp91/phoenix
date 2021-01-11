@@ -2,6 +2,7 @@
   <v-data-table
       :headers="headers"
       :items="this.departments"
+      @click:row="onRowClick"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -35,7 +36,15 @@ export default {
     methods: {
       ...mapActions({
         fetchDepartments: 'fetchDepartments'
-      })
+      }),
+      onRowClick(item) {
+        this.$router.push({
+          name: 'department',
+          params: {
+            id: item.id
+          }
+        });
+      }
     },
     beforeMount() {
       this.fetchDepartments();
